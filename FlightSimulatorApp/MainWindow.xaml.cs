@@ -23,6 +23,9 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine("something");
+            ////sdgsrgr
         }
+        //something
     }
 }
