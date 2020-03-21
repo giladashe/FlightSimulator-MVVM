@@ -172,5 +172,7 @@ namespace FlightSimulatorApp.Views
             Released?.Invoke(this);
         }
 
+
+        // weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     }
 }
