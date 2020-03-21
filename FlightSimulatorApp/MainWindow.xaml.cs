@@ -24,10 +24,8 @@ namespace FlightSimulatorApp
         {
             InitializeComponent();
             Console.WriteLine("something");
-            // hi Gilad!
-            //hello worldddddddddddddddddddddddddddddddddddddd
-      
+                             
         }
-        //something
+
     }
 }
