@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 
 namespace FlightSimulator.Model.Interface
 {
     public interface ISettingsModel
@@ -16,3 +17,4 @@ namespace FlightSimulator.Model.Interface
         void ReloadSettings();
     }
 }
+//

@@ -12,3 +12,4 @@ namespace FlightSimulator.Model.EventArgs
         public double Elevator { get; set; }
     }
 }
+//
