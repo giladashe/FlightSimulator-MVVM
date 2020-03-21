@@ -171,5 +171,8 @@ namespace FlightSimulatorApp.Views
             Aileron = Elevator = _prevAileron = _prevElevator = 0;
             Released?.Invoke(this);
         }
+
+
+        // weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     }
 }
