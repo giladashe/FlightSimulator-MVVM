@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-//
-namespace FlightSimulator.Model
+
+namespace FlightSimulatorApp.Model
 {
     public class CommandHandler : ICommand
     {
