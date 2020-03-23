@@ -173,6 +173,5 @@ namespace FlightSimulatorApp.Views
         }
 
 
-        // weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     }
 }
