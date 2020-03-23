@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightSimulatorApp.Model.EventArgs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -20,17 +22,17 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Joystick : UserControl
     {
-        /// <summary>Current Aileron</summary>
-        public static readonly DependencyProperty AileronProperty =
-            DependencyProperty.Register("Aileron", typeof(double), typeof(Joystick), null);
+        /// <summary>Current Rudder</summary>
+        public static readonly DependencyProperty RudderProperty =
+            DependencyProperty.Register("Rudder", typeof(double), typeof(Joystick), null);
 
         /// <summary>Current Elevator</summary>
         public static readonly DependencyProperty ElevatorProperty =
             DependencyProperty.Register("Elevator", typeof(double), typeof(Joystick), null);
 
         /// <summary>How often should be raised StickMove event in degrees</summary>
-        public static readonly DependencyProperty AileronStepProperty =
-            DependencyProperty.Register("AileronStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
+        public static readonly DependencyProperty RudderStepProperty =
+            DependencyProperty.Register("RudderStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
 
         /// <summary>How often should be raised StickMove event in Elevator units</summary>
         public static readonly DependencyProperty ElevatorStepProperty =
@@ -41,14 +43,13 @@ namespace FlightSimulatorApp.Views
         //public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
         //    DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(VirtualJoystick), new PropertyMetadata(true));
 
-        /// <summary>Current Aileron in degrees from 0 to 360</summary>
-        public double Aileron
+         //TODO: CHECK RANGE
+        public double Rudder
         {
-            get { return Convert.ToDouble(GetValue(AileronProperty)); }
-            set { SetValue(AileronProperty, value); }
+            get { return Convert.ToDouble(GetValue(RudderProperty)); }
+            set { SetValue(RudderProperty, value); }
         }
 
-        /// <summary>current Elevator (or "power"), from 0 to 100</summary>
         public double Elevator
         {
             get { return Convert.ToDouble(GetValue(ElevatorProperty)); }
@@ -56,13 +57,14 @@ namespace FlightSimulatorApp.Views
         }
 
         /// <summary>How often should be raised StickMove event in degrees</summary>
-        public double AileronStep
+        public double RudderStep
         {
-            get { return Convert.ToDouble(GetValue(AileronStepProperty)); }
+            get { return Convert.ToDouble(GetValue(RudderStepProperty)); }
             set
             {
+                //TODO: check range
                 if (value < 1) value = 1; else if (value > 90) value = 90;
-                SetValue(AileronStepProperty, Math.Round(value));
+                SetValue(RudderStepProperty, Math.Round(value));
             }
         }
 
@@ -86,7 +88,7 @@ namespace FlightSimulatorApp.Views
 
         /// <summary>Delegate holding data for joystick state change</summary>
         /// <param name="sender">The object that fired the event</param>
-        /// <param name="args">Holds new values for Aileron and Elevator</param>
+        /// <param name="args">Holds new values for Rudder and Elevator</param>
         public delegate void OnScreenJoystickEventHandler(Joystick sender, VirtualJoystickEventArgs args);
 
         /// <summary>Delegate for joystick events that hold no data</summary>
@@ -103,10 +105,11 @@ namespace FlightSimulatorApp.Views
         public event EmptyJoystickEventHandler Captured;
 
         private Point _startPos;
-        private double _prevAileron, _prevElevator;
+        private double _prevRudder, _prevElevator;
         private double canvasWidth, canvasHeight;
         private readonly Storyboard centerKnob;
 
+        
         public Joystick()
         {
             InitializeComponent();
@@ -121,7 +124,7 @@ namespace FlightSimulatorApp.Views
         private void Knob_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _startPos = e.GetPosition(Base);
-            _prevAileron = _prevElevator = 0;
+            _prevRudder = _prevElevator = 0;
             canvasWidth = Base.ActualWidth - KnobBase.ActualWidth;
             canvasHeight = Base.ActualHeight - KnobBase.ActualHeight;
             Captured?.Invoke(this);
@@ -144,18 +147,18 @@ namespace FlightSimulatorApp.Views
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            Aileron = -deltaPos.Y;
+            Rudder = -deltaPos.Y;
             Elevator = deltaPos.X;
 
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
 
             if (Moved == null ||
-                (!(Math.Abs(_prevAileron - Aileron) > AileronStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
+                (!(Math.Abs(_prevRudder - Rudder) > RudderStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
                 return;
 
-            Moved?.Invoke(this, new VirtualJoystickEventArgs { Aileron = Aileron, Elevator = Elevator });
-            _prevAileron = Aileron;
+            Moved?.Invoke(this, new VirtualJoystickEventArgs { Rudder = Rudder, Elevator = Elevator });
+            _prevRudder = Rudder;
             _prevElevator = Elevator;
 
         }
@@ -168,11 +171,9 @@ namespace FlightSimulatorApp.Views
 
         private void centerKnob_Completed(object sender, EventArgs e)
         {
-            Aileron = Elevator = _prevAileron = _prevElevator = 0;
+            Rudder = Elevator = _prevRudder = _prevElevator = 0;
             Released?.Invoke(this);
         }
 
-
-        // weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     }
 }

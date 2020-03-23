@@ -1,5 +1,4 @@
-﻿using FlightSimulatorApp.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlightSimulatorApp
+namespace FlightSimulatorApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SliderAileron.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ThrottleSlider : UserControl
     {
-        public MainWindow()
+        public ThrottleSlider()
         {
             InitializeComponent();
-            Console.WriteLine("something");
-            // hi Gilad!
-            //hello worldddddddddddddddddddddddddddddddddddddd
         }
-        //something
+
+        private void MySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int val = Convert.ToInt32(e.NewValue);
+            string msg = String.Format("Throttle: {0}", val);
+            this.TheValue.Text = msg;
+        }
     }
 }

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="FlightSimulatorApp.Views.ThrottleSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightSimulatorApp.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <StackPanel HorizontalAlignment="Center" Margin="10" Background="Gray" Orientation="Horizontal">
+        <TextBlock x:Name = "TheValue" HorizontalAlignment="Center" Foreground="Red"
+                   Text = "Aileron: 0" FontSize="15" Background="DarkGray" 
+                   RenderTransformOrigin="0.5,0.5" FontFamily="Gisha"
+                   VerticalAlignment="Center" Margin="10,150,30,233" Width="68" >
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Slider x:Name="ThrottleSlider1" Background="blue" Orientation="Vertical"
+                Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" 
+                ValueChanged="MySlider_ValueChanged" Height="430" Width="30" />
+
+    </StackPanel>
+</UserControl>
