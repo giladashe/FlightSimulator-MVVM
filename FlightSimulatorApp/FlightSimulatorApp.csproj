@@ -63,7 +63,6 @@
     <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
     <Compile Include="Model\Interface\ISettingsModel.cs" />
     <Compile Include="ViewModel\BaseNotify.cs" />
-    <Compile Include="ViewModel\FlightBoardViewModel.cs" />
     <Compile Include="ViewModel\Windows\SettingsWindowViewModel.cs" />
     <Compile Include="Views\Joystick.xaml.cs">
       <DependentUpon>Joystick.xaml</DependentUpon>
