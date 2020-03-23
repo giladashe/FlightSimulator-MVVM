@@ -26,5 +26,9 @@ namespace FlightSimulatorApp.Properties
                 return defaultInstance;
             }
         }
+        //added some things that needs to be removed
+        public string FlightServerIP { get; internal set; }
+        public int FlightCommandPort { get; internal set; }
+        public int FlightInfoPort { get; internal set; }
     }
 }
