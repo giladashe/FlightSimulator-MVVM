@@ -75,8 +75,14 @@
     <Compile Include="Views\ThrottleSlider.xaml.cs">
       <DependentUpon>ThrottleSlider.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SliderAileron.xaml.cs">
-      <DependentUpon>SliderAileron.xaml</DependentUpon>
+    <Compile Include="Views\AileronSlider.xaml.cs">
+      <DependentUpon>AileronSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyMap.xaml.cs">
+      <DependentUpon>MyMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DashBoard.xaml.cs">
+      <DependentUpon>DashBoard.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,7 +104,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SliderAileron.xaml">
+    <Page Include="Views\AileronSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MyMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DashBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\airplane-icon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

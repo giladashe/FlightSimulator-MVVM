@@ -7,26 +7,28 @@
         xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="675" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Views:Joystick Grid.Column="2" Grid.Row="1">
+        <m:Map Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" RenderTransformOrigin="0.5,0.5"/>
+        
+            <Views:DashBoard Height="282" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2"/>
+        
+
+        <Views:Joystick Grid.Column="3" Grid.Row="2" >
+
         </Views:Joystick>
-        <Views:SliderAileron Grid.Column="2" Grid.Row="1">
-        </Views:SliderAileron>
-        <Views:ThrottleSlider Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
-        <m:Map Grid.Column="0" Grid.RowSpan="3">
-        </m:Map>
-        <Views:Joystick Grid.Column="1" Grid.ColumnSpan="2">
-        </Views:Joystick>
+
     </Grid>
 </Window>
