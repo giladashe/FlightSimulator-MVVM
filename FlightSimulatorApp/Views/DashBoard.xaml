@@ -28,7 +28,7 @@
                    FontWeight="Bold">Air Speed:
         </TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="10" FontSize="30" Grid.Row="1" Grid.Column="1" 
-                   FontWeight="Bold" Text="{Binding }">
+                   FontWeight="Bold" Text="{Binding AirSpeed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="10" FontSize="30" Grid.Row="2" Grid.Column="0" 
                     FontWeight="Bold">Altitude:

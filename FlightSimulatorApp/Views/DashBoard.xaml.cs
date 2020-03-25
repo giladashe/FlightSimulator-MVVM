@@ -13,14 +13,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
     /// Interaction logic for DashBoard.xaml
     /// </summary>
-    public partial class DashBoard : UserControl
+    public partial class DashBoard : UserControl, INotifyPropertyChanged
     {
+
+       
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
         private double _airSpeed;
         private double _altitude;
         private double _roll;
@@ -34,6 +41,12 @@ namespace FlightSimulatorApp.Views
         {
             InitializeComponent();
             this._vmDash = vmDash;
+            DataContext = _vmDash;
+            _vmDash.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged("VM_" + e.PropertyName);
+            };
+
         }
 
         public double AirSpeed { get => this._vmDash.VM_Airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
@@ -44,5 +57,14 @@ namespace FlightSimulatorApp.Views
         public double HeadingDegrees { get => _vmDash.VM_Indicated_heading_deg; set => _headingDegrees = value; }
         public double GroundSpeed { get => _vmDash.VM_Gps_indicated_ground_speed_kt; set => _groundSpeed = value; }
         public double VerticalSpeed { get => _vmDash.VM_Gps_indicated_vertical_speed; set => _verticalSpeed = value; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+		public void NotifyPropertyChanged(string propName)
+		{
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+		}
+
     }
 }
