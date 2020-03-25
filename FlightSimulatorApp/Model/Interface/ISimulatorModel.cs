@@ -10,12 +10,6 @@ namespace FlightSimulatorApp.Model.Interface
 		void disconnect();
 		void start();
 
-		// properties - wheels
-
-		double Aileron { set; get; }
-		double Elevator { set; get; }
-		double Rudder { set; get; }
-		double Throttle { set; get; }
 
 		// dashboard
 

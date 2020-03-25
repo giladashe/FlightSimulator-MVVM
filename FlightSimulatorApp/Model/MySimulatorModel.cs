@@ -10,12 +10,6 @@ namespace FlightSimulatorApp.Model
 		ITelnetClient telnetClient;
 		volatile Boolean stop;
 
-		// wheels
-		private double aileron;
-		private double elevator;
-		private double rudder;
-		private double throttle;
-
 		// dashboard
 		private double indicated_heading_deg;
 		private double gps_indicated_vertical_speed;
@@ -51,6 +45,7 @@ namespace FlightSimulatorApp.Model
 			new Thread(delegate () {
 				while (!stop)
 				{
+
 					// TODO to all of the properties 
 					telnetClient.write("get x");
 					x = Double.Parse(telnetClient.read());
@@ -59,56 +54,6 @@ namespace FlightSimulatorApp.Model
 				}
 			}).Start();
 		}
-
-		public double Aileron
-		{
-			set
-			{
-				this.aileron = value;
-				NotifyPropertyChanged("aileron");
-			}
-			get
-			{
-				return this.aileron;
-			}
-		}
-		public double Elevator
-		{
-			set
-			{
-				this.elevator = value;
-				NotifyPropertyChanged("elevator");
-			}
-			get
-			{
-				return this.elevator;
-			}
-		}
-		public double Rudder
-		{
-			set
-			{
-				this.rudder = value;
-				NotifyPropertyChanged("rudder");
-			}
-			get
-			{
-				return this.rudder;
-			}
-		}
-		public double Throttle
-		{
-			set
-			{
-				this.throttle = value;
-				NotifyPropertyChanged("throttle");
-			}
-			get
-			{
-				return this.throttle;
-			}
-		}
-
 
 
 		public double Indicated_heading_deg
