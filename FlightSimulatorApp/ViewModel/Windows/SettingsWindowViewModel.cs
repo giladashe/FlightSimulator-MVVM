@@ -2,6 +2,7 @@
 using FlightSimulatorApp.Model.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace FlightSimulatorApp.ViewModel.Windows
 {
-    public class SettingsWindowViewModel : BaseNotify
+    public class SettingsWindowViewModel : INotifyPropertyChanged
     {
         private ISettingsModel model;
 
@@ -29,16 +30,6 @@ namespace FlightSimulatorApp.ViewModel.Windows
             }
         }
 
-        public int FlightCommandPort
-        {
-            get { return model.FlightCommandPort; }
-            set
-            {
-                model.FlightCommandPort = value;
-                NotifyPropertyChanged("FlightCommandPort");
-            }
-        }
-
         public int FlightInfoPort
         {
             get { return model.FlightInfoPort; }
@@ -48,7 +39,6 @@ namespace FlightSimulatorApp.ViewModel.Windows
                 NotifyPropertyChanged("FlightInfoPort");
             }
         }
-
 
 
         public void SaveSettings()
@@ -92,6 +82,13 @@ namespace FlightSimulatorApp.ViewModel.Windows
         }
         #endregion
         #endregion
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
     }
 }
 

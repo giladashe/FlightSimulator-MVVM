@@ -1,9 +1,12 @@
-﻿using System;
+﻿using FlightSimulatorApp.Model.Interface;
+using System;
+using System.ComponentModel;
+using System.Threading;
+
 namespace FlightSimulatorApp.Model
 {
-	public class MySimulatorModel : ISimulatorModel
+	public class MySimulatorModel : ISimulatorModel 
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
 		ITelnetClient telnetClient;
 		volatile Boolean stop;
 
@@ -57,8 +60,58 @@ namespace FlightSimulatorApp.Model
 			}).Start();
 		}
 
+		public double Aileron
+		{
+			set
+			{
+				this.aileron = value;
+				NotifyPropertyChanged("aileron");
+			}
+			get
+			{
+				return this.aileron;
+			}
+		}
+		public double Elevator
+		{
+			set
+			{
+				this.elevator = value;
+				NotifyPropertyChanged("elevator");
+			}
+			get
+			{
+				return this.elevator;
+			}
+		}
+		public double Rudder
+		{
+			set
+			{
+				this.rudder = value;
+				NotifyPropertyChanged("rudder");
+			}
+			get
+			{
+				return this.rudder;
+			}
+		}
+		public double Throttle
+		{
+			set
+			{
+				this.throttle = value;
+				NotifyPropertyChanged("throttle");
+			}
+			get
+			{
+				return this.throttle;
+			}
+		}
 
-		double Indicated_heading_deg
+
+
+		public double Indicated_heading_deg
 		{
 			set
 			{
@@ -70,7 +123,7 @@ namespace FlightSimulatorApp.Model
 				return this.indicated_heading_deg;
 			}
 		}
-		double Gps_indicated_vertical_speed
+		public double Gps_indicated_vertical_speed
 		{
 			set
 			{
@@ -82,7 +135,7 @@ namespace FlightSimulatorApp.Model
 				return this.gps_indicated_vertical_speed;
 			}
 		}
-		double Gps_indicated_ground_speed_kt
+		public double Gps_indicated_ground_speed_kt
 		{
 			set
 			{
@@ -94,7 +147,7 @@ namespace FlightSimulatorApp.Model
 				return this.gps_indicated_ground_speed_kt;
 			}
 		}
-		double Airspeed_indicator_indicated_speed_kt
+		public double Airspeed_indicator_indicated_speed_kt
 		{
 			set
 			{
@@ -106,7 +159,7 @@ namespace FlightSimulatorApp.Model
 				return this.airspeed_indicator_indicated_speed_kt;
 			}
 		}
-		double Gps_indicated_altitude_ft
+		public double Gps_indicated_altitude_ft
 		{
 			set
 			{
@@ -118,7 +171,7 @@ namespace FlightSimulatorApp.Model
 				return this.gps_indicated_altitude_ft;
 			}
 		}
-		double Attitude_indicator_internal_roll_deg
+		public double Attitude_indicator_internal_roll_deg
 		{
 			set
 			{
@@ -130,7 +183,7 @@ namespace FlightSimulatorApp.Model
 				return this.attitude_indicator_internal_roll_deg;
 			}
 		}
-		double Attitude_indicator_internal_pitch_deg
+		public double Attitude_indicator_internal_pitch_deg
 		{
 			set
 			{
@@ -142,7 +195,7 @@ namespace FlightSimulatorApp.Model
 				return this.attitude_indicator_internal_pitch_deg;
 			}
 		}
-		double Altimeter_indicated_altitude_ft
+		public double Altimeter_indicated_altitude_ft
 		{
 			set
 			{
@@ -154,7 +207,7 @@ namespace FlightSimulatorApp.Model
 				return this.altimeter_indicated_altitude_ft;
 			}
 		}
-		double Lon
+		public double Lon
 		{
 			set
 			{
@@ -166,7 +219,7 @@ namespace FlightSimulatorApp.Model
 				return this.lon;
 			}
 		}
-		double Lat
+		public double Lat
 		{
 			set
 			{
@@ -179,6 +232,12 @@ namespace FlightSimulatorApp.Model
 			}
 		}
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void NotifyPropertyChanged(string propName)
+		{
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+		}
 
 
 	}
