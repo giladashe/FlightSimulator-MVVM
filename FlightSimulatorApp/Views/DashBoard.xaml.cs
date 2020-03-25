@@ -36,15 +36,13 @@ namespace FlightSimulatorApp.Views
             this._vmDash = vmDash;
         }
 
-        public double AirSpeed { get => this._vmDash.VM_airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
-        //what here???????????????????????????????????????????????????????? - altitude
-
-        public double Altitude { get => _vmDash.VM_airspeed_indicator_indicated_speed_kt; set => _altitude = value; }
-        public double Roll { get => _vmDash.VM_attitude_indicator_internal_roll_deg; set => _roll = value; }
-        public double Pitch { get => _vmDash.VM_attitude_indicator_internal_pitch_deg; set => _pitch = value; }
-        public double Altimeter { get => _vmDash.VM_altimeter_indicated_altitude_ft; set => _altimeter = value; }
-        public double HeadingDegrees { get => _vmDash.VM_indicated_heading_deg; set => _headingDegrees = value; }
-        public double GroundSpeed { get => _vmDash.VM_gps_indicated_ground_speed_kt; set => _groundSpeed = value; }
-        public double VerticalSpeed { get => _vmDash.VM_gps_indicated_vertical_speed; set => _verticalSpeed = value; }
+        public double AirSpeed { get => this._vmDash.VM_Airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
+        public double Altitude { get => _vmDash.VM_Gps_indicated_altitude_ft; set => _altitude = value; }
+        public double Roll { get => _vmDash.VM_Attitude_indicator_internal_roll_deg; set => _roll = value; }
+        public double Pitch { get => _vmDash.VM_Attitude_indicator_internal_pitch_deg; set => _pitch = value; }
+        public double Altimeter { get => _vmDash.VM_Altimeter_indicated_altitude_ft; set => _altimeter = value; }
+        public double HeadingDegrees { get => _vmDash.VM_Indicated_heading_deg; set => _headingDegrees = value; }
+        public double GroundSpeed { get => _vmDash.VM_Gps_indicated_ground_speed_kt; set => _groundSpeed = value; }
+        public double VerticalSpeed { get => _vmDash.VM_Gps_indicated_vertical_speed; set => _verticalSpeed = value; }
     }
 }
