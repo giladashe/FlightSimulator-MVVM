@@ -1,8 +1,10 @@
-﻿using System;
+﻿using FlightSimulatorApp.ViewModel;
+using System;
+using System.ComponentModel;
 
 namespace FlightSimulatorApp.Model.Interface
 {
-	public interface ISimulatorModel : BaseNotify
+	public interface ISimulatorModel : INotifyPropertyChanged
 	{
 		void connect(string ip, int port);
 		void disconnect();
@@ -30,7 +32,6 @@ namespace FlightSimulatorApp.Model.Interface
 
 		double Lon { set; get; }
 		double Lat { set; get; }
-
 
 
 	}
