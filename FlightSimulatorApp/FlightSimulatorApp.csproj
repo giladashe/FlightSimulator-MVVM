@@ -59,12 +59,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\ApplicationSettingsModel.cs" />
-    <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\Interface\ITelnetClient.cs" />
     <Compile Include="Model\MySimulatorModel.cs" />
     <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
     <Compile Include="Model\Interface\ISettingsModel.cs" />
     <Compile Include="Model\Interface\ISimulatorModel.cs" />
+    <Compile Include="ViewModel\ConnectVM.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\MapViewModel.cs" />
     <Compile Include="ViewModel\WheelsViewModel.cs" />

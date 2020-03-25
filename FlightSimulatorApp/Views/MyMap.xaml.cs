@@ -21,29 +21,19 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class MyMap : UserControl
     {
-        private MapViewModel vm_map;
-        private double _lon;
-        private double _lat;
+        
+        private Point _location;
        
-        public MyMap(MapViewModel map)
+        public MyMap()
         {
             InitializeComponent();
-            this.vm_map = map;
-            this._lon = 32.002644;
-            this._lat = 34.888781;
+            this._location = new Point(32.002644, 34.888781);
         }
-        public double Lon
-        {
-            get { return vm_map.VM_Lon; }
-        }
-        public double Lat
-        {
-            get { return vm_map.VM_Lat; }
-        }
-
+      
         public Point Location
         {
-            get { return new Point(Lon, Lat); }
+            get { return _location; }
+            set { _location = value; }
         }
     }
 }

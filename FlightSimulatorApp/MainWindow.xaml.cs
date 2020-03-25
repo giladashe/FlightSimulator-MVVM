@@ -1,6 +1,10 @@
-﻿using FlightSimulatorApp.Views;
+﻿using FlightSimulatorApp.Model;
+using FlightSimulatorApp.Model.Interface;
+using FlightSimulatorApp.ViewModel;
+using FlightSimulatorApp.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +28,32 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
+            ITelnetClient telnet = new ();
+            MySimulatorModel model = new MySimulatorModel(telnet);
+
+            // VM
+            DashBoardViewModel DashVM = new DashBoardViewModel(model);
+            MapViewModel mapViewModel = new MapViewModel(model);
+            WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
+
+            wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            {
+                // check if the change was from the joystick or sliders
+                wheelsViewModel.set
+            };
+
+
         }
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (propName.Equals("mapValues"){
+
+            }
+            else
+            {
+
+            } 
+        }
+
     }
 }

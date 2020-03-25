@@ -1,6 +1,7 @@
 ﻿using FlightSimulatorApp.Model.EventArgs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace FlightSimulatorApp.Views
     /// <summary>
     /// Interaction logic for Joystick.xaml
     /// </summary>
-    public partial class Joystick : UserControl
+    public partial class Joystick : UserControl , INotifyPropertyChanged 
     {
         /// <summary>Current Rudder</summary>
         public static readonly DependencyProperty RudderProperty =
@@ -173,6 +174,15 @@ namespace FlightSimulatorApp.Views
         {
             Rudder = Elevator = _prevRudder = _prevElevator = 0;
             Released?.Invoke(this);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        // on notify of point 
+        public void NotifyPropertyChanged(string propName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
     }
