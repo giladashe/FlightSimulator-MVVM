@@ -14,19 +14,22 @@ namespace FlightSimulatorApp.ViewModel
 		{
 			this._simulatorModel = simulatorModel;
 		}
-
-		public void setAileron(double value)
-		{
-			_simulatorModel.setAileron(value);
-		}
-		public void setThrottle(double value)
-		{
-			_simulatorModel.setThrottle(value);
-		}
-		public void setJoystickValues (Point joystickValues)
-		{
-			_simulatorModel.setJoystickValues(joystickValues);
-		}
-	}
+        public double VM_aileron
+        {
+            set { _simulatorModel.Aileron = value; }
+        }
+        public double VM_elevator
+        {
+            set { _simulatorModel.Elevator = value; }
+        }
+        public double VM_rudder
+        {
+            set { _simulatorModel.Rudder = value; }
+        }
+        public double VM_throttle
+        {
+            set { _simulatorModel.Throttle = value; }
+        }
+    }
 }
 

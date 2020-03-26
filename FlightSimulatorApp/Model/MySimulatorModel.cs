@@ -1,5 +1,6 @@
 ﻿using FlightSimulatorApp.Model.Interface;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -91,18 +92,75 @@ namespace FlightSimulatorApp.Model
 			}
 		}
 
-		public void setAileron(double value)
-		{
+		private Queue<string> updateVariables = new Queue<string>();
 
-		}
-		public void setThrottle(double value)
-		{
 
-		}
-		public void setJoystickValues(Point joystickValues)
-		{
 
+		public double Rudder
+		{
+			set
+			{
+				if (value > 1)
+				{
+					value = 1;
+				}
+				else if (value < -1)
+				{
+					value = -1;
+				}
+
+				updateVariables.Enqueue("set address " + value);
+			}
 		}
+		public double Throttle
+		{
+			set
+			{
+				if (value > 1)
+				{
+					value = 1;
+				}
+				else if (value < 0)
+				{
+					value = 0;
+				}
+
+				updateVariables.Enqueue("set address " + value);
+			}
+		}
+		public double Elevator
+		{
+			set
+			{
+				if (value > 1)
+				{
+					value = 1;
+				}
+				else if (value < -1)
+				{
+					value = -1;
+				}
+
+				updateVariables.Enqueue("set address " + value);
+			}
+		}
+		public double Aileron
+		{
+			set
+			{
+				if (value > 1)
+				{
+					value = 1;
+				}
+				else if (value < -1)
+				{
+					value = -1;
+				}
+
+				updateVariables.Enqueue("set address " + value);
+			}
+		}
+
 
 		/*
 		public double Gps_indicated_ground_speed_kt
@@ -202,8 +260,5 @@ namespace FlightSimulatorApp.Model
 			}
 		}
 		*/
-
-
 	}
-
 }

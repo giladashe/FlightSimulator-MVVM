@@ -36,11 +36,12 @@ namespace FlightSimulatorApp.Model.Interface
 		*/
 
 		// set wheels 
-		void setAileron(double value);
 
-		void setThrottle(double value);
+		double Aileron { set; }
+		double Elevator { set; }
+		double Rudder { set; }
+		double Throttle { set; }
 
-		void setJoystickValues(Point joystickValues);
 	}
 
 }
