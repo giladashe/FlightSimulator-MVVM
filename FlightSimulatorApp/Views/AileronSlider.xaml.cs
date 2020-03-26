@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace FlightSimulatorApp.Views
     /// <summary>
     /// Interaction logic for SliderAileron.xaml
     /// </summary>
-    public partial class SliderAileron : UserControl
+    public partial class SliderAileron : UserControl, INotifyPropertyChanged
     {
         public SliderAileron()
         {

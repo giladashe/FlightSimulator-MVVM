@@ -1,6 +1,7 @@
 ﻿using FlightSimulatorApp.ViewModel;
 using System;
 using System.ComponentModel;
+using System.Windows;
 
 namespace FlightSimulatorApp.Model.Interface
 {
@@ -13,6 +14,9 @@ namespace FlightSimulatorApp.Model.Interface
 
 		// dashboard
 
+		double [] DashBoardValues { get; }
+
+		/*
 		double Indicated_heading_deg { set; get; }
 		double Gps_indicated_vertical_speed { set; get; }
 		double Gps_indicated_ground_speed_kt { set; get; }
@@ -21,12 +25,22 @@ namespace FlightSimulatorApp.Model.Interface
 		double Attitude_indicator_internal_roll_deg { set; get; }
 		double Attitude_indicator_internal_pitch_deg { set; get; }
 		double Altimeter_indicated_altitude_ft { set; get; }
+		*/
 
 		// map 
+		Point Coordinate { get; }
 
+		/*
 		double Lon { set; get; }
 		double Lat { set; get; }
+		*/
 
+		// set wheels 
+
+		double Aileron { set; }
+		double Elevator { set; }
+		double Rudder { set; }
+		double Throttle { set; }
 
 	}
 

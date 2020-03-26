@@ -1,6 +1,7 @@
 ﻿using FlightSimulatorApp.Model.Interface;
 using System;
 using System.ComponentModel;
+using System.Windows;
 
 namespace FlightSimulatorApp.ViewModel
 {
@@ -20,6 +21,15 @@ namespace FlightSimulatorApp.ViewModel
             };
         }
 
+        public Point VM_Coordinate
+        {
+            get
+            {
+                return _simulatorModel.Coordinate;
+            }
+        }
+
+        /*
         public double VM_Lon
         {
             get { return _simulatorModel.Lon; }
@@ -29,7 +39,7 @@ namespace FlightSimulatorApp.ViewModel
         {
             get { return _simulatorModel.Lat; }
         }
-
+        */
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
