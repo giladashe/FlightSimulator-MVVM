@@ -30,6 +30,22 @@ namespace FlightSimulatorApp.Views
             int val = Convert.ToInt32(e.NewValue);
             string msg = String.Format("Throttle: {0}", val);
             this.TheValue.Text = msg;
+            ThrottleValue = ThrottleSlider1.Value;
+
+           
+
         }
+
+        public double ThrottleValue
+        {
+            get { return (double)GetValue(ThrottleValueProperty); }
+            set
+            {
+                SetValue(ThrottleValueProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ThrottleValueProperty =
+            DependencyProperty.Register("ThrottleValue", typeof(double), typeof(ThrottleSlider));
     }
 }

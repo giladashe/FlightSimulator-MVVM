@@ -28,14 +28,20 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-            ITelnetClient telnet = new ();
+           // ITelnetClient telnet = new ();
             MySimulatorModel model = new MySimulatorModel(telnet);
 
             // VM
+           
             DashBoardViewModel DashVM = new DashBoardViewModel(model);
             MapViewModel mapViewModel = new MapViewModel(model);
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
 
+            /*myDashBoard.DataContext = DashVM;*/
+            myJoystick.DataContext = wheelsViewModel;
+            
+        }
+/*
             wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
                 // check if the change was from the joystick or sliders
@@ -54,6 +60,7 @@ namespace FlightSimulatorApp
 
             } 
         }
-
+        }*/
+        
     }
 }
