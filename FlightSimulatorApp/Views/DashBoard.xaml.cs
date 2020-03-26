@@ -36,13 +36,41 @@ namespace FlightSimulatorApp.Views
         private double _headingDegrees;
         private double _groundSpeed;
         private double _verticalSpeed;
-        private DashBoardViewModel _vmDash;
+        /*private DashBoardViewModel _vmDash;*/
         public DashBoard()
         {
             InitializeComponent();
-            this._vmDash = vmDash;
-            DataContext = _vmDash;
+            /*this._vmDash = vmDash;
+            DataContext = _vmDash;*/
         }
+
+        /*public double Throttle
+        {
+            get { return throttle; }
+            set
+            {
+                if (value > 1)
+                {
+                    value = 1;
+                }
+                else if (value < 0)
+                {
+                    value = 0;
+                }
+                throttle = value;
+                this.updateDataFromSliders.Enqueue("set /controls/engines/current-engine/throttle " + throttle + "\n");
+            }
+        }*/
+
+        /*while (this.dataFromSliders.GetQueueOfSetDataFromJoystick().Count > 0)
+                    {
+            message_to_server = this.dataFromJoystick.GetQueueOfSetDataFromJoystick().Dequeue();
+            mutex.WaitOne();
+            WriteToServer(message_to_server);
+            message_to_server = ReadFromServer();
+            mutex.ReleaseMutex();
+            message_to_server = "";
+        }*/
 
         public double AirSpeed { get => this._vmDash.VM_Airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
         public double Altitude { get => _vmDash.VM_Gps_indicated_altitude_ft; set => _altitude = value; }
