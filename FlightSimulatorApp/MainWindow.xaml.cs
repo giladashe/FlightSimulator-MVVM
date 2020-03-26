@@ -30,27 +30,16 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-            ITelnetClient telnet = new ();
+           // ITelnetClient telnet = new ();
             MySimulatorModel model = new MySimulatorModel(telnet);
 
             // VM
+           
             DashBoardViewModel DashVM = new DashBoardViewModel(model);
             MapViewModel mapViewModel = new MapViewModel(model);
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
 
-        }
-        public void NotifyPropertyChanged(string propName)
-        {
-            // dashboard values
-            if (propName.Equals("VM_dashBoardValues")){
-                // set dashBoardValues by the array on vm
-            }
-            // map values (coordinate)
-            else if (propName.Equals("VM_coordinate"))
-            {
-                // set coordinate on the map by the point on vm
-            }
-            else if () // joystick
+            wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
                 this.wheelsViewModel.setJoystickValues(Point joystickValues);
             }
@@ -63,6 +52,7 @@ namespace FlightSimulatorApp
                 this.wheelsViewModel.setAileron(double value);
             }
         }
-
+        }*/
+        
     }
 }
