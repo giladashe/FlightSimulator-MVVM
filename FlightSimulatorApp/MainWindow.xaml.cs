@@ -25,6 +25,8 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private object wheelsViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,23 +38,30 @@ namespace FlightSimulatorApp
             MapViewModel mapViewModel = new MapViewModel(model);
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
 
-            wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
-            {
-                // check if the change was from the joystick or sliders
-                wheelsViewModel.set
-            };
-
-
         }
         public void NotifyPropertyChanged(string propName)
         {
-            if (propName.Equals("mapValues"){
-
+            // dashboard values
+            if (propName.Equals("VM_dashBoardValues")){
+                // set dashBoardValues by the array on vm
             }
-            else
+            // map values (coordinate)
+            else if (propName.Equals("VM_coordinate"))
             {
-
-            } 
+                // set coordinate on the map by the point on vm
+            }
+            else if () // joystick
+            {
+                this.wheelsViewModel.setJoystickValues(Point joystickValues);
+            }
+            else if () // throttleSlider
+            {
+                this.wheelsViewModel.setThrottle(double value);
+            }
+            else // aileronSlider
+            {
+                this.wheelsViewModel.setAileron(double value);
+            }
         }
 
     }

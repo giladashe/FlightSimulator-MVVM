@@ -9,15 +9,15 @@ namespace FlightSimulatorApp.ViewModel
 	{
 		private MySimulatorModel _simulatorModel;
 
-		// dashboard
-		private double VM_indicated_heading_deg;
+		// no need - maybe for binding 
+		/*private double VM_indicated_heading_deg;
 		private double VM_gps_indicated_vertical_speed;
 		private double VM_gps_indicated_ground_speed_kt;
 		private double VM_airspeed_indicator_indicated_speed_kt;
 		private double VM_gps_indicated_altitude_ft;
 		private double VM_attitude_indicator_internal_roll_deg;
 		private double VM_attitude_indicator_internal_pitch_deg;
-		private double VM_altimeter_indicated_altitude_ft;
+		private double VM_altimeter_indicated_altitude_ft;*/
 
 		public DashBoardViewModel(MySimulatorModel simulatorModel)
 		{
@@ -29,6 +29,12 @@ namespace FlightSimulatorApp.ViewModel
 		}
 
 		//Properties
+		public double[] VM_DashBoardValues
+		{
+			get { return _simulatorModel.DashBoardValues; }
+		}
+
+		/*
 		public double VM_Indicated_heading_deg
 		{
 			get{ return _simulatorModel.Indicated_heading_deg; }
@@ -61,6 +67,7 @@ namespace FlightSimulatorApp.ViewModel
 		{
 			get { return _simulatorModel.Altimeter_indicated_altitude_ft; }
 		}
+		*/
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

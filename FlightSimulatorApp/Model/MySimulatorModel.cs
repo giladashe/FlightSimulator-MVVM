@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Threading;
+using System.Windows;
 
 namespace FlightSimulatorApp.Model
 {
@@ -11,24 +12,32 @@ namespace FlightSimulatorApp.Model
 		volatile Boolean stop;
 
 		// dashboard
-		private double indicated_heading_deg;
-		private double gps_indicated_vertical_speed;
-		private double gps_indicated_ground_speed_kt;
-		private double airspeed_indicator_indicated_speed_kt;
-		private double gps_indicated_altitude_ft;
-		private double attitude_indicator_internal_roll_deg;
-		private double attitude_indicator_internal_pitch_deg;
-		private double altimeter_indicated_altitude_ft;
+		private double[] dashBoardValues = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+		/*
+		dashBoardValues[0] - indicated_heading_deg;
+		dashBoardValues[1] - gps_indicated_vertical_speed;
+		dashBoardValues[2] - gps_indicated_ground_speed_kt;
+		dashBoardValues[3] - airspeed_indicator_indicated_speed_kt;
+		dashBoardValues[4] - gps_indicated_altitude_ft;
+		dashBoardValues[5] - attitude_indicator_internal_roll_deg;
+		dashBoardValues[6] - attitude_indicator_internal_pitch_deg;
+		dashBoardValues[7] - altimeter_indicated_altitude_ft;
+		*/
 
 		// map 
-		private double lon;
-		private double lat;
+		private Point coordinate;
 
+		/*
+		x - lon;
+		y - lat;
+		*/
 
 		public MySimulatorModel(ITelnetClient telnetClient)
 		{
 			this.telnetClient = telnetClient;
 			stop = false;
+			coordinate = new Point(0, 0);
 		}
 
 		public void connect(string ip, int port)
@@ -56,30 +65,46 @@ namespace FlightSimulatorApp.Model
 		}
 
 
-		public double Indicated_heading_deg
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void NotifyPropertyChanged(string propName)
 		{
-			set
-			{
-				this.indicated_heading_deg = value;
-				NotifyPropertyChanged("indicated_heading_deg");
-			}
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+		}
+
+		// notify and set in the server communication
+
+		
+		public double[] DashBoardValues
+		{
 			get
 			{
-				return this.indicated_heading_deg;
+				return this.dashBoardValues;
 			}
 		}
-		public double Gps_indicated_vertical_speed
+
+		public Point Coordinate
 		{
-			set
-			{
-				this.gps_indicated_vertical_speed = value;
-				NotifyPropertyChanged("gps_indicated_vertical_speed");
-			}
 			get
 			{
-				return this.gps_indicated_vertical_speed;
+				return this.coordinate;
 			}
 		}
+
+		public void setAileron(double value)
+		{
+
+		}
+		public void setThrottle(double value)
+		{
+
+		}
+		public void setJoystickValues(Point joystickValues)
+		{
+
+		}
+
+		/*
 		public double Gps_indicated_ground_speed_kt
 		{
 			set
@@ -176,13 +201,7 @@ namespace FlightSimulatorApp.Model
 				return this.lat;
 			}
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void NotifyPropertyChanged(string propName)
-		{
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-		}
+		*/
 
 
 	}

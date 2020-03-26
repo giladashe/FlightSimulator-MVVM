@@ -2,53 +2,31 @@
 using FlightSimulatorApp.Model.Interface;
 using System;
 using System.ComponentModel;
+using System.Windows;
 
 namespace FlightSimulatorApp.ViewModel
 {
-	public class WheelsViewModel : INotifyPropertyChanged
+	public class WheelsViewModel
 	{
 		private ISimulatorModel _simulatorModel;
-
-		/*private double VM_aileron;
-		private double VM_elevator;
-		private double VM_rudder;
-		private double VM_throttle;*/
 
 		public WheelsViewModel (ISimulatorModel simulatorModel)
 		{
 			this._simulatorModel = simulatorModel;
-			_simulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
-			{
-				NotifyPropertyChanged("VM_" + e.PropertyName);
-			};
 		}
 
-		public double VM_aileron
+		public void setAileron(double value)
 		{
-			get { return _simulatorModel.Aileron; }
+			_simulatorModel.setAileron(value);
 		}
-		public double VM_elevator
+		public void setThrottle(double value)
 		{
-			get { return _simulatorModel.Elevator; }
+			_simulatorModel.setThrottle(value);
 		}
-		public double VM_rudder
+		public void setJoystickValues (Point joystickValues)
 		{
-			get { return _simulatorModel.Rudder; }
+			_simulatorModel.setJoystickValues(joystickValues);
 		}
-		public double VM_throttle
-		{
-			get { return _simulatorModel.Throttle; }
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void NotifyPropertyChanged(string propName)
-		{
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-		}
-
-
 	}
-
 }
 
