@@ -8,7 +8,7 @@ namespace FlightSimulatorApp.Model
 {
 	public class MySimulatorModel : ISimulatorModel 
 	{
-		ITelnetClient telnetClient;
+		ITelnetClient telnetClient;  
 		volatile Boolean stop;
 
 		// dashboard
