@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,8 +31,8 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-           // ITelnetClient telnet = new ();
-            MySimulatorModel model = new MySimulatorModel(telnet);
+            ITelnetClient telnet = ;
+            MySimulatorModel model = new MySimulatorModel(new TcpClient());
 
             // VM
            

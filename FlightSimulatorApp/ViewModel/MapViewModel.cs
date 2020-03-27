@@ -9,9 +9,6 @@ namespace FlightSimulatorApp.ViewModel
     {
         private ISimulatorModel _simulatorModel;
 
-        /*private double VM_lon;
-        private double VM_lat;*/
-
         public MapViewModel (ISimulatorModel simulatorModel)
         {
             this._simulatorModel = simulatorModel;
@@ -21,15 +18,15 @@ namespace FlightSimulatorApp.ViewModel
             };
         }
 
-        public Point VM_Coordinate
+        /*public Point VM_Coordinate
         {
             get
             {
                 return _simulatorModel.Coordinate;
             }
-        }
+        }*/
 
-        /*
+        
         public double VM_Lon
         {
             get { return _simulatorModel.Lon; }
@@ -39,7 +36,7 @@ namespace FlightSimulatorApp.ViewModel
         {
             get { return _simulatorModel.Lat; }
         }
-        */
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)

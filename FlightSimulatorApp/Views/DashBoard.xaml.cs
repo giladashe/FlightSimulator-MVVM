@@ -62,15 +62,6 @@ namespace FlightSimulatorApp.Views
             }
         }*/
 
-        /*while (this.dataFromSliders.GetQueueOfSetDataFromJoystick().Count > 0)
-                    {
-            message_to_server = this.dataFromJoystick.GetQueueOfSetDataFromJoystick().Dequeue();
-            mutex.WaitOne();
-            WriteToServer(message_to_server);
-            message_to_server = ReadFromServer();
-            mutex.ReleaseMutex();
-            message_to_server = "";
-        }*/
 
         public double AirSpeed { get => this._vmDash.VM_Airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
         public double Altitude { get => _vmDash.VM_Gps_indicated_altitude_ft; set => _altitude = value; }

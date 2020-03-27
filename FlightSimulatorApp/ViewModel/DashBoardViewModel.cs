@@ -29,12 +29,12 @@ namespace FlightSimulatorApp.ViewModel
 		}
 
 		//Properties
-		public double[] VM_DashBoardValues
+		/*public double[] VM_DashBoardValues
 		{
 			get { return _simulatorModel.DashBoardValues; }
-		}
+		}*/
 
-		/*
+		
 		public double VM_Indicated_heading_deg
 		{
 			get{ return _simulatorModel.Indicated_heading_deg; }
@@ -67,7 +67,7 @@ namespace FlightSimulatorApp.ViewModel
 		{
 			get { return _simulatorModel.Altimeter_indicated_altitude_ft; }
 		}
-		*/
+		
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

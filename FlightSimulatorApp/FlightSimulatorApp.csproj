@@ -59,7 +59,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\ApplicationSettingsModel.cs" />
-    <Compile Include="Model\Interface\ITelnetClient.cs" />
     <Compile Include="Model\MySimulatorModel.cs" />
     <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
     <Compile Include="Model\Interface\ISettingsModel.cs" />

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
 
@@ -9,62 +10,117 @@ namespace FlightSimulatorApp.Model
 {
 	public class MySimulatorModel : ISimulatorModel 
 	{
-		ITelnetClient telnetClient;  
+		private TcpClient tcpClient;
 		volatile Boolean stop;
+		private Queue<string> updateVariablesQueue = new Queue<string>();
+		private String message;
+		private static Mutex mutex;
+		private NetworkStream stream;
 
 		// dashboard
-		private double[] dashBoardValues = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-		/*
-		dashBoardValues[0] - indicated_heading_deg;
-		dashBoardValues[1] - gps_indicated_vertical_speed;
-		dashBoardValues[2] - gps_indicated_ground_speed_kt;
-		dashBoardValues[3] - airspeed_indicator_indicated_speed_kt;
-		dashBoardValues[4] - gps_indicated_altitude_ft;
-		dashBoardValues[5] - attitude_indicator_internal_roll_deg;
-		dashBoardValues[6] - attitude_indicator_internal_pitch_deg;
-		dashBoardValues[7] - altimeter_indicated_altitude_ft;
-		*/
+		private double indicated_heading_deg;
+		private double gps_indicated_vertical_speed;
+		private double gps_indicated_ground_speed_kt;
+		private double airspeed_indicator_indicated_speed_kt;
+		private double gps_indicated_altitude_ft;
+		private double attitude_indicator_internal_roll_deg;
+		private double attitude_indicator_internal_pitch_deg;
+		private double altimeter_indicated_altitude_ft;
+		
 
 		// map 
-		private Point coordinate;
+		//private Point coordinate;
+		private double lon;
+		private double lat;
 
-		/*
-		x - lon;
-		y - lat;
-		*/
-
-		public MySimulatorModel(ITelnetClient telnetClient)
+		public MySimulatorModel(TcpClient tcpClient)
 		{
-			this.telnetClient = telnetClient;
-			stop = false;
-			coordinate = new Point(0, 0);
+			this.tcpClient = tcpClient;
+			this.stop = false;
+			mutex = new Mutex();
+			//coordinate = new Point(0, 0);
 		}
 
 		public void connect(string ip, int port)
 		{
-			telnetClient.connect(ip, port);
+			tcpClient.Connect(ip, port);
+			this.stream = this.tcpClient.GetStream();
 		}
 		public void disconnect()
 		{
 			stop = true;
-			telnetClient.disconnect();
+			this.stream.Close();
+			this.tcpClient.Close();
+			//tcpClient.Dispose();
+		}
+		public void writeToServer(String message)
+		{
+			Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+			this.stream.Write(data, 0, data.Length);
+		}
+
+		public String readFromServer()
+		{
+			Byte[] data = new Byte[256];
+			String responseData = String.Empty;
+			Int32 bytes = stream.Read(data, 0, data.Length);
+			responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+			return responseData;
 		}
 		public void start()
-		{
+		{           
+			// reading
 			new Thread(delegate () {
 				while (!stop)
 				{
+					mutex.WaitOne();
 
-					// TODO to all of the properties 
-					telnetClient.write("get x");
-					x = Double.Parse(telnetClient.read());
+					//  get dashboard values
+					writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-vertical-speed");
+					this.gps_indicated_vertical_speed = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-ground-speed-kt");
+					this.gps_indicated_ground_speed_kt = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-altitude-ft");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/altimeter/indicated-altitude-ft");
+					this.indicated_heading_deg = Double.Parse(readFromServer());
 
+					//  get map values
+					writeToServer("get /position/latitude-deg");
+					this.lat = Double.Parse(readFromServer());
+					writeToServer("get /position/longitude-deg");
+					this.lon = Double.Parse(readFromServer());
+
+					mutex.ReleaseMutex();
 					Thread.Sleep(250);
 				}
 			}).Start();
-		}
 
+			// writing
+			new Thread(delegate () {
+				while (!stop)
+				{
+					while(this.getQueueVariables().Count > 0){
+						message = this.getQueueVariables().Dequeue();
+						mutex.WaitOne();
+						writeToServer(message);
+						message = readFromServer();
+						mutex.ReleaseMutex();
+						message = "";
+						//Thread.Sleep(250);
+					}
+				}
+			}).Start();
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -75,8 +131,8 @@ namespace FlightSimulatorApp.Model
 
 		// notify and set in the server communication
 
-		
-		public double[] DashBoardValues
+
+		/*public double[] DashBoardValues
 		{
 			get
 			{
@@ -90,11 +146,13 @@ namespace FlightSimulatorApp.Model
 			{
 				return this.coordinate;
 			}
+		}*/
+
+
+		public Queue<string> getQueueVariables()
+		{
+			return this.updateVariablesQueue;
 		}
-
-		private Queue<string> updateVariables = new Queue<string>();
-
-
 
 		public double Rudder
 		{
@@ -109,7 +167,7 @@ namespace FlightSimulatorApp.Model
 					value = -1;
 				}
 
-				updateVariables.Enqueue("set address " + value);
+				this.updateVariablesQueue.Enqueue("set /controls/flight/rudder " + value + "\n");
 			}
 		}
 		public double Throttle
@@ -125,7 +183,7 @@ namespace FlightSimulatorApp.Model
 					value = 0;
 				}
 
-				updateVariables.Enqueue("set address " + value);
+				this.updateVariablesQueue.Enqueue("set /controls/engines/throttle_idle " + value + "\n");
 			}
 		}
 		public double Elevator
@@ -141,7 +199,7 @@ namespace FlightSimulatorApp.Model
 					value = -1;
 				}
 
-				updateVariables.Enqueue("set address " + value);
+				this.updateVariablesQueue.Enqueue("set /controls/flight/elevator " + value + "\n");
 			}
 		}
 		public double Aileron
@@ -157,12 +215,36 @@ namespace FlightSimulatorApp.Model
 					value = -1;
 				}
 
-				updateVariables.Enqueue("set address " + value);
+				this.updateVariablesQueue.Enqueue("set /controls/flight/aileron " + value + "\n");
 			}
 		}
 
 
-		/*
+		public double Indicated_heading_deg
+		{
+			set
+			{
+				this.indicated_heading_deg = value;
+				NotifyPropertyChanged("indicated_heading_deg");
+			}
+			get
+			{
+				return this.indicated_heading_deg;
+			}
+		}
+		public double Gps_indicated_vertical_speed
+		{
+			set
+			{
+				this.gps_indicated_vertical_speed = value;
+				NotifyPropertyChanged("gps_indicated_vertical_speed");
+			}
+			get
+			{
+				return this.gps_indicated_vertical_speed;
+			}
+		}
+
 		public double Gps_indicated_ground_speed_kt
 		{
 			set
@@ -259,6 +341,6 @@ namespace FlightSimulatorApp.Model
 				return this.lat;
 			}
 		}
-		*/
+		
 	}
 }
