@@ -15,16 +15,18 @@ namespace FlightSimulatorApp.Model
 		// dashboard
 		private double[] dashBoardValues = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-		/*
-		dashBoardValues[0] - indicated_heading_deg;
-		dashBoardValues[1] - gps_indicated_vertical_speed;
-		dashBoardValues[2] - gps_indicated_ground_speed_kt;
-		dashBoardValues[3] - airspeed_indicator_indicated_speed_kt;
-		dashBoardValues[4] - gps_indicated_altitude_ft;
-		dashBoardValues[5] - attitude_indicator_internal_roll_deg;
-		dashBoardValues[6] - attitude_indicator_internal_pitch_deg;
-		dashBoardValues[7] - altimeter_indicated_altitude_ft;
-		*/
+
+		private double indicated_heading_deg;
+		private double gps_indicated_vertical_speed;
+		private double gps_indicated_ground_speed_kt;
+		private double airspeed_indicator_indicated_speed_kt;
+		private double gps_indicated_altitude_ft;
+		private double attitude_indicator_internal_roll_deg;
+		private double attitude_indicator_internal_pitch_deg;
+		private double altimeter_indicated_altitude_ft;
+		private double lon;
+		private double lat;
+
 
 		// map 
 		private Point coordinate;
@@ -33,6 +35,13 @@ namespace FlightSimulatorApp.Model
 		x - lon;
 		y - lat;
 		*/
+
+		public MySimulatorModel()
+		{
+			this.telnetClient = null;
+			stop = false;
+			coordinate = new Point(0, 0);
+		}
 
 		public MySimulatorModel(ITelnetClient telnetClient)
 		{
@@ -56,11 +65,11 @@ namespace FlightSimulatorApp.Model
 				while (!stop)
 				{
 
-					// TODO to all of the properties 
+				/*	// TODO to all of the properties 
 					telnetClient.write("get x");
 					x = Double.Parse(telnetClient.read());
 
-					Thread.Sleep(250);
+					Thread.Sleep(250);*/
 				}
 			}).Start();
 		}
@@ -162,7 +171,7 @@ namespace FlightSimulatorApp.Model
 		}
 
 
-		/*
+
 		public double Gps_indicated_ground_speed_kt
 		{
 			set
@@ -235,6 +244,53 @@ namespace FlightSimulatorApp.Model
 				return this.altimeter_indicated_altitude_ft;
 			}
 		}
+
+
+		public double Indicated_heading_deg
+		{
+			set
+			{
+				this.indicated_heading_deg = value;
+				NotifyPropertyChanged("indicated_heading_deg");
+			}
+			get
+			{
+				return this.indicated_heading_deg;
+			}
+		}
+
+		public double Gps_indicated_vertical_speed
+		{
+			set
+			{
+				this.gps_indicated_vertical_speed = value;
+				NotifyPropertyChanged("gps_indicated_vertical_speed");
+			}
+			get
+			{
+				return this.gps_indicated_vertical_speed;
+			}
+		}
+
+
+		public void Check()
+		{
+			for(int i = 1; i < 100; i++)
+			{
+				Gps_indicated_ground_speed_kt = i;
+				Airspeed_indicator_indicated_speed_kt = i;
+				Gps_indicated_altitude_ft = i;
+				Attitude_indicator_internal_roll_deg = i;
+				Attitude_indicator_internal_pitch_deg = i;
+				Altimeter_indicated_altitude_ft = i;
+				Indicated_heading_deg = i;
+				Gps_indicated_vertical_speed = i;
+			}
+		}
+
+
+
+
 		public double Lon
 		{
 			set
@@ -259,6 +315,6 @@ namespace FlightSimulatorApp.Model
 				return this.lat;
 			}
 		}
-		*/
+
 	}
 }

@@ -6,9 +6,32 @@
              xmlns:local="clr-namespace:FlightSimulatorApp.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <StackPanel VerticalAlignment="Center" Margin="10" Background="Blue">
-        <Slider x:Name="MySlider" Background="Navy" Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" ValueChanged="MySlider_ValueChanged" />
-        <TextBlock x:Name = "TheValue" HorizontalAlignment="Center" Text = "Aileron: 0" FontSize="25" />
-    </StackPanel>
+
+    <Grid HorizontalAlignment="Center" Margin="10,10,0,10" Width="790" RenderTransformOrigin="0.5,0.5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="99*"/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="116*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name = "TheValue" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextAlignment="Center"
+                   Text = "Aileron: 0" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.5,0.5"
+                   Margin="-100,171,-48,0" Grid.ColumnSpan="2" Grid.RowSpan="3">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90.0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Slider x:Name="MyAileronSlider" Orientation="Vertical" Background="Navy" Grid.Column="1"
+                Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" 
+                ValueChanged="MySlider_ValueChanged" Width="30" Margin="369,0,361,56" Grid.RowSpan="3" />
+    </Grid>
 </UserControl>

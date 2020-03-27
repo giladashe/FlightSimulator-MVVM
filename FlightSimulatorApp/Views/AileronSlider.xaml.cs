@@ -17,20 +17,33 @@ using System.Windows.Shapes;
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
-    /// Interaction logic for SliderAileron.xaml
+    /// Interaction logic for AileronSlider.xaml
     /// </summary>
-    public partial class SliderAileron : UserControl, INotifyPropertyChanged
+    public partial class AileronSlider : UserControl
     {
-        public SliderAileron()
+        public AileronSlider()
         {
             InitializeComponent();
         }
 
         private void MySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int val = Convert.ToInt32(e.NewValue);
-            string msg = String.Format("Aileron: {0}", val);
+            double val = Convert.ToDouble(e.NewValue);
+            string msg = String.Format("Aileron: {0}",Math.Round(val,2));
             this.TheValue.Text = msg;
         }
+
+        public double AileronValue
+        {
+            get { return (double)GetValue(AileronValueProperty); }
+            set
+            {
+                SetValue(AileronValueProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty AileronValueProperty =
+            DependencyProperty.Register("AileronValue", typeof(double), typeof(AileronSlider));
     }
 }
+

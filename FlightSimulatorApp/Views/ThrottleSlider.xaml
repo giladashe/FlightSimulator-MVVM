@@ -6,32 +6,9 @@
              xmlns:local="clr-namespace:FlightSimulatorApp.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <Grid HorizontalAlignment="Center" Margin="353,10,382,10" Background="Blue" Width="65" RenderTransformOrigin="0.5,0.5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="99*"/>
-            <RowDefinition Height="0*"/>
-            <RowDefinition Height="116*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock x:Name = "TheValue" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextAlignment="Center"
-                   Text = "Throttle: 0" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.5,0.5"
-                   Margin="-87,8,-60.2,0" Grid.ColumnSpan="2" Grid.Row="2">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-90.0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-        <Slider x:Name="ThrottleSlider1" Orientation="Vertical" Background="Navy" Grid.Column="1"
-                Minimum="0" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" 
-                ValueChanged="MySlider_ValueChanged" Height="430" Width="30" Margin="10.4,0,2.8,0" Grid.RowSpan="3" />
-    </Grid>
+    
+    <StackPanel VerticalAlignment="Center" Margin="10">
+        <Slider x:Name="MySlider" Background="Navy" Minimum="0" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" ValueChanged="MySlider_ValueChanged" />
+        <TextBlock x:Name = "TheValue" HorizontalAlignment="Center" Text = "Throttle: 0" FontSize="25" />
+    </StackPanel>
 </UserControl>

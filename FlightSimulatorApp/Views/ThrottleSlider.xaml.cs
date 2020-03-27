@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,9 +19,9 @@ using System.Windows.Shapes;
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
-    /// Interaction logic for SliderAileron.xaml
+    /// Interaction logic for ThrottleSlider.xaml
     /// </summary>
-    public partial class ThrottleSlider : UserControl, INotifyPropertyChanged
+    public partial class ThrottleSlider : UserControl
     {
         public ThrottleSlider()
         {
@@ -28,13 +30,9 @@ namespace FlightSimulatorApp.Views
 
         private void MySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int val = Convert.ToInt32(e.NewValue);
-            string msg = String.Format("Throttle: {0}", val);
+            double val = Convert.ToDouble(e.NewValue);
+            string msg = String.Format("Throttle: {0}", Math.Round(val, 2));
             this.TheValue.Text = msg;
-            ThrottleValue = ThrottleSlider1.Value;
-
-           
-
         }
 
         public double ThrottleValue

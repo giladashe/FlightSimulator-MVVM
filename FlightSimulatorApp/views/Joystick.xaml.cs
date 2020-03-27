@@ -21,7 +21,7 @@ namespace FlightSimulatorApp.Views
     /// <summary>
     /// Interaction logic for Joystick.xaml
     /// </summary>
-    public partial class Joystick : UserControl , INotifyPropertyChanged 
+    public partial class Joystick : UserControl
     {
         /// <summary>Current Rudder</summary>
         public static readonly DependencyProperty RudderProperty =

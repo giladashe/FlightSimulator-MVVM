@@ -24,62 +24,137 @@ namespace FlightSimulatorApp.Views
     public partial class DashBoard : UserControl
     {
 
-       
-        public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private double _airSpeed;
+
+        /*private double _airSpeed;
         private double _altitude;
         private double _roll;
         private double _pitch;
         private double _altimeter;
         private double _headingDegrees;
         private double _groundSpeed;
-        private double _verticalSpeed;
+        private double _verticalSpeed;*/
         /*private DashBoardViewModel _vmDash;*/
         public DashBoard()
         {
             InitializeComponent();
-            /*this._vmDash = vmDash;
-            DataContext = _vmDash;*/
+           /* AirSpeedText.Text = Convert.ToString(AirSpeed);
+            AltitudeText.Text = Convert.ToString(Altitude);
+            RollText.Text = Convert.ToString(Roll);
+            PitchText.Text = Convert.ToString(Pitch);
+            AltimeterText.Text = Convert.ToString(Altimeter);
+            HeadingDegText.Text = Convert.ToString(HeadingDegrees);
+            GroundSpeedText.Text = Convert.ToString(GroundSpeed);
+            VerticalSpeedText.Text = Convert.ToString(VerticalSpeed);*/
         }
 
-        /*public double Throttle
-        {
-            get { return throttle; }
-            set
-            {
-                if (value > 1)
-                {
-                    value = 1;
-                }
-                else if (value < 0)
-                {
-                    value = 0;
-                }
-                throttle = value;
-                this.updateDataFromSliders.Enqueue("set /controls/engines/current-engine/throttle " + throttle + "\n");
-            }
-        }*/
 
-        /*while (this.dataFromSliders.GetQueueOfSetDataFromJoystick().Count > 0)
-                    {
-            message_to_server = this.dataFromJoystick.GetQueueOfSetDataFromJoystick().Dequeue();
-            mutex.WaitOne();
-            WriteToServer(message_to_server);
-            message_to_server = ReadFromServer();
-            mutex.ReleaseMutex();
-            message_to_server = "";
-        }*/
+        /*  public double AirSpeed
+          {
+              get { return (double)GetValue(AirSpeedProperty); }
+              set
+              {
+                  SetValue(AirSpeedProperty, value);
+              }
+          }
 
-        public double AirSpeed { get => this._vmDash.VM_Airspeed_indicator_indicated_speed_kt; set => _airSpeed = value; }
-        public double Altitude { get => _vmDash.VM_Gps_indicated_altitude_ft; set => _altitude = value; }
-        public double Roll { get => _vmDash.VM_Attitude_indicator_internal_roll_deg; set => _roll = value; }
-        public double Pitch { get => _vmDash.VM_Attitude_indicator_internal_pitch_deg; set => _pitch = value; }
-        public double Altimeter { get => _vmDash.VM_Altimeter_indicated_altitude_ft; set => _altimeter = value; }
-        public double HeadingDegrees { get => _vmDash.VM_Indicated_heading_deg; set => _headingDegrees = value; }
-        public double GroundSpeed { get => _vmDash.VM_Gps_indicated_ground_speed_kt; set => _groundSpeed = value; }
-        public double VerticalSpeed { get => _vmDash.VM_Gps_indicated_vertical_speed; set => _verticalSpeed = value; }
+          public static readonly DependencyProperty AirSpeedProperty =
+              DependencyProperty.Register("AirSpeed", typeof(double), typeof(DashBoard));
 
+
+          public double Altitude
+          {
+              get { return (double)GetValue(AltitudeProperty); }
+              set
+              {
+                  SetValue(AltitudeProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty AltitudeProperty =
+              DependencyProperty.Register("Altitude", typeof(double), typeof(DashBoard));
+
+
+
+          public double Roll
+          {
+              get { return (double)GetValue(RollProperty); }
+              set
+              {
+                  SetValue(RollProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty RollProperty =
+              DependencyProperty.Register("Roll", typeof(double), typeof(DashBoard));
+
+
+          public double Pitch
+          {
+              get { return (double)GetValue(PitchProperty); }
+              set
+              {
+                  SetValue(PitchProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty PitchProperty =
+              DependencyProperty.Register("Pitch", typeof(double), typeof(DashBoard));
+
+
+          public double Altimeter
+          {
+              get { return (double)GetValue(AltimeterProperty); }
+              set
+              {
+                  SetValue(AltimeterProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty AltimeterProperty =
+              DependencyProperty.Register("Altimeter", typeof(double), typeof(DashBoard));
+
+
+          public double HeadingDegrees
+          {
+              get { return (double)GetValue(HeadingDegreesProperty); }
+              set
+              {
+                  SetValue(HeadingDegreesProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty HeadingDegreesProperty =
+              DependencyProperty.Register("HeadingDegrees", typeof(double), typeof(DashBoard));
+
+
+          public double GroundSpeed
+          {
+              get { return (double)GetValue(GroundSpeedProperty); }
+              set
+              {
+                  SetValue(GroundSpeedProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty GroundSpeedProperty =
+              DependencyProperty.Register("GroundSpeed", typeof(double), typeof(DashBoard));
+
+
+          public double VerticalSpeed
+          {
+              get { return (double)GetValue(VerticalSpeedProperty); }
+              set
+              {
+                  SetValue(VerticalSpeedProperty, value);
+              }
+          }
+
+          public static readonly DependencyProperty VerticalSpeedProperty =
+              DependencyProperty.Register("VerticalSpeed", typeof(double), typeof(DashBoard));
+
+      }
+  */
     }
 }

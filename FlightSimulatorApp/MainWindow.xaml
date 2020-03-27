@@ -9,21 +9,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="675" Width="1200">
     <Grid>
-
-        <Views:MyMap x:Name ="myMap"   />
-
-        <Views:DashBoard x:Name="myDashBoard"/>
-
-        <Viewbox Margin="576,0,0.2,0" >
-            <Views:AileronSlider Height="500" Width="1000" >
-
-            </Views:AileronSlider>
+        <Views:MyMap x:Name ="myMap"/>
+        <Viewbox Margin="538,0,-85.8,424" >
+            <Views:DashBoard x:Name="myDashBoard"  Height="410" Width="1015"
+                         />
+            
         </Viewbox>
-        
-        <Viewbox Margin="762,259,-102.8,-68">
-            <Views:Joystick x:Name="myJoystick" Elevator="{Binding Path=VM_Elevator, Mode=OneWayToSource}"  Height="815" Width="744" />
-        </Viewbox>
-
+        <Views:FlightControls x:Name="MyControls" RenderTransformOrigin="0.5,0.5" Margin="620,0,0.2,221" 
+                                                            
+                              >
+            <Views:FlightControls.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.5" Y="221"/>
+                </TransformGroup>
+            </Views:FlightControls.RenderTransform>
+        </Views:FlightControls>
+        <!--Elevator="{Binding Path=VM_Elevator, Mode=OneWayToSource}"  Height="815" Width="744"-->
 
     </Grid>
 </Window>

@@ -71,17 +71,20 @@
     <Compile Include="Views\Joystick.xaml.cs">
       <DependentUpon>Joystick.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ThrottleSlider.xaml.cs">
-      <DependentUpon>ThrottleSlider.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AileronSlider.xaml.cs">
       <DependentUpon>AileronSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThrottleSlider.xaml.cs">
+      <DependentUpon>ThrottleSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyMap.xaml.cs">
       <DependentUpon>MyMap.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DashBoard.xaml.cs">
       <DependentUpon>DashBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FlightControls.xaml.cs">
+      <DependentUpon>FlightControls.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -99,11 +102,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ThrottleSlider.xaml">
+    <Page Include="Views\AileronSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AileronSlider.xaml">
+    <Page Include="Views\ThrottleSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FlightControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
