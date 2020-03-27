@@ -25,7 +25,7 @@ namespace FlightSimulatorApp.ViewModel
         public double VM_rudder
         {
             set { _simulatorModel.Rudder = value; }
-        }
+        } 
         public double VM_throttle
         {
             set { _simulatorModel.Throttle = value; }

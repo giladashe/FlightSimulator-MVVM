@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,25 +26,34 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private object wheelsViewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-           // ITelnetClient telnet = new ();
-            MySimulatorModel model = new MySimulatorModel();
-
+            ITelnetClient telnet = ;
+            MySimulatorModel model = new MySimulatorModel(new TcpClient());
 
             // VM
            
             DashBoardViewModel DashVM = new DashBoardViewModel(model);
             MapViewModel mapViewModel = new MapViewModel(model);
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
-            myDashBoard.DataContext = DashVM;
-            MyControls.MyJoystick.DataContext = wheelsViewModel;
-            MyControls.MyAileronSlider.DataContext = wheelsViewModel;
-            MyControls.MyThrottleSlider.DataContext = wheelsViewModel;
-            model.Check();
-        }   
+
+            wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            {
+                this.wheelsViewModel.setJoystickValues(Point joystickValues);
+            }
+            else if () // throttleSlider
+            {
+                this.wheelsViewModel.setThrottle(double value);
+            }
+            else // aileronSlider
+            {
+                this.wheelsViewModel.setAileron(double value);
+            }
+        }
+        }*/
         
     }
 }

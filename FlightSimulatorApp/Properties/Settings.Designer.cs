@@ -8,27 +8,43 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FlightSimulatorApp.Properties
-{
-
-
+namespace FlightSimulatorApp.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-        //added some things that needs to be removed
-        public string FlightServerIP { get; internal set; }
-        public int FlightCommandPort { get; internal set; }
-        public int FlightInfoPort { get; internal set; }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string FlightServerIP {
+            get {
+                return ((string)(this["FlightServerIP"]));
+            }
+            set {
+                this["FlightServerIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5402")]
+        public int FlightInfoPort {
+            get {
+                return ((int)(this["FlightInfoPort"]));
+            }
+            set {
+                this["FlightInfoPort"] = value;
+            }
+        }
     }
 }
