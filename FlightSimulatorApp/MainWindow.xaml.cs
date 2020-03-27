@@ -40,6 +40,7 @@ namespace FlightSimulatorApp
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
             myDashBoard.DataContext = DashVM;
             MyControls.DataContext = wheelsViewModel;
+            myMap.DataContext = mapViewModel;
         }
     }
 }

@@ -18,24 +18,15 @@ namespace FlightSimulatorApp.ViewModel
             };
         }
 
-        /*public Point VM_Coordinate
+        public Point VM_Coordinate
         {
             get
             {
                 return _simulatorModel.Coordinate;
             }
-        }*/
+        }
 
         
-        public double VM_Lon
-        {
-            get { return _simulatorModel.Lon; }
-        }
-
-        public double VM_Lat
-        {
-            get { return _simulatorModel.Lat; }
-        }
         
         public event PropertyChangedEventHandler PropertyChanged;
 

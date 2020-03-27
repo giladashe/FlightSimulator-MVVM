@@ -33,6 +33,7 @@ namespace FlightSimulatorApp.Model
 		//private Point coordinate;
 		private double lon;
 		private double lat;
+		private Point coordinate;
 
 		public MySimulatorModel(TcpClient tcpClient)
 		{
@@ -96,10 +97,10 @@ namespace FlightSimulatorApp.Model
 
 					//  get map values
 					writeToServer("get /position/latitude-deg\n");
-					Lat = Double.Parse(readFromServer());
+					this.lat = Double.Parse(readFromServer());
 					writeToServer("get /position/longitude-deg\n");
-					Lon = Double.Parse(readFromServer());
-
+					this.lon = Double.Parse(readFromServer());
+					Coordinate = new Point(this.lat, this.lon);
 					mutex.ReleaseMutex();
 					Thread.Sleep(250);
 				}
@@ -139,14 +140,19 @@ namespace FlightSimulatorApp.Model
 				return this.dashBoardValues;
 			}
 		}
-
+*/
 		public Point Coordinate
 		{
+			set
+			{
+				this.coordinate = value;
+				NotifyPropertyChanged("Coordinate");
+			}
 			get
 			{
 				return this.coordinate;
 			}
-		}*/
+		}
 
 
 		public Queue<string> getQueueVariables()

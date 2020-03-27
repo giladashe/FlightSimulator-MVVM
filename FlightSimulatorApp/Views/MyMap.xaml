@@ -9,8 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <m:Map ZoomLevel="1.5" Center="32.002644, 34.888781" CredentialsProvider="TEEqcjvE2zOsnJOXaEoa~qLsEXv3B0UUVkh5et_wpGA~AianklKOQr0Urm4s37fDFXAxxyuvtZQQCXU2lWzrHr99KDTNE40Z82JaEfB0q3cv">
-            <m:Pushpin Location="32.002644, 34.888781" >
-
+            <m:Pushpin Location="{Binding Path=VM_Coordinate, Mode=OneWay}" >
                 <m:Pushpin.Background>
                     <ImageBrush ImageSource="airplane-icon.jpg">
                     </ImageBrush>

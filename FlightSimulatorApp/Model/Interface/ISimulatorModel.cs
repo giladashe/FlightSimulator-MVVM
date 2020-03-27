@@ -28,11 +28,11 @@ namespace FlightSimulatorApp.Model.Interface
 		
 
 		// map 
-		//Point Coordinate { get; }
+		Point Coordinate { get; }
 
 		
-		double Lon { set; get; }
-		double Lat { set; get; }
+		/*double Lon { set; get; }
+		double Lat { set; get; }*/
 		
 
 		// set wheels 
