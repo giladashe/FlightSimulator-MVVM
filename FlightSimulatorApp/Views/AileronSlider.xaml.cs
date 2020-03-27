@@ -31,6 +31,7 @@ namespace FlightSimulatorApp.Views
             double val = Convert.ToDouble(e.NewValue);
             string msg = String.Format("Aileron: {0}",Math.Round(val,2));
             this.TheValue.Text = msg;
+            AileronValue = val;
         }
 
         public double AileronValue

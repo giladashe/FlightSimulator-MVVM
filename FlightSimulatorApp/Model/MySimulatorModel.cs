@@ -77,28 +77,28 @@ namespace FlightSimulatorApp.Model
 					mutex.WaitOne();
 
 					//  get dashboard values
-					writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/gps/indicated-vertical-speed");
-					this.gps_indicated_vertical_speed = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/gps/indicated-ground-speed-kt");
-					this.gps_indicated_ground_speed_kt = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/gps/indicated-altitude-ft");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
-					writeToServer("get /instrumentation/altimeter/indicated-altitude-ft");
-					this.indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+					Indicated_heading_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
+					Gps_indicated_vertical_speed = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
+					Gps_indicated_ground_speed_kt = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+					Airspeed_indicator_indicated_speed_kt = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
+					Gps_indicated_altitude_ft = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+					Attitude_indicator_internal_roll_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+					Attitude_indicator_internal_pitch_deg = Double.Parse(readFromServer());
+					writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
+					Altimeter_indicated_altitude_ft = Double.Parse(readFromServer());
 
 					//  get map values
-					writeToServer("get /position/latitude-deg");
-					this.lat = Double.Parse(readFromServer());
-					writeToServer("get /position/longitude-deg");
-					this.lon = Double.Parse(readFromServer());
+					writeToServer("get /position/latitude-deg\n");
+					Lat = Double.Parse(readFromServer());
+					writeToServer("get /position/longitude-deg\n");
+					Lon = Double.Parse(readFromServer());
 
 					mutex.ReleaseMutex();
 					Thread.Sleep(250);
@@ -183,7 +183,7 @@ namespace FlightSimulatorApp.Model
 					value = 0;
 				}
 
-				this.updateVariablesQueue.Enqueue("set /controls/engines/throttle_idle " + value + "\n");
+				this.updateVariablesQueue.Enqueue("set /controls/engines/current-engine/throttle " + value + "\n");
 			}
 		}
 		public double Elevator
