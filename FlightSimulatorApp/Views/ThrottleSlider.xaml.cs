@@ -33,6 +33,7 @@ namespace FlightSimulatorApp.Views
             double val = Convert.ToDouble(e.NewValue);
             string msg = String.Format("Throttle: {0}", Math.Round(val, 2));
             this.TheValue.Text = msg;
+            ThrottleValue = val;
         }
 
         public double ThrottleValue

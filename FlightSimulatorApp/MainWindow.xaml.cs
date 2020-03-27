@@ -26,34 +26,20 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private object wheelsViewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            ITelnetClient telnet = ;
             MySimulatorModel model = new MySimulatorModel(new TcpClient());
-
+            model.connect("127.0.0.1", 5402);
+            model.start();
             // VM
-           
+
             DashBoardViewModel DashVM = new DashBoardViewModel(model);
             MapViewModel mapViewModel = new MapViewModel(model);
             WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
-
-            wheelsViewModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
-            {
-                this.wheelsViewModel.setJoystickValues(Point joystickValues);
-            }
-            else if () // throttleSlider
-            {
-                this.wheelsViewModel.setThrottle(double value);
-            }
-            else // aileronSlider
-            {
-                this.wheelsViewModel.setAileron(double value);
-            }
+            myDashBoard.DataContext = DashVM;
+            MyControls.DataContext = wheelsViewModel;
         }
-        }*/
-        
     }
 }

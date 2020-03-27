@@ -1,4 +1,5 @@
-﻿using FlightSimulatorApp.Model;
+﻿using FlightSimulator.Model;
+using FlightSimulatorApp.Model;
 using FlightSimulatorApp.Model.Interface;
 using System;
 using System.Collections.Generic;
