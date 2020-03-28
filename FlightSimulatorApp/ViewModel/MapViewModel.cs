@@ -18,11 +18,11 @@ namespace FlightSimulatorApp.ViewModel
             };
         }
 
-        public Point VM_Coordinate
+        public string VM_Coordinates
         {
             get
             {
-                return _simulatorModel.Coordinate;
+                return _simulatorModel.Coordinates;
             }
         }
 

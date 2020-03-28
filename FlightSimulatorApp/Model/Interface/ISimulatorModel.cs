@@ -28,7 +28,7 @@ namespace FlightSimulatorApp.Model.Interface
 		
 
 		// map 
-		Point Coordinate { get; }
+		string Coordinates { get; }
 
 		
 		/*double Lon { set; get; }

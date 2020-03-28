@@ -22,18 +22,18 @@ namespace FlightSimulatorApp.Views
     public partial class MyMap : UserControl
     {
         
-        private Point _location;
+        /*private Point _location;*/
        
         public MyMap()
         {
             InitializeComponent();
-            this._location = new Point(32.002644, 34.888781);
+            //this._location = new Point(32.002644, 34.888781);
         }
       
-        public Point Location
+       /* public Point Location
         {
             get { return _location; }
-            set { _location = value; }
-        }
+            set { pushPin.Location = value; }
+        }*/
     }
 }
