@@ -76,25 +76,25 @@ namespace FlightSimulatorApp.Model
             {
                 while (!stop)
                 {
-                    mutex.WaitOne();
+                    //mutex.WaitOne();
 
                     //  get dashboard values
                     writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                    Indicated_heading_deg = Math.Round(Double.Parse(readFromServer()),3);
+                    Indicated_heading_deg = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(readFromServer()),3);
+                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(readFromServer()),3);
+                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(readFromServer()),3);
+                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()),3);
+                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(readFromServer()),3);
+                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(readFromServer()),3);
+                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(readFromServer()), 3);
                     writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()),3);
+                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()), 3);
 
                     //  get map values
                     writeToServer("get /position/latitude-deg\n");
@@ -102,29 +102,41 @@ namespace FlightSimulatorApp.Model
                     writeToServer("get /position/longitude-deg\n");
                     lon = Double.Parse(readFromServer());
                     Coordinates = Convert.ToString(lat + "," + lon);
-                    mutex.ReleaseMutex();
+                    /*mutex.ReleaseMutex();*/
+
+                    while (this.getQueueVariables().Count > 0)
+                    {
+                        message = this.getQueueVariables().Dequeue();
+                        //mutex.WaitOne();
+                        writeToServer(message);
+                        message = readFromServer();
+                        //mutex.ReleaseMutex();
+                        message = "";
+                        //Thread.Sleep(250);
+                    }
                     Thread.Sleep(250);
                 }
             }).Start();
+        }
 
             // writing
-            new Thread(delegate ()
+            /*new Thread(delegate ()
             {
                 while (!stop)
                 {
                     while (this.getQueueVariables().Count > 0)
                     {
                         message = this.getQueueVariables().Dequeue();
-                        mutex.WaitOne();
+                        //mutex.WaitOne();
                         writeToServer(message);
                         message = readFromServer();
-                        mutex.ReleaseMutex();
+                        //mutex.ReleaseMutex();
                         message = "";
                         //Thread.Sleep(250);
                     }
                 }
             }).Start();
-        }
+        }*/
 
         public event PropertyChangedEventHandler PropertyChanged;
 
