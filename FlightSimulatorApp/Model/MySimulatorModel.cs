@@ -80,21 +80,21 @@ namespace FlightSimulatorApp.Model
 
                     //  get dashboard values
                     writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                    Indicated_heading_deg = Double.Parse(readFromServer());
+                    Indicated_heading_deg = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                    Gps_indicated_vertical_speed = Double.Parse(readFromServer());
+                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    Gps_indicated_ground_speed_kt = Double.Parse(readFromServer());
+                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                    Airspeed_indicator_indicated_speed_kt = Double.Parse(readFromServer());
+                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                    Gps_indicated_altitude_ft = Double.Parse(readFromServer());
+                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                    Attitude_indicator_internal_roll_deg = Double.Parse(readFromServer());
+                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                    Attitude_indicator_internal_pitch_deg = Double.Parse(readFromServer());
+                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(readFromServer()),3);
                     writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                    Altimeter_indicated_altitude_ft = Double.Parse(readFromServer());
+                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()),3);
 
                     //  get map values
                     writeToServer("get /position/latitude-deg\n");

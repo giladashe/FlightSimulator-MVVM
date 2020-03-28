@@ -9,15 +9,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="675" Width="1200">
     <Grid>
-        <Views:MyMap x:Name ="myMap"/>
-        <Viewbox Margin="538,0,-85.8,424" >
-            <Views:DashBoard x:Name="myDashBoard"  Height="410" Width="1015"
-                         />
-            
+        <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-350,-153,138.2,-267" Height="1068" VerticalAlignment="Top">
+            <Views:MyMap.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Views:MyMap.RenderTransform>
+        </Views:MyMap>
+        <Viewbox Margin="538,0,-195,414" >
+            <Views:DashBoard x:Name="myDashBoard"  Height="392" Width="900"/>
         </Viewbox>
-        <Views:FlightControls x:Name="MyControls" RenderTransformOrigin="0.5,0.5" Margin="620,0,0.2,221" 
-                                                            
-                              >
+        <Views:FlightControls x:Name="MyControls" RenderTransformOrigin="0.5,0.5" Margin="701,0,0.2,221">
             <Views:FlightControls.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
