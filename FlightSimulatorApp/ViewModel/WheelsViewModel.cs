@@ -12,7 +12,7 @@ namespace FlightSimulatorApp.ViewModel
 
 		public WheelsViewModel (ISimulatorModel simulatorModel)
 		{
-			this._simulatorModel = simulatorModel;
+			_simulatorModel = simulatorModel;
 		}
         public double VM_aileron
         {

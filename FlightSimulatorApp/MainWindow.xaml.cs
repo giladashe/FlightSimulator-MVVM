@@ -26,21 +26,68 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        private ISimulatorModel _model;
+        /*private bool isConnected;*/
+        private ConnectWindowViewModel _connectViewModel;
         public MainWindow()
         {
             InitializeComponent();
-            MySimulatorModel model = new MySimulatorModel(new TcpClient());
-            model.connect("127.0.0.1", 5402);
-            model.start();
+           /* isConnected = false;*/
+            _model = new MySimulatorModel();
+            /* model.connect("127.0.0.1", 5402);
+             model.start();*/
             // VM
 
-            DashBoardViewModel DashVM = new DashBoardViewModel(model);
-            MapViewModel mapViewModel = new MapViewModel(model);
-            WheelsViewModel wheelsViewModel = new WheelsViewModel(model);
+            DashBoardViewModel DashVM = new DashBoardViewModel(_model);
+            MapViewModel mapViewModel = new MapViewModel(_model);
+            WheelsViewModel wheelsViewModel = new WheelsViewModel(_model);
+            _connectViewModel = new ConnectWindowViewModel(_model);
             myDashBoard.DataContext = DashVM;
             MyControls.DataContext = wheelsViewModel;
             myMap.DataContext = mapViewModel;
+            disconnectButton.IsEnabled = false;
+        }
+
+        private void connectButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*   if (!isConnected)
+               {
+                   ConnectWindow cW = new ConnectWindow(_model);
+                   cW.Show();
+                   if (cW.IsConnected)
+                   {
+                       isConnected = true;
+                       cW.Close();
+                   }
+               }
+               else
+               {
+                   Warning.Content = "Disconnect first!!";
+               }*/
+
+            ConnectWindow cW = new ConnectWindow(_model);
+            cW.DataContext = _connectViewModel;
+            cW.Show();
+            connectButton.IsEnabled = false;
+            disconnectButton.IsEnabled = true;
+            /*Warning.Content = "Disconnect first!!";*/
+
+        }
+
+        private void disconnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*if (!connectButton.IsEnabled)
+            {*/
+            _model.disconnect();
+            disconnectButton.IsEnabled = false;
+            connectButton.IsEnabled = true;
+            //Warning.Content = "";
+            // isConnected = false;
+            //}
+            /*  else
+              {
+                  Warning.Content = "Connect first!!";
+              }*/
         }
     }
 }

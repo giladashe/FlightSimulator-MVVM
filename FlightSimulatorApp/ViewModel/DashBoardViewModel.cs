@@ -7,7 +7,7 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class DashBoardViewModel : INotifyPropertyChanged
 	{
-		private MySimulatorModel _simulatorModel;
+		private ISimulatorModel _simulatorModel;
 
 		// no need - maybe for binding 
 		/*private double VM_indicated_heading_deg;
@@ -19,7 +19,7 @@ namespace FlightSimulatorApp.ViewModel
 		private double VM_attitude_indicator_internal_pitch_deg;
 		private double VM_altimeter_indicated_altitude_ft;*/
 
-		public DashBoardViewModel(MySimulatorModel simulatorModel)
+		public DashBoardViewModel(ISimulatorModel simulatorModel)
 		{
 			this._simulatorModel = simulatorModel;
 			_simulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)

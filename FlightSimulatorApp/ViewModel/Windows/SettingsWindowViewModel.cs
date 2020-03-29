@@ -14,42 +14,42 @@ namespace FlightSimulatorApp.ViewModel.Windows
 {
     public class SettingsWindowViewModel : INotifyPropertyChanged
     {
-        private ISettingsModel model;
+        private ISimulatorModel _model;
 
-        public SettingsWindowViewModel(ISettingsModel model)
+        public SettingsWindowViewModel(ISimulatorModel model)
         {
-            this.model = model;
+            this._model = model;
         }
 
         public string FlightServerIP
         {
-            get { return model.FlightServerIP; }
+            get { return _model.FlightServerIP; }
             set
             {
-                model.FlightServerIP = value;
+                _model.FlightServerIP = value;
                 NotifyPropertyChanged("FlightServerIP");
             }
         }
 
-        public int FlightInfoPort
+        public string FlightInfoPort
         {
-            get { return model.FlightInfoPort; }
+            get { return _model.FlightInfoPort; }
             set
             {
-                model.FlightInfoPort = value;
+                _model.FlightInfoPort = value;
                 NotifyPropertyChanged("FlightInfoPort");
             }
         }
 
 
-        public void SaveSettings()
+    /*    public void SaveSettings()
         {
-            model.SaveSettings();
+            _model.SaveSettings();
         }
 
         public void ReloadSettings()
         {
-            model.ReloadSettings();
+            _model.ReloadSettings();
         }
 
         #region Commands
@@ -64,7 +64,7 @@ namespace FlightSimulatorApp.ViewModel.Windows
         }
         private void OnClick()
         {
-            model.SaveSettings();
+            _model.SaveSettings();
         }
         #endregion
 
@@ -79,10 +79,10 @@ namespace FlightSimulatorApp.ViewModel.Windows
         }
         private void OnCancel()
         {
-            model.ReloadSettings();
+            _model.ReloadSettings();
         }
         #endregion
-        #endregion
+        #endregion*/
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)

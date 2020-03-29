@@ -8,8 +8,14 @@
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="675" Width="1200">
-    <Grid>
-        <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-350,-153,138.2,-267" Height="1068" VerticalAlignment="Top">
+    <Grid Background="CadetBlue">
+        <TextBlock Text="Flight Simulator" FontSize="40" Margin="0,0,499.2,548" HorizontalAlignment="Center" FontFamily="Gisha" FontWeight="Bold"/>
+        <Button x:Name="connectButton" Margin="50,58,957.2,538" FontSize="30" Click="connectButton_Click">Connect
+        </Button>
+        <Label Name="Warning" FontSize="25" Margin="243,58,744.2,538" />
+        <Button x:Name="disconnectButton" Margin="456,58,540.2,538" FontSize="30" Click="disconnectButton_Click">Disconnect
+        </Button>
+        <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-350,-153,138.2,-267" Height="1068" VerticalAlignment="Top" FontWeight="Bold">
             <Views:MyMap.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>

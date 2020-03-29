@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
@@ -14,7 +15,8 @@ namespace FlightSimulatorApp.Model
         volatile Boolean stop;
         private Queue<string> updateVariablesQueue = new Queue<string>();
         private String message;
-        private static Mutex mutex;
+        /*        private static Mutex mutex;
+        */
         private NetworkStream stream;
 
         // dashboard
@@ -27,6 +29,26 @@ namespace FlightSimulatorApp.Model
         private double attitude_indicator_internal_roll_deg;
         private double attitude_indicator_internal_pitch_deg;
         private double altimeter_indicated_altitude_ft;
+        private string port;
+        private string ip;
+
+        public string FlightServerIP
+        {
+            get { return ip; }
+            set { ip = value; }
+        }
+
+        public string FlightInfoPort
+        {
+            get { return port; }
+            set
+            {
+                port = value;
+                connect(ip, Convert.ToInt32(port));
+                start();
+            }
+        }
+
 
 
         // map 
@@ -35,16 +57,20 @@ namespace FlightSimulatorApp.Model
         private double lat;
         private string coordinates;
 
-        public MySimulatorModel(TcpClient tcpClient)
+        public MySimulatorModel()
         {
-            this.tcpClient = tcpClient;
+            this.tcpClient = null;
             this.stop = false;
-            mutex = new Mutex();
+            /*  mutex = new Mutex();*/
+            this.ip = ConfigurationManager.AppSettings["ip"];
+            this.port = ConfigurationManager.AppSettings["port"];
             //coordinate = new Point(0, 0);
         }
 
         public void connect(string ip, int port)
         {
+            stop = false;
+            this.tcpClient = new TcpClient();
             tcpClient.Connect(ip, port);
             this.stream = this.tcpClient.GetStream();
         }
@@ -52,7 +78,9 @@ namespace FlightSimulatorApp.Model
         {
             stop = true;
             this.stream.Close();
+            this.tcpClient.Dispose();
             this.tcpClient.Close();
+            //this.tcpClient.Close();
             //tcpClient.Dispose();
         }
         public void writeToServer(String message)
@@ -119,24 +147,24 @@ namespace FlightSimulatorApp.Model
             }).Start();
         }
 
-            // writing
-            /*new Thread(delegate ()
+        // writing
+        /*new Thread(delegate ()
+        {
+            while (!stop)
             {
-                while (!stop)
+                while (this.getQueueVariables().Count > 0)
                 {
-                    while (this.getQueueVariables().Count > 0)
-                    {
-                        message = this.getQueueVariables().Dequeue();
-                        //mutex.WaitOne();
-                        writeToServer(message);
-                        message = readFromServer();
-                        //mutex.ReleaseMutex();
-                        message = "";
-                        //Thread.Sleep(250);
-                    }
+                    message = this.getQueueVariables().Dequeue();
+                    //mutex.WaitOne();
+                    writeToServer(message);
+                    message = readFromServer();
+                    //mutex.ReleaseMutex();
+                    message = "";
+                    //Thread.Sleep(250);
                 }
-            }).Start();
-        }*/
+            }
+        }).Start();
+    }*/
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -198,6 +226,7 @@ namespace FlightSimulatorApp.Model
                 this.updateVariablesQueue.Enqueue("set /controls/engines/current-engine/throttle " + value + "\n");
             }
         }
+
         public double Elevator
         {
             set

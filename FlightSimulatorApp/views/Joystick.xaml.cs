@@ -40,9 +40,9 @@ namespace FlightSimulatorApp.Views
             DependencyProperty.Register("ElevatorStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
 
         /* Unstable - needs work */
-        ///// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-        //public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
-        //    DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(VirtualJoystick), new PropertyMetadata(true));
+        /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
+        public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
+            DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(Joystick), new PropertyMetadata(true));
 
          //TODO: CHECK RANGE
         public double Rudder
@@ -81,11 +81,11 @@ namespace FlightSimulatorApp.Views
         }
 
         /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-        //public bool ResetKnobAfterRelease
-        //{
-        //    get { return Convert.ToBoolean(GetValue(ResetKnobAfterReleaseProperty)); }
-        //    set { SetValue(ResetKnobAfterReleaseProperty, value); }
-        //}
+        public bool ResetKnobAfterRelease
+        {
+            get { return Convert.ToBoolean(GetValue(ResetKnobAfterReleaseProperty)); }
+            set { SetValue(ResetKnobAfterReleaseProperty, value); }
+        }
 
         /// <summary>Delegate holding data for joystick state change</summary>
         /// <param name="sender">The object that fired the event</param>

@@ -12,11 +12,12 @@ namespace FlightSimulatorApp.Model.Interface
 		void start();
 
 
+
+		string FlightServerIP { get; set; }          // The IP Of the Flight Server
+		string FlightInfoPort { get; set; }            // The Port of the Flight Server
+
 		// dashboard
 
-		//double [] DashBoardValues { get; }
-
-		
 		double Indicated_heading_deg { set; get; }
 		double Gps_indicated_vertical_speed { set; get; }
 		double Gps_indicated_ground_speed_kt { set; get; }
@@ -30,10 +31,6 @@ namespace FlightSimulatorApp.Model.Interface
 		// map 
 		string Coordinates { get; }
 
-		
-		/*double Lon { set; get; }
-		double Lat { set; get; }*/
-		
 
 		// set wheels 
 
