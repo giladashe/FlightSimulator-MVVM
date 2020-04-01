@@ -32,6 +32,15 @@
         </TextBlock>
         <Slider x:Name="MyAileronSlider" Orientation="Vertical" Background="Navy" Grid.Column="1"
                 Minimum="-1" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.1" 
-                ValueChanged="MySlider_ValueChanged" Width="30" Margin="369,0,361,56" Grid.RowSpan="3" />
+                ValueChanged="MySlider_ValueChanged" Width="30" Margin="369,0,361,4" Grid.RowSpan="3" RenderTransformOrigin="0.5,0.5" >
+            <Slider.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.028"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Slider.RenderTransform>
+        </Slider>
     </Grid>
 </UserControl>

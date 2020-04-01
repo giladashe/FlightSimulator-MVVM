@@ -142,15 +142,17 @@ namespace FlightSimulatorApp.Views
             if (!Knob.IsMouseCaptured) return;
 
             Point newPos = e.GetPosition(Base);
-
+            
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
 
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            Rudder = -deltaPos.Y;
-            Elevator = deltaPos.X;
+            Elevator = -deltaPos.Y;
+            Rudder = deltaPos.X;
 
+            /*            Rudder = 2* (deltaPos.X- 
+            */
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
 
@@ -161,6 +163,9 @@ namespace FlightSimulatorApp.Views
             Moved?.Invoke(this, new VirtualJoystickEventArgs { Rudder = Rudder, Elevator = Elevator });
             _prevRudder = Rudder;
             _prevElevator = Elevator;
+
+
+
 
         }
 

@@ -46,6 +46,8 @@ namespace FlightSimulatorApp
             MyControls.DataContext = wheelsViewModel;
             myMap.DataContext = mapViewModel;
             disconnectButton.IsEnabled = false;
+            MyControls.IsEnabled = false;
+            myMap.IsEnabled = false;
         }
 
         private void connectButton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +72,8 @@ namespace FlightSimulatorApp
             cW.Show();
             connectButton.IsEnabled = false;
             disconnectButton.IsEnabled = true;
+            MyControls.IsEnabled = true;
+            myMap.IsEnabled = true;
             /*Warning.Content = "Disconnect first!!";*/
 
         }
@@ -81,6 +85,8 @@ namespace FlightSimulatorApp
             _model.disconnect();
             disconnectButton.IsEnabled = false;
             connectButton.IsEnabled = true;
+            MyControls.IsEnabled = false;
+            myMap.IsEnabled = false;
             //Warning.Content = "";
             // isConnected = false;
             //}
