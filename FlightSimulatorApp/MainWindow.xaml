@@ -28,7 +28,7 @@
         <Viewbox Margin="538,0,-195,414" >
             <Views:DashBoard x:Name="myDashBoard"  Height="392" Width="900"/>
         </Viewbox>
-        <Views:FlightControls x:Name="MyControls" Margin="698,212,0.2,0" >
+        <Views:FlightControls x:Name="MyControls" Margin="698,216,0.2,0" >
             
         </Views:FlightControls>
         <!--Elevator="{Binding Path=VM_Elevator, Mode=OneWayToSource}"  Height="815" Width="744"-->

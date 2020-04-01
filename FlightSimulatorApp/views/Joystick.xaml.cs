@@ -31,20 +31,20 @@ namespace FlightSimulatorApp.Views
         public static readonly DependencyProperty ElevatorProperty =
             DependencyProperty.Register("Elevator", typeof(double), typeof(Joystick), null);
 
-        /// <summary>How often should be raised StickMove event in degrees</summary>
+       /* /// <summary>How often should be raised StickMove event in degrees</summary>
         public static readonly DependencyProperty RudderStepProperty =
             DependencyProperty.Register("RudderStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
 
         /// <summary>How often should be raised StickMove event in Elevator units</summary>
         public static readonly DependencyProperty ElevatorStepProperty =
             DependencyProperty.Register("ElevatorStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
-
+*/
         /* Unstable - needs work */
         /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-        public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
-            DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(Joystick), new PropertyMetadata(true));
+      /*  public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
+            DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(Joystick), new PropertyMetadata(true));*/
 
-         //TODO: CHECK RANGE
+        //TODO: CHECK RANGE
         public double Rudder
         {
             get { return Convert.ToDouble(GetValue(RudderProperty)); }
@@ -58,7 +58,7 @@ namespace FlightSimulatorApp.Views
         }
 
         /// <summary>How often should be raised StickMove event in degrees</summary>
-        public double RudderStep
+      /*  public double RudderStep
         {
             get { return Convert.ToDouble(GetValue(RudderStepProperty)); }
             set
@@ -78,14 +78,14 @@ namespace FlightSimulatorApp.Views
                 if (value < 1) value = 1; else if (value > 50) value = 50;
                 SetValue(ElevatorStepProperty, value);
             }
-        }
+        }*/
 
         /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-        public bool ResetKnobAfterRelease
+       /* public bool ResetKnobAfterRelease
         {
             get { return Convert.ToBoolean(GetValue(ResetKnobAfterReleaseProperty)); }
             set { SetValue(ResetKnobAfterReleaseProperty, value); }
-        }
+        }*/
 
         /// <summary>Delegate holding data for joystick state change</summary>
         /// <param name="sender">The object that fired the event</param>
@@ -110,7 +110,7 @@ namespace FlightSimulatorApp.Views
         private double canvasWidth, canvasHeight;
         private readonly Storyboard centerKnob;
 
-        
+
         public Joystick()
         {
             InitializeComponent();
@@ -136,28 +136,25 @@ namespace FlightSimulatorApp.Views
 
         private void Knob_MouseMove(object sender, MouseEventArgs e)
         {
-            ///!!!!!!!!!!!!!!!!!
-            /// YOU MUST CHANGE THE FUNCTION!!!!
-            ///!!!!!!!!!!!!!!
             if (!Knob.IsMouseCaptured) return;
 
             Point newPos = e.GetPosition(Base);
-            
+
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
 
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            Elevator = -deltaPos.Y;
-            Rudder = deltaPos.X;
+            //Elevator = -deltaPos.Y;
+            Elevator = -1 * (2 * ((deltaPos.Y + 124) / (124 + 124)) - 1);
+            // Rudder = deltaPos.X;
+            Rudder = 2 * ((deltaPos.X + 124) / (124 + 124)) - 1;
 
-            /*            Rudder = 2* (deltaPos.X- 
-            */
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
 
-            if (Moved == null ||
-                (!(Math.Abs(_prevRudder - Rudder) > RudderStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
+            if (Moved == null)// ||
+                //(!(Math.Abs(_prevRudder - Rudder) > RudderStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
                 return;
 
             Moved?.Invoke(this, new VirtualJoystickEventArgs { Rudder = Rudder, Elevator = Elevator });
