@@ -40,10 +40,10 @@ namespace FlightSimulatorApp
 
             DashBoardViewModel DashVM = new DashBoardViewModel(_model);
             MapViewModel mapViewModel = new MapViewModel(_model);
-            WheelsViewModel wheelsViewModel = new WheelsViewModel(_model);
+            ControlsViewModel controlsViewModel = new ControlsViewModel(_model);
             _connectViewModel = new ConnectWindowViewModel(_model);
             myDashBoard.DataContext = DashVM;
-            MyControls.DataContext = wheelsViewModel;
+            MyControls.DataContext = controlsViewModel;
             myMap.DataContext = mapViewModel;
             disconnectButton.IsEnabled = false;
             MyControls.IsEnabled = false;
@@ -68,6 +68,7 @@ namespace FlightSimulatorApp
                }*/
 
             ConnectWindow cW = new ConnectWindow(_model);
+            //this.Visibility = Visibility.Hidden;
             cW.DataContext = _connectViewModel;
             cW.Show();
             connectButton.IsEnabled = false;

@@ -1,5 +1,4 @@
-﻿using FlightSimulatorApp.Model.EventArgs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
@@ -23,92 +23,40 @@ namespace FlightSimulatorApp.Views
     /// </summary>
     public partial class Joystick : UserControl
     {
-        /// <summary>Current Rudder</summary>
-        public static readonly DependencyProperty RudderProperty =
-            DependencyProperty.Register("Rudder", typeof(double), typeof(Joystick), null);
 
-        /// <summary>Current Elevator</summary>
-        public static readonly DependencyProperty ElevatorProperty =
-            DependencyProperty.Register("Elevator", typeof(double), typeof(Joystick), null);
+        public static readonly DependencyProperty XProperty =
+            DependencyProperty.Register("X_Val", typeof(double), typeof(Joystick), null);
 
-       /* /// <summary>How often should be raised StickMove event in degrees</summary>
-        public static readonly DependencyProperty RudderStepProperty =
-            DependencyProperty.Register("RudderStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
 
-        /// <summary>How often should be raised StickMove event in Elevator units</summary>
-        public static readonly DependencyProperty ElevatorStepProperty =
-            DependencyProperty.Register("ElevatorStep", typeof(double), typeof(Joystick), new PropertyMetadata(1.0));
-*/
-        /* Unstable - needs work */
-        /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-      /*  public static readonly DependencyProperty ResetKnobAfterReleaseProperty =
-            DependencyProperty.Register(nameof(ResetKnobAfterRelease), typeof(bool), typeof(Joystick), new PropertyMetadata(true));*/
+        public static readonly DependencyProperty YProperty =
+            DependencyProperty.Register("Y_Val", typeof(double), typeof(Joystick), null);
 
-        //TODO: CHECK RANGE
-        public double Rudder
+        public double X_Val
         {
-            get { return Convert.ToDouble(GetValue(RudderProperty)); }
-            set { SetValue(RudderProperty, value); }
+            get { return Convert.ToDouble(GetValue(XProperty)); }
+            set { SetValue(XProperty, value); }
         }
 
-        public double Elevator
+        public double Y_Val
         {
-            get { return Convert.ToDouble(GetValue(ElevatorProperty)); }
-            set { SetValue(ElevatorProperty, value); }
+            get { return Convert.ToDouble(GetValue(YProperty)); }
+            set { SetValue(YProperty, value); }
         }
 
-        /// <summary>How often should be raised StickMove event in degrees</summary>
-      /*  public double RudderStep
-        {
-            get { return Convert.ToDouble(GetValue(RudderStepProperty)); }
-            set
-            {
-                //TODO: check range
-                if (value < 1) value = 1; else if (value > 90) value = 90;
-                SetValue(RudderStepProperty, Math.Round(value));
-            }
-        }
-
-        /// <summary>How often should be raised StickMove event in Elevator units</summary>
-        public double ElevatorStep
-        {
-            get { return Convert.ToDouble(GetValue(ElevatorStepProperty)); }
-            set
-            {
-                if (value < 1) value = 1; else if (value > 50) value = 50;
-                SetValue(ElevatorStepProperty, value);
-            }
-        }*/
-
-        /// <summary>Indicates whether the joystick knob resets its place after being released</summary>
-       /* public bool ResetKnobAfterRelease
-        {
-            get { return Convert.ToBoolean(GetValue(ResetKnobAfterReleaseProperty)); }
-            set { SetValue(ResetKnobAfterReleaseProperty, value); }
-        }*/
-
-        /// <summary>Delegate holding data for joystick state change</summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="args">Holds new values for Rudder and Elevator</param>
-        public delegate void OnScreenJoystickEventHandler(Joystick sender, VirtualJoystickEventArgs args);
-
-        /// <summary>Delegate for joystick events that hold no data</summary>
-        /// <param name="sender">The object that fired the event</param>
         public delegate void EmptyJoystickEventHandler(Joystick sender);
 
-        /// <summary>This event fires whenever the joystick moves</summary>
-        public event OnScreenJoystickEventHandler Moved;
-
-        /// <summary>This event fires once the joystick is released and its position is reset</summary>
         public event EmptyJoystickEventHandler Released;
 
-        /// <summary>This event fires once the joystick is captured</summary>
         public event EmptyJoystickEventHandler Captured;
 
         private Point _startPos;
-        private double _prevRudder, _prevElevator;
         private double canvasWidth, canvasHeight;
         private readonly Storyboard centerKnob;
+        private const double maxValX = 170;
+        private const double minValX = -170;
+        private const double maxValY = 170;
+        private const double minValY = -170;
+
 
 
         public Joystick()
@@ -125,9 +73,8 @@ namespace FlightSimulatorApp.Views
         private void Knob_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _startPos = e.GetPosition(Base);
-            _prevRudder = _prevElevator = 0;
-            canvasWidth = Base.ActualWidth - KnobBase.ActualWidth;
-            canvasHeight = Base.ActualHeight - KnobBase.ActualHeight;
+            canvasWidth = Base.ActualWidth;
+            canvasHeight = Base.ActualHeight;
             Captured?.Invoke(this);
             Knob.CaptureMouse();
 
@@ -142,28 +89,16 @@ namespace FlightSimulatorApp.Views
 
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
 
+            //if the distance is bigger than the size of the joystic it doesn't move
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            //Elevator = -deltaPos.Y;
-            Elevator = -1 * (2 * ((deltaPos.Y + 124) / (124 + 124)) - 1);
-            // Rudder = deltaPos.X;
-            Rudder = 2 * ((deltaPos.X + 124) / (124 + 124)) - 1;
+            //normalize X and y in [-1,1]
+            Y_Val = -1 * (2 * ((deltaPos.Y + maxValY) / (maxValY - minValY)) - 1);
+            X_Val = 2 * ((deltaPos.X + maxValX) / (maxValX - minValX)) - 1;
 
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
-
-            if (Moved == null)// ||
-                //(!(Math.Abs(_prevRudder - Rudder) > RudderStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
-                return;
-
-            Moved?.Invoke(this, new VirtualJoystickEventArgs { Rudder = Rudder, Elevator = Elevator });
-            _prevRudder = Rudder;
-            _prevElevator = Elevator;
-
-
-
-
         }
 
         private void Knob_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -174,18 +109,8 @@ namespace FlightSimulatorApp.Views
 
         private void centerKnob_Completed(object sender, EventArgs e)
         {
-            Rudder = Elevator = _prevRudder = _prevElevator = 0;
+            X_Val = Y_Val = 0;
             Released?.Invoke(this);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        // on notify of point 
-        public void NotifyPropertyChanged(string propName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
     }
 }

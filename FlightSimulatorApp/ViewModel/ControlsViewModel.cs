@@ -6,11 +6,11 @@ using System.Windows;
 
 namespace FlightSimulatorApp.ViewModel
 {
-	public class WheelsViewModel
+	public class ControlsViewModel
 	{
 		private ISimulatorModel _simulatorModel;
 
-		public WheelsViewModel (ISimulatorModel simulatorModel)
+		public ControlsViewModel (ISimulatorModel simulatorModel)
 		{
 			_simulatorModel = simulatorModel;
 		}

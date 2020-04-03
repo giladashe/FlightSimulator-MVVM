@@ -80,13 +80,14 @@ namespace FlightSimulatorApp.Model
             this.stream.Close();
             this.tcpClient.Dispose();
             this.tcpClient.Close();
-            //this.tcpClient.Close();
-            //tcpClient.Dispose();
         }
         public void writeToServer(String message)
         {
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-            this.stream.Write(data, 0, data.Length);
+            if (message != null)
+            {
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+                this.stream.Write(data, 0, data.Length);
+            }
         }
 
         public String readFromServer()

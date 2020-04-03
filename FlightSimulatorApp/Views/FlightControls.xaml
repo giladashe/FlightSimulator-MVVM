@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <local:Joystick x:Name="MyJoystick" Grid.ColumnSpan="2" Grid.RowSpan="5"
-                        Rudder="{Binding VM_rudder, Mode=OneWayToSource}" Elevator="{Binding VM_elevator, Mode=OneWayToSource}" RenderTransformOrigin="0.5,0.5" Margin="92,46,68,29.52" >
+                        X_Val="{Binding VM_rudder, Mode=OneWayToSource}" Y_Val="{Binding VM_elevator, Mode=OneWayToSource}" RenderTransformOrigin="0.5,0.5" Margin="92,46,68,29.52" >
             <local:Joystick.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -34,7 +34,7 @@
             </local:Joystick.RenderTransform>
         </local:Joystick>
         <TextBlock x:Name="RudderText" TextAlignment="Center" VerticalAlignment="Top"  FontSize="25" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Width="464" Height="65"><Run Text="&lt;"/><Run Text="--------"/><Run Text="Rudder --------&gt;"/></TextBlock>
-        <TextBlock x:Name="RudderValueText" TextAlignment="Center" VerticalAlignment="Top" FontSize="25" Grid.Row="0" Text="{Binding Rudder, Mode=OneWay, StringFormat={}{0:N2}}" 
+        <TextBlock x:Name="RudderValueText" TextAlignment="Center" VerticalAlignment="Top" FontSize="25" Grid.Row="0" Text="{Binding X_Val, Mode=OneWay, StringFormat={}{0:N2}}" 
                    Margin="63,28,37,0" Grid.ColumnSpan="2" Height="37"/>
         <TextBlock x:Name="ElevatorText" TextAlignment="Center"  FontSize="25" Grid.Row="2" HorizontalAlignment="Right" Margin="0,28.6,-190,11.6" Width="400" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.ColumnSpan="2">
             <TextBlock.RenderTransform>
@@ -46,7 +46,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="&lt;"/><Run Text="--------Elevator"/><Run Text=" --------&gt;"/></TextBlock>
         <TextBlock x:Name="ElevatorValueText" TextAlignment="Center"  FontSize="25" Grid.Row="2" HorizontalAlignment="Right" Margin="0,15.6,-146,8.6" Width="400" RenderTransformOrigin="0.5,0.5" Grid.Column="1"
-                   Text="{Binding Elevator, Mode=OneWay, StringFormat={}{0:N2}}" Grid.ColumnSpan="2">
+                   Text="{Binding Y_Val, Mode=OneWay, StringFormat={}{0:N2}}" Grid.ColumnSpan="2">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

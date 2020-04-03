@@ -27,15 +27,5 @@ namespace FlightSimulatorApp.Views
             ElevatorValueText.DataContext = MyJoystick;
 
         }
-
-        /*   public static readonly DependencyProperty RudderProperty =
-               DependencyProperty.Register("Rudder", typeof(double), typeof(Joystick), null);
-           public double Rudder
-           {
-               get { return MyJoystick.Rudder; }
-               set { MyJoystick.Rudder = value; }
-           }*/
-
-
     }
 }

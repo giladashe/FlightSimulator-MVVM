@@ -59,17 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\ApplicationSettingsModel.cs" />
-    <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\MySimulatorModel.cs" />
-    <Compile Include="Model\EventArgs\VirtualJoystickEventArgs.cs" />
-    <Compile Include="Model\Interface\ISettingsModel.cs" />
     <Compile Include="Model\Interface\ISimulatorModel.cs" />
     <Compile Include="ViewModel\ConnectWindowViewModel.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\MapViewModel.cs" />
-    <Compile Include="ViewModel\WheelsViewModel.cs" />
-    <Compile Include="ViewModel\Windows\SettingsWindowViewModel.cs" />
+    <Compile Include="ViewModel\ControlsViewModel.cs" />
     <Compile Include="Views\Joystick.xaml.cs">
       <DependentUpon>Joystick.xaml</DependentUpon>
     </Compile>
