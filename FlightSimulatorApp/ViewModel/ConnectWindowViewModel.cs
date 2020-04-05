@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.ViewModel
 {
-    class ConnectWindowViewModel : INotifyPropertyChanged
+    public class ConnectWindowViewModel : INotifyPropertyChanged
     {
-        private ISimulatorModel _model;
+        private readonly ISimulatorModel _model;
 
         public ConnectWindowViewModel(ISimulatorModel model)
         {

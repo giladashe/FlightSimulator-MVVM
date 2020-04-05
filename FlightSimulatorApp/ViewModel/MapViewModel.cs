@@ -7,7 +7,7 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class MapViewModel : INotifyPropertyChanged
     {
-        private ISimulatorModel _simulatorModel;
+        private readonly ISimulatorModel _simulatorModel;
 
         public MapViewModel (ISimulatorModel simulatorModel)
         {

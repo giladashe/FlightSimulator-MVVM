@@ -7,9 +7,9 @@ namespace FlightSimulatorApp.Model.Interface
 {
 	public interface ISimulatorModel : INotifyPropertyChanged
 	{
-		void connect(string ip, int port);
-		void disconnect();
-		void start();
+		void Connect(string ip, int port);
+		void Disconnect();
+		void Start();
 
 
 		// The IP Of the Flight Server.

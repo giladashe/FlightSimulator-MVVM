@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.ViewModel
 {
-    class ErrorViewModel : INotifyPropertyChanged
+    public class ErrorViewModel : INotifyPropertyChanged
     {
-        private ISimulatorModel _simulatorModel;
+        private readonly ISimulatorModel _simulatorModel;
 
         public ErrorViewModel (ISimulatorModel simulatorModel)
         {

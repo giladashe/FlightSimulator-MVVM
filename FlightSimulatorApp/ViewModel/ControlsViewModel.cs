@@ -8,7 +8,7 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class ControlsViewModel
 	{
-		private ISimulatorModel _simulatorModel;
+		private readonly ISimulatorModel _simulatorModel;
 
 		public ControlsViewModel (ISimulatorModel simulatorModel)
 		{

@@ -26,36 +26,33 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ISimulatorModel _model;
-        private ConnectWindowViewModel _connectViewModel;
+       /* private ISimulatorModel _model;
+        private ConnectWindowViewModel _connectViewModel;*/
         public MainWindow()
         {
             InitializeComponent();
-            _model = new MySimulatorModel();
+            //_model = new MySimulatorModel();
 
             // VM.
-
-            DashBoardViewModel DashVM = new DashBoardViewModel(_model);
-            MapViewModel mapViewModel = new MapViewModel(_model);
-            ControlsViewModel controlsViewModel = new ControlsViewModel(_model);
-            _connectViewModel = new ConnectWindowViewModel(_model);
-            ErrorViewModel errorViewModel = new ErrorViewModel(_model);
-            Warning.DataContext = errorViewModel;
-            myDashBoard.DataContext = DashVM;
-            MyControls.DataContext = controlsViewModel;
-            myMap.DataContext = mapViewModel;
-            longitudeText.DataContext = mapViewModel;
-            latitudeText.DataContext = mapViewModel;
-            placeText.DataContext = mapViewModel;
+            Warning.DataContext = (Application.Current as App).ErrorViewModel;
+            myDashBoard.DataContext = (Application.Current as App).DashVM;
+            MyControls.DataContext = (Application.Current as App).ControlsViewModel;
+            MapViewModel mapVm = (Application.Current as App).MapViewModel;
+            myMap.DataContext = mapVm;
+            longitudeText.DataContext = mapVm;
+            latitudeText.DataContext = mapVm;
+            placeText.DataContext = mapVm;
             disconnectButton.IsEnabled = false;
             MyControls.IsEnabled = false;
             myMap.IsEnabled = false;
         }
 
-        private void connectButton_Click(object sender, RoutedEventArgs e)
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            ConnectWindow cW = new ConnectWindow(_model);
-            cW.DataContext = _connectViewModel;
+            ConnectWindow cW = new ConnectWindow()
+            {
+                DataContext = (Application.Current as App).ConnectViewModel
+            };
             cW.Show();
             connectButton.IsEnabled = false;
             disconnectButton.IsEnabled = true;
@@ -63,9 +60,9 @@ namespace FlightSimulatorApp
             myMap.IsEnabled = true;
         }
 
-        private void disconnectButton_Click(object sender, RoutedEventArgs e)
+        private void DisconnectButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.disconnect();
+            (Application.Current as App).Model.Disconnect();
             disconnectButton.IsEnabled = false;
             connectButton.IsEnabled = true;
             MyControls.IsEnabled = false;

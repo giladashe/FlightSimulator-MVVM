@@ -10,10 +10,10 @@
         Title="MainWindow" Height="675" Width="1200">
     <Grid Background="CadetBlue">
         <TextBlock Text="Flight Simulator" FontSize="40" Margin="0,0,499.2,548" HorizontalAlignment="Center" FontFamily="Gisha" FontWeight="Bold"/>
-        <Button x:Name="connectButton" Margin="50,58,957.2,538" FontSize="30" Click="connectButton_Click" Background="#FF0FAE00" BorderBrush="#FF0A0202">Connect
+        <Button x:Name="connectButton" Margin="50,58,957.2,538" FontSize="30" Click="ConnectButton_Click" Background="#FF0FAE00" BorderBrush="#FF0A0202">Connect
         </Button>
         <TextBlock Name="Warning" FontSize="22" Margin="243,58,744.2,514" Text="{Binding VM_Error, Mode=OneWay}" FontFamily="Gisha" FontWeight="Bold" Foreground="#FFD82E2E" />
-        <Button x:Name="disconnectButton" Margin="456,58,540.2,538" FontSize="30" Click="disconnectButton_Click" Background="#FFC41616" BorderBrush="#FF0A0404">Disconnect
+        <Button x:Name="disconnectButton" Margin="456,58,540.2,538" FontSize="30" Click="DisconnectButton_Click" Background="#FFC41616" BorderBrush="#FF0A0404">Disconnect
         </Button>
         <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-347,-152,146.2,-262" Height="1062" VerticalAlignment="Top" FontWeight="Bold">
             <Views:MyMap.RenderTransform>

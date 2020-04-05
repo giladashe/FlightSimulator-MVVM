@@ -7,7 +7,7 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class DashBoardViewModel : INotifyPropertyChanged
 	{
-		private ISimulatorModel _simulatorModel;
+		private readonly ISimulatorModel _simulatorModel;
 
 		public DashBoardViewModel(ISimulatorModel simulatorModel)
 		{

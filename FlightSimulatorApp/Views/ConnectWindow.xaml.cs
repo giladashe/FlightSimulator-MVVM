@@ -13,7 +13,7 @@ namespace FlightSimulatorApp.Views
     {
        
 
-        public ConnectWindow(ISimulatorModel model)
+        public ConnectWindow () 
         {
             InitializeComponent();
         }

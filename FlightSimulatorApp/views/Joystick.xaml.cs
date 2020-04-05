@@ -110,7 +110,7 @@ namespace FlightSimulatorApp.Views
             centerKnob.Begin();
         }
 
-        private void centerKnob_Completed(object sender, EventArgs e)
+        private void CenterKnob_Completed(object sender, EventArgs e)
         {
             X_Val = Y_Val = 0;
             Released?.Invoke(this);

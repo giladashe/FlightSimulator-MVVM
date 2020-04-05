@@ -14,7 +14,7 @@ namespace FlightSimulatorApp.Model
     {
         private TcpClient tcpClient;
         volatile Boolean stop;
-        private Queue<string> updateVariablesQueue = new Queue<string>();
+        private readonly Queue<string> updateVariablesQueue = new Queue<string>();
         private String message;
         private NetworkStream stream;
 
@@ -46,8 +46,8 @@ namespace FlightSimulatorApp.Model
             set
             {
                 port = value;
-                connect(ip, Convert.ToInt32(port));
-                start();
+                Connect(ip, Convert.ToInt32(port));
+                Start();
             }
         }
 
@@ -71,13 +71,15 @@ namespace FlightSimulatorApp.Model
             this.port = ConfigurationManager.AppSettings["port"];
         }
 
-        public void connect(string ip, int port)
+        public void Connect(string ip, int port)
         {
             try
             {
                 stop = false;
-                this.tcpClient = new TcpClient();
-                this.tcpClient.ReceiveTimeout = 10000;
+                this.tcpClient = new TcpClient
+                {
+                    ReceiveTimeout = 10000
+                };
                 tcpClient.Connect(ip, port);
                 this.stream = this.tcpClient.GetStream();
             }
@@ -86,7 +88,7 @@ namespace FlightSimulatorApp.Model
                 this.Error = "Connection Error";
             }
         }
-        public void disconnect()
+        public void Disconnect()
         {
             stop = true;
             if (this.stream != null)
@@ -97,7 +99,7 @@ namespace FlightSimulatorApp.Model
             this.tcpClient.Dispose();
             this.tcpClient.Close();
         }
-        public void writeToServer(String message)
+        public void WriteToServer(String message)
         {
             if (this.stream == null)
             {
@@ -110,7 +112,7 @@ namespace FlightSimulatorApp.Model
             }
         }
 
-        public String readFromServer()
+        public String ReadFromServer()
         {
             if (this.stream == null)
             {
@@ -118,12 +120,11 @@ namespace FlightSimulatorApp.Model
                 return null;
             }
             Byte[] data = new Byte[256];
-            String responseData = String.Empty;
             Int32 bytes = stream.Read(data, 0, data.Length);
-            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+            String responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
             return responseData;
         }
-        public void start()
+        public void Start()
         {
             // Reading.
 
@@ -136,50 +137,51 @@ namespace FlightSimulatorApp.Model
                         String accepted = "";
 
                         //  Get dashboard values.
-                        writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "indicated_heading_deg");
-                        writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "gps_indicated_vertical_speed");
-                        writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "gps_indicated_ground_speed_kt");
-                        writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
-                        writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "gps_indicated_altitude_ft");
-                        writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "attitude_indicator_internal_roll_deg");
-                        writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "attitude_indicator_internal_pitch_deg");
-                        writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "altimeter_indicated_altitude_ft");
+                        WriteToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "indicated_heading_deg");
+                        WriteToServer("get /instrumentation/gps/indicated-vertical-speed\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "gps_indicated_vertical_speed");
+                        WriteToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "gps_indicated_ground_speed_kt");
+                        WriteToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
+                        WriteToServer("get /instrumentation/gps/indicated-altitude-ft\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "gps_indicated_altitude_ft");
+                        WriteToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "attitude_indicator_internal_roll_deg");
+                        WriteToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "attitude_indicator_internal_pitch_deg");
+                        WriteToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "altimeter_indicated_altitude_ft");
 
                         //  Get map values
-                        writeToServer("get /position/longitude-deg\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "longitude");
-                        writeToServer("get /position/latitude-deg\n");
-                        accepted = readFromServer();
-                        handleMessage(accepted, "latitude");
+                        WriteToServer("get /position/longitude-deg\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "longitude");
+                        WriteToServer("get /position/latitude-deg\n");
+                        accepted = ReadFromServer();
+                        HandleMessage(accepted, "latitude");
 
-                        while (this.getQueueVariables().Count > 0)
+                        while (this.GetQueueVariables().Count > 0)
                         {
-                            message = this.getQueueVariables().Dequeue();
-                            writeToServer(message);
-                            message = readFromServer();
+                            message = this.GetQueueVariables().Dequeue();
+                            WriteToServer(message);
+                            message = ReadFromServer();
                             message = "";
                         }
                         Thread.Sleep(250);
                     }
-                    catch (IOException e)
+                    catch (IOException)
                     {
+                        
                         this.Error = "Timeout passed,\n disconnect please.";
                         if (this.stream != null)
                         {
@@ -206,7 +208,7 @@ namespace FlightSimulatorApp.Model
         }
 
 
-        private void handleMessage(String accepted, String property)
+        private void HandleMessage(String accepted, String property)
         {
             if (accepted == "ERR\n")
             {
@@ -312,7 +314,7 @@ namespace FlightSimulatorApp.Model
         }
 
 
-        public Queue<string> getQueueVariables()
+        public Queue<string> GetQueueVariables()
         {
             return this.updateVariablesQueue;
         }
@@ -516,7 +518,7 @@ namespace FlightSimulatorApp.Model
                 this.latitude = value;
                 NotifyPropertyChanged("latitude");
                 coordinatePoint = new Point(this.Latitude, this.Longitude);
-                determinePlace(coordinatePoint);
+                DeterminePlace(coordinatePoint);
             }
             get
             {
@@ -524,7 +526,7 @@ namespace FlightSimulatorApp.Model
             }
         }
 
-        private void determinePlace (Point coordinates)
+        private void DeterminePlace (Point coordinates)
         {
             double lat = coordinates.X;
             double lon = coordinates.Y;
