@@ -12,11 +12,13 @@ namespace FlightSimulatorApp.Model.Interface
 		void start();
 
 
+		// The IP Of the Flight Server.
+		string FlightServerIP { get; set; }
 
-		string FlightServerIP { get; set; }          // The IP Of the Flight Server
-		string FlightInfoPort { get; set; }            // The Port of the Flight Server
+		// The Port of the Flight Server
+		string FlightInfoPort { get; set; }            
 
-		// dashboard
+		// Dashboard.
 
 		double Indicated_heading_deg { set; get; }
 		double Gps_indicated_vertical_speed { set; get; }
@@ -28,17 +30,19 @@ namespace FlightSimulatorApp.Model.Interface
 		double Altimeter_indicated_altitude_ft { set; get; }
 		
 
-		// map 
+		// Map. 
 		string Coordinates { get; }
 
 
-		// set wheels 
+		// Set controls. 
 
 		double Aileron { set; }
 		double Elevator { set; }
 		double Rudder { set; }
 		double Throttle { set; }
 
+		// Error. 
+		string Error { set; get; }
 	}
 
 }

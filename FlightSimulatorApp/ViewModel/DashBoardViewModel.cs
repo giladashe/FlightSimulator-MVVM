@@ -9,16 +9,6 @@ namespace FlightSimulatorApp.ViewModel
 	{
 		private ISimulatorModel _simulatorModel;
 
-		// no need - maybe for binding 
-		/*private double VM_indicated_heading_deg;
-		private double VM_gps_indicated_vertical_speed;
-		private double VM_gps_indicated_ground_speed_kt;
-		private double VM_airspeed_indicator_indicated_speed_kt;
-		private double VM_gps_indicated_altitude_ft;
-		private double VM_attitude_indicator_internal_roll_deg;
-		private double VM_attitude_indicator_internal_pitch_deg;
-		private double VM_altimeter_indicated_altitude_ft;*/
-
 		public DashBoardViewModel(ISimulatorModel simulatorModel)
 		{
 			this._simulatorModel = simulatorModel;
@@ -27,13 +17,6 @@ namespace FlightSimulatorApp.ViewModel
 				NotifyPropertyChanged("VM_" + e.PropertyName);
 			};
 		}
-
-		//Properties
-		/*public double[] VM_DashBoardValues
-		{
-			get { return _simulatorModel.DashBoardValues; }
-		}*/
-
 		
 		public double VM_Indicated_heading_deg
 		{

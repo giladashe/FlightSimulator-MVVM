@@ -89,11 +89,14 @@ namespace FlightSimulatorApp.Views
 
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
 
-            //if the distance is bigger than the size of the joystic it doesn't move
+            //If the distance is bigger than the size of the joystic it doesn't move.
+
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            //normalize X and y in [-1,1]
+
+            //Normalize X and y in [-1,1].
+
             Y_Val = -1 * (2 * ((deltaPos.Y + maxValY) / (maxValY - minValY)) - 1);
             X_Val = 2 * ((deltaPos.X + maxValX) / (maxValX - minValX)) - 1;
 

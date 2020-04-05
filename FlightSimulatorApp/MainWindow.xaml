@@ -12,7 +12,7 @@
         <TextBlock Text="Flight Simulator" FontSize="40" Margin="0,0,499.2,548" HorizontalAlignment="Center" FontFamily="Gisha" FontWeight="Bold"/>
         <Button x:Name="connectButton" Margin="50,58,957.2,538" FontSize="30" Click="connectButton_Click" Background="#FF0FAE00" BorderBrush="#FF0A0202">Connect
         </Button>
-        <Label Name="Warning" FontSize="25" Margin="243,58,744.2,538" />
+        <Label Name="Warning" FontSize="22" Margin="243,58,744.2,538" Content="{Binding VM_Error, Mode=OneWay}" BorderBrush="#FFDC2F2F" FontFamily="Gisha" FontWeight="Bold" Foreground="#FFD82E2E" />
         <Button x:Name="disconnectButton" Margin="456,58,540.2,538" FontSize="30" Click="disconnectButton_Click" Background="#FFC41616" BorderBrush="#FF0A0404">Disconnect
         </Button>
         <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-350,-153,138.2,-267" Height="1068" VerticalAlignment="Top" FontWeight="Bold">
@@ -29,9 +29,7 @@
             <Views:DashBoard x:Name="myDashBoard"  Height="392" Width="900"/>
         </Viewbox>
         <Views:FlightControls x:Name="MyControls" Margin="698,216,0.2,0" >
-            
-        </Views:FlightControls>
-        <!--Elevator="{Binding Path=VM_Elevator, Mode=OneWayToSource}"  Height="815" Width="744"-->
 
+        </Views:FlightControls>
     </Grid>
 </Window>

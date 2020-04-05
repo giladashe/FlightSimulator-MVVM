@@ -15,11 +15,9 @@ namespace FlightSimulatorApp.Model
         volatile Boolean stop;
         private Queue<string> updateVariablesQueue = new Queue<string>();
         private String message;
-        /*        private static Mutex mutex;
-        */
         private NetworkStream stream;
 
-        // dashboard
+        // Dashboard.
 
         private double indicated_heading_deg;
         private double gps_indicated_vertical_speed;
@@ -51,28 +49,36 @@ namespace FlightSimulatorApp.Model
 
 
 
-        // map 
-        //private Point coordinate;
-        private double lon;
-        private double lat;
+        // Map.
+
+        private double longitude;
+        private double latitude;
         private string coordinates;
+
+        //Error string.
+        private string error;
 
         public MySimulatorModel()
         {
             this.tcpClient = null;
             this.stop = false;
-            /*  mutex = new Mutex();*/
             this.ip = ConfigurationManager.AppSettings["ip"];
             this.port = ConfigurationManager.AppSettings["port"];
-            //coordinate = new Point(0, 0);
         }
 
         public void connect(string ip, int port)
         {
-            stop = false;
-            this.tcpClient = new TcpClient();
-            tcpClient.Connect(ip, port);
-            this.stream = this.tcpClient.GetStream();
+            try
+            {
+                stop = false;
+                this.tcpClient = new TcpClient();
+                tcpClient.Connect(ip, port);
+                this.stream = this.tcpClient.GetStream();
+            }
+            catch
+            {
+                this.Error = "Connection Error";
+            }
         }
         public void disconnect()
         {
@@ -100,72 +106,68 @@ namespace FlightSimulatorApp.Model
         }
         public void start()
         {
-            // reading
+            // Reading.
+
             new Thread(delegate ()
             {
                 while (!stop)
                 {
-                    //mutex.WaitOne();
-
-                    //  get dashboard values
-                    writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                    Indicated_heading_deg = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(readFromServer()), 3);
-                    writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(readFromServer()), 3);
-
-                    //  get map values
-                    writeToServer("get /position/latitude-deg\n");
-                    lat = Double.Parse(readFromServer());
-                    writeToServer("get /position/longitude-deg\n");
-                    lon = Double.Parse(readFromServer());
-                    Coordinates = Convert.ToString(lat + "," + lon);
-                    /*mutex.ReleaseMutex();*/
-
-                    while (this.getQueueVariables().Count > 0)
+                    try
                     {
-                        message = this.getQueueVariables().Dequeue();
-                        //mutex.WaitOne();
-                        writeToServer(message);
-                        message = readFromServer();
-                        //mutex.ReleaseMutex();
-                        message = "";
-                        //Thread.Sleep(250);
+                        String accepted = "";
+
+                        //  Get dashboard values.
+                        writeToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "indicated_heading_deg");
+                        writeToServer("get /instrumentation/gps/indicated-vertical-speed\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "gps_indicated_vertical_speed");
+                        writeToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "gps_indicated_ground_speed_kt");
+                        writeToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
+                        writeToServer("get /instrumentation/gps/indicated-altitude-ft\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "gps_indicated_altitude_ft");
+                        writeToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "attitude_indicator_internal_roll_deg");
+                        writeToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "attitude_indicator_internal_pitch_deg");
+                        writeToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "altimeter_indicated_altitude_ft");
+
+                        //  Get map values
+                        writeToServer("get /position/longitude-deg\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "longitude");
+                        writeToServer("get /position/latitude-deg\n");
+                        accepted = readFromServer();
+                        handleMessage(accepted, "latitude");
+
+                        while (this.getQueueVariables().Count > 0)
+                        {
+                            message = this.getQueueVariables().Dequeue();
+                            writeToServer(message);
+                            message = readFromServer();
+                            message = "";
+                        }
+                        Thread.Sleep(250);
                     }
-                    Thread.Sleep(250);
+                    catch
+                    {
+                        Console.WriteLine("problem with connecting to the server");
+                        this.stream.Flush();
+                        continue;
+                    }
                 }
             }).Start();
         }
-
-        // writing
-        /*new Thread(delegate ()
-        {
-            while (!stop)
-            {
-                while (this.getQueueVariables().Count > 0)
-                {
-                    message = this.getQueueVariables().Dequeue();
-                    //mutex.WaitOne();
-                    writeToServer(message);
-                    message = readFromServer();
-                    //mutex.ReleaseMutex();
-                    message = "";
-                    //Thread.Sleep(250);
-                }
-            }
-        }).Start();
-    }*/
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -174,7 +176,80 @@ namespace FlightSimulatorApp.Model
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        // notify and set in the server communication
+
+        private void handleMessage(String accepted, String property)
+        {
+            if (accepted == "ERR\n")
+            {
+                if (property == "longitude" || property == "latitude")
+                {
+                    this.Error = "ERR in MAP";
+                }
+                else
+                {
+                    this.Error = "ERR in DashBoard";
+
+                }
+            }
+            else
+            {
+                if (property == "indicated_heading_deg")
+                {
+                    Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "gps_indicated_vertical_speed")
+                {
+                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "gps_indicated_ground_speed_kt")
+                {
+                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "airspeed_indicator_indicated_speed_kt")
+                {
+                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "gps_indicated_altitude_ft")
+                {
+                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "attitude_indicator_internal_roll_deg")
+                {
+                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "attitude_indicator_internal_pitch_deg")
+                {
+                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "altimeter_indicated_altitude_ft")
+                {
+                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                }
+                else if (property == "longitude")
+                {
+                    longitude = Double.Parse(accepted);
+                }
+                else if (property == "latitude")
+                {
+                    latitude = Double.Parse(accepted);
+                    Coordinates = Convert.ToString(latitude + "," + longitude);
+                }
+            }
+        }
+        // Notify and set in the server communication.
+
+        public string Error
+        {
+            set
+            {
+                this.error = value;
+                NotifyPropertyChanged("Error");
+            }
+            get
+            {
+                return this.error;
+            }
+        }
 
         public string Coordinates
         {
@@ -363,24 +438,24 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
-                this.lon = value;
+                this.longitude = value;
                 NotifyPropertyChanged("lon");
             }
             get
             {
-                return this.lon;
+                return this.longitude;
             }
         }
         public double Lat
         {
             set
             {
-                this.lat = value;
+                this.latitude = value;
                 NotifyPropertyChanged("lat");
             }
             get
             {
-                return this.lat;
+                return this.latitude;
             }
         }
 

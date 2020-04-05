@@ -63,6 +63,7 @@
     <Compile Include="Model\Interface\ISimulatorModel.cs" />
     <Compile Include="ViewModel\ConnectWindowViewModel.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
+    <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MapViewModel.cs" />
     <Compile Include="ViewModel\ControlsViewModel.cs" />
     <Compile Include="Views\Joystick.xaml.cs">
