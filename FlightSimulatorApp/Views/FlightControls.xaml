@@ -34,7 +34,7 @@
             </local:Joystick.RenderTransform>
         </local:Joystick>
         <TextBlock x:Name="RudderText" TextAlignment="Center" VerticalAlignment="Top"  FontSize="25" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Width="464" Height="65"><Run Text="&lt;"/><Run Text="--------"/><Run Text="Rudder --------&gt;"/></TextBlock>
-        <TextBlock x:Name="RudderValueText" TextAlignment="Center" VerticalAlignment="Top" FontSize="25" Grid.Row="0" Text="{Binding X_Val, Mode=OneWay, StringFormat={}{0:N2}}" 
+        <TextBlock x:Name="RudderValueText" TextAlignment="Center" VerticalAlignment="Top" FontSize="25" Grid.Row="0" Text="{Binding X_Val, Mode=OneWay, StringFormat={}{0:N3}}" 
                    Margin="63,28,37,0" Grid.ColumnSpan="2" Height="37"/>
         <TextBlock x:Name="ElevatorText" TextAlignment="Center"  FontSize="25" Grid.Row="2" HorizontalAlignment="Right" Margin="0,28.6,-190,11.6" Width="400" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Grid.ColumnSpan="2">
             <TextBlock.RenderTransform>

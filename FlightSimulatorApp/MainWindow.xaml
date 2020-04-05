@@ -15,7 +15,7 @@
         <Label Name="Warning" FontSize="22" Margin="243,58,744.2,538" Content="{Binding VM_Error, Mode=OneWay}" BorderBrush="#FFDC2F2F" FontFamily="Gisha" FontWeight="Bold" Foreground="#FFD82E2E" />
         <Button x:Name="disconnectButton" Margin="456,58,540.2,538" FontSize="30" Click="disconnectButton_Click" Background="#FFC41616" BorderBrush="#FF0A0404">Disconnect
         </Button>
-        <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-350,-153,138.2,-267" Height="1068" VerticalAlignment="Top" FontWeight="Bold">
+        <Views:MyMap x:Name ="myMap" RenderTransformOrigin="0.5,0.5" Margin="-347,-152,146.2,-262" Height="1062" VerticalAlignment="Top" FontWeight="Bold">
             <Views:MyMap.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
@@ -28,8 +28,12 @@
         <Viewbox Margin="538,0,-195,414" >
             <Views:DashBoard x:Name="myDashBoard"  Height="392" Width="900"/>
         </Viewbox>
-        <Views:FlightControls x:Name="MyControls" Margin="698,216,0.2,0" >
-
-        </Views:FlightControls>
+        <Views:FlightControls x:Name="MyControls" Margin="698,216,0.2,0"/>
+        <Viewbox Margin="300,115,236.2,450" >
+            <TextBlock x:Name="latitudeText" FontSize="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding Path=VM_Latitude, Mode=OneWay, StringFormat={}{0:N3}\,}" Width="51" Height="29"/>
+        </Viewbox>
+        <Viewbox Margin="500,115,82.2,454" >
+            <TextBlock x:Name="longitudeText" FontSize="9" Text="{Binding Path=VM_Longitude, Mode=OneWay, StringFormat={}{0:N3}}" HorizontalAlignment="Right" Width="145" Height="30"/>
+        </Viewbox>
     </Grid>
 </Window>

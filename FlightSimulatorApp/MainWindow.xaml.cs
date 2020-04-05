@@ -44,6 +44,9 @@ namespace FlightSimulatorApp
             myDashBoard.DataContext = DashVM;
             MyControls.DataContext = controlsViewModel;
             myMap.DataContext = mapViewModel;
+            longitudeText.DataContext = mapViewModel;
+            latitudeText.DataContext = mapViewModel;
+            //coordinatesText.DataContext = mapViewModel;
             disconnectButton.IsEnabled = false;
             MyControls.IsEnabled = false;
             myMap.IsEnabled = false;

@@ -28,9 +28,11 @@ namespace FlightSimulatorApp.Model.Interface
 		double Attitude_indicator_internal_roll_deg { set; get; }
 		double Attitude_indicator_internal_pitch_deg { set; get; }
 		double Altimeter_indicated_altitude_ft { set; get; }
-		
+
 
 		// Map. 
+		double Longitude { get; }
+		double Latitude { get; }
 		string Coordinates { get; }
 
 

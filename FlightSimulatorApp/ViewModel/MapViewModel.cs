@@ -26,8 +26,23 @@ namespace FlightSimulatorApp.ViewModel
             }
         }
 
-        
-        
+        public double VM_Longitude
+
+        {
+            get
+            {
+                return _simulatorModel.Longitude;
+            }
+        }
+
+        public double VM_Latitude
+        {
+            get
+            {
+                return _simulatorModel.Latitude;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)

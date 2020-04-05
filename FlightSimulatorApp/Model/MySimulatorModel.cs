@@ -64,6 +64,9 @@ namespace FlightSimulatorApp.Model
             this.stop = false;
             this.ip = ConfigurationManager.AppSettings["ip"];
             this.port = ConfigurationManager.AppSettings["port"];
+            /*this.latitude = 32.0055;
+            this.longitude = 34.8854;
+            Coordinates = Convert.ToString(latitude + "," + longitude);*/
         }
 
         public void connect(string ip, int port)
@@ -83,13 +86,21 @@ namespace FlightSimulatorApp.Model
         public void disconnect()
         {
             stop = true;
-            this.stream.Close();
+            if (this.stream != null)
+            {
+                this.stream.Close();
+
+            }
             this.tcpClient.Dispose();
             this.tcpClient.Close();
         }
         public void writeToServer(String message)
         {
-            if (message != null)
+            if (this.stream == null)
+            {
+                this.Error = "First Server!!";
+            }
+            if (message != null && this.stream != null)
             {
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
                 this.stream.Write(data, 0, data.Length);
@@ -98,6 +109,11 @@ namespace FlightSimulatorApp.Model
 
         public String readFromServer()
         {
+            if (this.stream == null)
+            {
+                this.Error = "First Server!!";
+                return null;
+            }
             Byte[] data = new Byte[256];
             String responseData = String.Empty;
             Int32 bytes = stream.Read(data, 0, data.Length);
@@ -162,7 +178,10 @@ namespace FlightSimulatorApp.Model
                     catch
                     {
                         Console.WriteLine("problem with connecting to the server");
-                        this.stream.Flush();
+                        if (this.stream != null)
+                        {
+                            this.stream.Flush();
+                        }
                         continue;
                     }
                 }
@@ -227,11 +246,11 @@ namespace FlightSimulatorApp.Model
                 }
                 else if (property == "longitude")
                 {
-                    longitude = Double.Parse(accepted);
+                    Longitude = Double.Parse(accepted);
                 }
                 else if (property == "latitude")
                 {
-                    latitude = Double.Parse(accepted);
+                    Latitude = Double.Parse(accepted);
                     Coordinates = Convert.ToString(latitude + "," + longitude);
                 }
             }
@@ -434,24 +453,24 @@ namespace FlightSimulatorApp.Model
                 return this.altimeter_indicated_altitude_ft;
             }
         }
-        public double Lon
+        public double Longitude
         {
             set
             {
                 this.longitude = value;
-                NotifyPropertyChanged("lon");
+                NotifyPropertyChanged("longitude");
             }
             get
             {
                 return this.longitude;
             }
         }
-        public double Lat
+        public double Latitude
         {
             set
             {
                 this.latitude = value;
-                NotifyPropertyChanged("lat");
+                NotifyPropertyChanged("Latitude");
             }
             get
             {
