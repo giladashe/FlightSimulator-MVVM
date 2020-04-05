@@ -26,11 +26,10 @@ namespace FlightSimulatorApp
 
         void App_Startup(object sender, StartupEventArgs e)
         {
-
             Model = new MySimulatorModel();
-             DashVM = new DashBoardViewModel(Model);
-             MapViewModel = new MapViewModel(Model);
-             ControlsViewModel = new ControlsViewModel(Model);
+            DashVM = new DashBoardViewModel(Model);
+            MapViewModel = new MapViewModel(Model);
+            ControlsViewModel = new ControlsViewModel(Model);
             ConnectViewModel = new ConnectWindowViewModel(Model);
             ErrorViewModel = new ErrorViewModel(Model);
         }
