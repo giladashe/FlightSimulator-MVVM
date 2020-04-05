@@ -42,6 +42,14 @@ namespace FlightSimulatorApp.ViewModel
                 return _simulatorModel.Latitude;
             }
         }
+        public String VM_Place
+        {
+            get
+            {
+                return _simulatorModel.Place;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

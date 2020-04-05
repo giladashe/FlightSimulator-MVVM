@@ -34,6 +34,8 @@ namespace FlightSimulatorApp.Model.Interface
 		double Longitude { get; }
 		double Latitude { get; }
 		string Coordinates { get; }
+		string Place { set; get; }
+
 
 
 		// Set controls. 

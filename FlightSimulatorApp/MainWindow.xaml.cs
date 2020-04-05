@@ -46,7 +46,7 @@ namespace FlightSimulatorApp
             myMap.DataContext = mapViewModel;
             longitudeText.DataContext = mapViewModel;
             latitudeText.DataContext = mapViewModel;
-            //coordinatesText.DataContext = mapViewModel;
+            placeText.DataContext = mapViewModel;
             disconnectButton.IsEnabled = false;
             MyControls.IsEnabled = false;
             myMap.IsEnabled = false;
@@ -70,7 +70,6 @@ namespace FlightSimulatorApp
             connectButton.IsEnabled = true;
             MyControls.IsEnabled = false;
             myMap.IsEnabled = false;
-
         }
     }
 }

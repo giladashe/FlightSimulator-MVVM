@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
@@ -27,6 +28,9 @@ namespace FlightSimulatorApp.Model
         private double attitude_indicator_internal_roll_deg;
         private double attitude_indicator_internal_pitch_deg;
         private double altimeter_indicated_altitude_ft;
+
+        private string place;
+
         private string port;
         private string ip;
 
@@ -53,6 +57,7 @@ namespace FlightSimulatorApp.Model
 
         private double longitude;
         private double latitude;
+        private Point coordinatePoint;
         private string coordinates;
 
         //Error string.
@@ -64,9 +69,6 @@ namespace FlightSimulatorApp.Model
             this.stop = false;
             this.ip = ConfigurationManager.AppSettings["ip"];
             this.port = ConfigurationManager.AppSettings["port"];
-            /*this.latitude = 32.0055;
-            this.longitude = 34.8854;
-            Coordinates = Convert.ToString(latitude + "," + longitude);*/
         }
 
         public void connect(string ip, int port)
@@ -75,6 +77,7 @@ namespace FlightSimulatorApp.Model
             {
                 stop = false;
                 this.tcpClient = new TcpClient();
+                this.tcpClient.ReceiveTimeout = 10000;
                 tcpClient.Connect(ip, port);
                 this.stream = this.tcpClient.GetStream();
             }
@@ -175,9 +178,16 @@ namespace FlightSimulatorApp.Model
                         }
                         Thread.Sleep(250);
                     }
-                    catch
+                    catch (IOException e)
                     {
-                        Console.WriteLine("problem with connecting to the server");
+                        this.Error = "Timeout passed,\n disconnect please.";
+                        if (this.stream != null)
+                        {
+                            this.stream.Flush();
+                        }
+                    }
+                    catch 
+                    {
                         if (this.stream != null)
                         {
                             this.stream.Flush();
@@ -190,7 +200,7 @@ namespace FlightSimulatorApp.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propName)
+        public void NotifyPropertyChanged(string propName) 
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
@@ -251,6 +261,7 @@ namespace FlightSimulatorApp.Model
                 else if (property == "latitude")
                 {
                     Latitude = Double.Parse(accepted);
+
                     Coordinates = Convert.ToString(latitude + "," + longitude);
                 }
             }
@@ -269,6 +280,23 @@ namespace FlightSimulatorApp.Model
                 return this.error;
             }
         }
+
+        public string Place
+        {
+            set
+            {
+                if (this.place != value)
+                {
+                    this.place = value;
+                    NotifyPropertyChanged("place");
+                }
+            }
+            get
+            {
+                return this.place;
+            }
+        }
+
 
         public string Coordinates
         {
@@ -457,6 +485,14 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
+                while (value > 180)
+                {
+                    value -= 360;
+                }
+                while (value < -180)
+                {
+                    value += 360;
+                }
                 this.longitude = value;
                 NotifyPropertyChanged("longitude");
             }
@@ -469,12 +505,60 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
+                if (value < -90)
+                {
+                    value = -90;
+                }
+                else if (value > 90)
+                {
+                    value = 90;
+                }
                 this.latitude = value;
-                NotifyPropertyChanged("Latitude");
+                NotifyPropertyChanged("latitude");
+                coordinatePoint = new Point(this.Latitude, this.Longitude);
+                determinePlace(coordinatePoint);
             }
             get
             {
                 return this.latitude;
+            }
+        }
+
+        private void determinePlace (Point coordinates)
+        {
+            double lat = coordinates.X;
+            double lon = coordinates.Y;
+
+            if ((lat > 20 && lat < 80) && (lon > -150 && lon <= -90)){
+                this.Place = "We are in \n North America!";
+            }
+            else if ((lat > -60 && lat < 10) && (lon > -80 && lon < -35))
+            {
+                this.Place = "We are in \n South America!";
+            }
+            else if ((lat > -38 && lat < 30) && (lon > -20 && lon < 35))
+            {
+                this.Place = "We are in \n Africa!";
+            }
+            else if ((lat > 0 && lat < 80) && (lon > 30 && lon <= 180))
+            {
+                this.Place = "We are in \n Asia!";
+            }
+            else if ((lat > 40 && lat < 70) && (lon > -10 && lon < 30))
+            {
+                this.Place = "We are in \n Europe!";
+            }
+            else if ((lat > -50 && lat < -15) && (lon > 120 && lon < 150))
+            {
+                this.Place = "We are in \n Australia!";
+            }
+            else if ((lat >= -90 && lat < -70) && (lon >= -180 && lon <= 180))
+            {
+                this.Place = "We are in \n Antarctica!";
+            }
+            else 
+            {
+                this.Place = "We are above the Ocean,\n don't fall :)";
             }
         }
 
