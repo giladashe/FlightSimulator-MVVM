@@ -112,7 +112,7 @@ namespace FlightSimulatorApp.Model
             }
         }
 
-        public String ReadFromServer()
+        public string ReadFromServer()
         {
             if (this.stream == null)
             {
@@ -121,7 +121,7 @@ namespace FlightSimulatorApp.Model
             }
             Byte[] data = new Byte[256];
             Int32 bytes = stream.Read(data, 0, data.Length);
-            String responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+            string responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
             return responseData;
         }
         public void Start()
@@ -134,7 +134,7 @@ namespace FlightSimulatorApp.Model
                 {
                     try
                     {
-                        String accepted = "";
+                        string accepted = "";
 
                         //  Get dashboard values.
                         WriteToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
@@ -208,7 +208,7 @@ namespace FlightSimulatorApp.Model
         }
 
 
-        private void HandleMessage(String accepted, String property)
+        private void HandleMessage(string accepted, string property)
         {
             if (accepted == "ERR\n")
             {

@@ -1,8 +1,6 @@
-﻿using FlightSimulatorApp.Model.Interface;
-using System;
-using System.Configuration;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+
 
 namespace FlightSimulatorApp.Views
 {
@@ -20,6 +18,7 @@ namespace FlightSimulatorApp.Views
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            // Update IP and port when connect button is clicked.
             IpText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             PortText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             this.Close();

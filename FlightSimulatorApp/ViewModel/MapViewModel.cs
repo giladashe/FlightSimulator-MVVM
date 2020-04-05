@@ -1,7 +1,6 @@
 ﻿using FlightSimulatorApp.Model.Interface;
 using System;
 using System.ComponentModel;
-using System.Windows;
 
 namespace FlightSimulatorApp.ViewModel
 {
@@ -42,7 +41,7 @@ namespace FlightSimulatorApp.ViewModel
                 return _simulatorModel.Latitude;
             }
         }
-        public String VM_Place
+        public string VM_Place
         {
             get
             {

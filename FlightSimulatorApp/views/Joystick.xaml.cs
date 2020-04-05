@@ -1,29 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace FlightSimulatorApp.Views
 {
     /// <summary>
-    /// Interaction logic for Joystick.xaml
+    /// Interaction logic for Joystick.xaml.
     /// </summary>
     public partial class Joystick : UserControl
     {
-
+        // Looked at an open-source on https://github.com/shakram02/XamlVirtualJoystick/blob/master/WpfCustomControls/OnScreenJoystick.xaml.cs .
         public static readonly DependencyProperty XProperty =
             DependencyProperty.Register("X_Val", typeof(double), typeof(Joystick), null);
 
@@ -66,7 +55,7 @@ namespace FlightSimulatorApp.Views
             Knob.MouseLeftButtonDown += Knob_MouseLeftButtonDown;
             Knob.MouseLeftButtonUp += Knob_MouseLeftButtonUp;
             Knob.MouseMove += Knob_MouseMove;
-
+            
             centerKnob = Knob.Resources["CenterKnob"] as Storyboard;
         }
 
@@ -83,19 +72,20 @@ namespace FlightSimulatorApp.Views
 
         private void Knob_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!Knob.IsMouseCaptured) return;
+            if (!Knob.IsMouseCaptured)
+                return;
 
             Point newPos = e.GetPosition(Base);
 
             Point deltaPos = new Point(newPos.X - _startPos.X, newPos.Y - _startPos.Y);
 
-            //If the distance is bigger than the size of the joystic it doesn't move.
+            // If the distance is bigger than the size of the joystic it doesn't move.
 
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
 
-            //Normalize X and y in [-1,1].
+            // Normalize X and y in [-1,1].
 
             Y_Val = -1 * (2 * ((deltaPos.Y + maxValY) / (maxValY - minValY)) - 1);
             X_Val = 2 * ((deltaPos.X + maxValX) / (maxValX - minValX)) - 1;

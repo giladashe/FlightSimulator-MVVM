@@ -1,23 +1,7 @@
-﻿using FlightSimulatorApp.Model;
-using FlightSimulatorApp.Model.Interface;
-using FlightSimulatorApp.ViewModel;
+﻿using FlightSimulatorApp.ViewModel;
 using FlightSimulatorApp.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace FlightSimulatorApp
 {
@@ -26,14 +10,12 @@ namespace FlightSimulatorApp
     /// </summary>
     public partial class MainWindow : Window
     {
-       /* private ISimulatorModel _model;
-        private ConnectWindowViewModel _connectViewModel;*/
+     
         public MainWindow()
         {
             InitializeComponent();
-            //_model = new MySimulatorModel();
 
-            // VM.
+            // Data Context is the ViewModels that were instaniated at app start-up.
             Warning.DataContext = (Application.Current as App).ErrorViewModel;
             myDashBoard.DataContext = (Application.Current as App).DashVM;
             MyControls.DataContext = (Application.Current as App).ControlsViewModel;
@@ -49,6 +31,7 @@ namespace FlightSimulatorApp
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            // Open connection window - at first with default IP and port, or if changed the changed values.
             ConnectWindow cW = new ConnectWindow()
             {
                 DataContext = (Application.Current as App).ConnectViewModel
@@ -62,6 +45,7 @@ namespace FlightSimulatorApp
 
         private void DisconnectButton_Click(object sender, RoutedEventArgs e)
         {
+            // Disconnects from the server.
             (Application.Current as App).Model.Disconnect();
             disconnectButton.IsEnabled = false;
             connectButton.IsEnabled = true;

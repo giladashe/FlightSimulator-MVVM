@@ -1,7 +1,5 @@
-﻿using FlightSimulatorApp.ViewModel;
-using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.ComponentModel;
+
 
 namespace FlightSimulatorApp.Model.Interface
 {
