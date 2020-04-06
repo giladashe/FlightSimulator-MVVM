@@ -179,9 +179,9 @@ namespace FlightSimulatorApp.Model
                         }
                         Thread.Sleep(250);
                     }
-                    catch (IOException)
+                    catch (IOException e)
                     {
-
+                        //Israel
                         this.Error = "Timeout passed,\n disconnect please.";
                         if (this.stream != null)
                         {
