@@ -274,6 +274,7 @@ namespace FlightSimulatorApp.Model
                     this.Error = "ERR in DashBoard";
                 }
             }
+
             else
             {
                 this.Error = "Value isn't\n a double";
