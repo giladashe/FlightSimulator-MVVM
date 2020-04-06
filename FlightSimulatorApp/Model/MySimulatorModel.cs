@@ -181,14 +181,14 @@ namespace FlightSimulatorApp.Model
                     }
                     catch (IOException)
                     {
-                        
+
                         this.Error = "Timeout passed,\n disconnect please.";
                         if (this.stream != null)
                         {
                             this.stream.Flush();
                         }
                     }
-                    catch 
+                    catch
                     {
                         if (this.stream != null)
                         {
@@ -202,7 +202,7 @@ namespace FlightSimulatorApp.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propName) 
+        public void NotifyPropertyChanged(string propName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
@@ -210,7 +210,60 @@ namespace FlightSimulatorApp.Model
 
         private void HandleMessage(string accepted, string property)
         {
-            if (accepted == "ERR\n")
+            accepted = accepted.Substring(0, accepted.Length - 1); 
+            if (Double.TryParse(accepted, out double acceptedValue))
+            {
+                if (acceptedValue > Double.MaxValue || acceptedValue < Double.MinValue)
+                {
+                    this.Error = "Invalid value";
+                }
+                else
+                {
+                    if (property == "indicated_heading_deg")
+                    {
+                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "gps_indicated_vertical_speed")
+                    {
+                        Gps_indicated_vertical_speed = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "gps_indicated_ground_speed_kt")
+                    {
+                        Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "airspeed_indicator_indicated_speed_kt")
+                    {
+                        Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "gps_indicated_altitude_ft")
+                    {
+                        Gps_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "attitude_indicator_internal_roll_deg")
+                    {
+                        Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "attitude_indicator_internal_pitch_deg")
+                    {
+                        Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "altimeter_indicated_altitude_ft")
+                    {
+                        Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                    }
+                    else if (property == "longitude")
+                    {
+                        Longitude = Double.Parse(accepted);
+                    }
+                    else if (property == "latitude")
+                    {
+                        Latitude = Double.Parse(accepted);
+
+                        Coordinates = Convert.ToString(latitude + "," + longitude);
+                    }
+                }
+            }
+            else if (accepted == "ERR\n")
             {
                 if (property == "longitude" || property == "latitude")
                 {
@@ -219,55 +272,14 @@ namespace FlightSimulatorApp.Model
                 else
                 {
                     this.Error = "ERR in DashBoard";
-
                 }
             }
             else
             {
-                if (property == "indicated_heading_deg")
-                {
-                    Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "gps_indicated_vertical_speed")
-                {
-                    Gps_indicated_vertical_speed = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "gps_indicated_ground_speed_kt")
-                {
-                    Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "airspeed_indicator_indicated_speed_kt")
-                {
-                    Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "gps_indicated_altitude_ft")
-                {
-                    Gps_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "attitude_indicator_internal_roll_deg")
-                {
-                    Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "attitude_indicator_internal_pitch_deg")
-                {
-                    Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "altimeter_indicated_altitude_ft")
-                {
-                    Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
-                }
-                else if (property == "longitude")
-                {
-                    Longitude = Double.Parse(accepted);
-                }
-                else if (property == "latitude")
-                {
-                    Latitude = Double.Parse(accepted);
-
-                    Coordinates = Convert.ToString(latitude + "," + longitude);
-                }
+                this.Error = "Value isn't\n a double";
             }
         }
+
         // Notify and set in the server communication.
 
         public string Error
@@ -526,12 +538,13 @@ namespace FlightSimulatorApp.Model
             }
         }
 
-        private void DeterminePlace (Point coordinates)
+        private void DeterminePlace(Point coordinates)
         {
             double lat = coordinates.X;
             double lon = coordinates.Y;
 
-            if ((lat > 20 && lat < 80) && (lon > -150 && lon <= -90)){
+            if ((lat > 20 && lat < 80) && (lon > -150 && lon <= -90))
+            {
                 this.Place = "We are in \n North America!";
             }
             else if ((lat > -60 && lat < 10) && (lon > -80 && lon < -35))
@@ -558,7 +571,7 @@ namespace FlightSimulatorApp.Model
             {
                 this.Place = "We are in \n Antarctica!";
             }
-            else 
+            else
             {
                 this.Place = "We are above the Ocean,\n don't fall :)";
             }
