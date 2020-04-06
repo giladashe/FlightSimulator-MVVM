@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows;
 
@@ -75,6 +76,7 @@ namespace FlightSimulatorApp.Model
         {
             try
             {
+                this.Error = "";
                 stop = false;
                 this.tcpClient = new TcpClient
                 {
@@ -90,14 +92,18 @@ namespace FlightSimulatorApp.Model
         }
         public void Disconnect()
         {
+            this.Error = "";
             stop = true;
             if (this.stream != null)
             {
                 this.stream.Close();
-
+                this.stream = null;            
             }
-            this.tcpClient.Dispose();
-            this.tcpClient.Close();
+            if (this.tcpClient != null)
+            {
+                this.tcpClient.Dispose();
+                this.tcpClient.Close();
+            }
         }
         public void WriteToServer(String message)
         {
@@ -114,16 +120,30 @@ namespace FlightSimulatorApp.Model
 
         public string ReadFromServer()
         {
+            bool end = false;
             if (this.stream == null)
             {
                 this.Error = "First Server!!";
                 return null;
             }
-            Byte[] data = new Byte[256];
-            Int32 bytes = stream.Read(data, 0, data.Length);
-            string responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            return responseData;
+            Byte[] data = new Byte[1024];
+            StringBuilder response = new StringBuilder();
+            while (!end)
+            {
+                stream.Read(data, 0, data.Length);
+                response.Append(Encoding.ASCII.GetString(data, 0, data.Length));
+                for (int i = 0; i < 1024; i++)
+                {
+                    if (data[i] == '\n')
+                    {
+                        end = true;
+                        break;
+                    }
+                }
+            }
+            return response.ToString();
         }
+
         public void Start()
         {
             // Reading.
@@ -179,22 +199,27 @@ namespace FlightSimulatorApp.Model
                         }
                         Thread.Sleep(250);
                     }
-                    catch (IOException)
+                    catch (IOException e)
                     {
-
-                        this.Error = "Timeout passed,\n disconnect please.";
+                        if (e.Message.Contains("time"))
+                        {
+                            this.Error = "Timeout passed,\n disconnect please.";
+                        }
+                        else if (e.Message.Contains("forcibly closed"))
+                        {
+                            this.Error = "Server is down,\n disconnect please.";
+                        }
+                        else
+                        {   
+                            if (this.stream != null)
+                            {
+                                this.Error = "Read/Write Err.";
+                            }
+                        }
                         if (this.stream != null)
                         {
                             this.stream.Flush();
                         }
-                    }
-                    catch
-                    {
-                        if (this.stream != null)
-                        {
-                            this.stream.Flush();
-                        }
-                        continue;
                     }
                 }
             }).Start();
@@ -210,7 +235,11 @@ namespace FlightSimulatorApp.Model
 
         private void HandleMessage(string accepted, string property)
         {
-            accepted = accepted.Substring(0, accepted.Length - 1); 
+            if (accepted == null)
+            {
+                stop = true;
+                return;
+            }
             if (Double.TryParse(accepted, out double acceptedValue))
             {
                 if (acceptedValue > Double.MaxValue || acceptedValue < Double.MinValue)
@@ -263,7 +292,7 @@ namespace FlightSimulatorApp.Model
                     }
                 }
             }
-            else if (accepted == "ERR\n")
+            else if (accepted == "ERR")
             {
                 if (property == "longitude" || property == "latitude")
                 {
@@ -274,10 +303,9 @@ namespace FlightSimulatorApp.Model
                     this.Error = "ERR in DashBoard";
                 }
             }
-
             else
             {
-                this.Error = "Value isn't\n a double";
+                this.Error = " Value that isn't\n a double was sent";
             }
         }
 
