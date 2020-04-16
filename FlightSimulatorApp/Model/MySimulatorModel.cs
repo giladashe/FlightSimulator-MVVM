@@ -203,7 +203,7 @@ namespace FlightSimulatorApp.Model
                     {
                         if (e.Message.Contains("time"))
                         {
-                            this.Error = "Timeout passed,\n disconnect please.";
+                            this.Error = "Server is too\n slow.";
                         }
                         else if (e.Message.Contains("forcibly closed"))
                         {
@@ -250,7 +250,7 @@ namespace FlightSimulatorApp.Model
                 {
                     if (property == "indicated_heading_deg")
                     {
-                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
+                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3); 
                     }
                     else if (property == "gps_indicated_vertical_speed")
                     {
@@ -331,7 +331,7 @@ namespace FlightSimulatorApp.Model
                 if (this.place != value)
                 {
                     this.place = value;
-                    NotifyPropertyChanged("place");
+                    NotifyPropertyChanged("Place");
                 }
             }
             get
@@ -432,7 +432,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.indicated_heading_deg = value;
-                NotifyPropertyChanged("indicated_heading_deg");
+                NotifyPropertyChanged("Indicated_heading_deg");
             }
             get
             {
@@ -444,7 +444,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.gps_indicated_vertical_speed = value;
-                NotifyPropertyChanged("gps_indicated_vertical_speed");
+                NotifyPropertyChanged("Gps_indicated_vertical_speed");
             }
             get
             {
@@ -457,7 +457,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.gps_indicated_ground_speed_kt = value;
-                NotifyPropertyChanged("gps_indicated_ground_speed_kt");
+                NotifyPropertyChanged("Gps_indicated_ground_speed_kt");
             }
             get
             {
@@ -469,7 +469,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.airspeed_indicator_indicated_speed_kt = value;
-                NotifyPropertyChanged("airspeed_indicator_indicated_speed_kt");
+                NotifyPropertyChanged("Airspeed_indicator_indicated_speed_kt");
             }
             get
             {
@@ -481,7 +481,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.gps_indicated_altitude_ft = value;
-                NotifyPropertyChanged("gps_indicated_altitude_ft");
+                NotifyPropertyChanged("Gps_indicated_altitude_ft");
             }
             get
             {
@@ -493,7 +493,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.attitude_indicator_internal_roll_deg = value;
-                NotifyPropertyChanged("attitude_indicator_internal_roll_deg");
+                NotifyPropertyChanged("Attitude_indicator_internal_roll_deg");
             }
             get
             {
@@ -505,7 +505,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.attitude_indicator_internal_pitch_deg = value;
-                NotifyPropertyChanged("attitude_indicator_internal_pitch_deg");
+                NotifyPropertyChanged("Attitude_indicator_internal_pitch_deg");
             }
             get
             {
@@ -517,7 +517,7 @@ namespace FlightSimulatorApp.Model
             set
             {
                 this.altimeter_indicated_altitude_ft = value;
-                NotifyPropertyChanged("altimeter_indicated_altitude_ft");
+                NotifyPropertyChanged("Altimeter_indicated_altitude_ft");
             }
             get
             {
@@ -537,7 +537,7 @@ namespace FlightSimulatorApp.Model
                     value += 360;
                 }
                 this.longitude = value;
-                NotifyPropertyChanged("longitude");
+                NotifyPropertyChanged("Longitude");
             }
             get
             {
@@ -557,7 +557,7 @@ namespace FlightSimulatorApp.Model
                     value = 90;
                 }
                 this.latitude = value;
-                NotifyPropertyChanged("latitude");
+                NotifyPropertyChanged("Latitude");
                 coordinatePoint = new Point(this.Latitude, this.Longitude);
                 DeterminePlace(coordinatePoint);
             }
