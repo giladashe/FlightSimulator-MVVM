@@ -97,7 +97,7 @@ namespace FlightSimulatorApp.Model
             if (this.stream != null)
             {
                 this.stream.Close();
-                this.stream = null;            
+                this.stream = null;
             }
             if (this.tcpClient != null)
             {
@@ -150,6 +150,9 @@ namespace FlightSimulatorApp.Model
 
             new Thread(delegate ()
             {
+                // for every get of variable:
+                //0 if we didn't send the message, 1 if we sent the message and didn't get respond, 2 if it worked
+                int[] sentVars = new int[10];
                 while (!stop)
                 {
                     try
@@ -157,39 +160,120 @@ namespace FlightSimulatorApp.Model
                         string accepted = "";
 
                         //  Get dashboard values.
-                        WriteToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "indicated_heading_deg");
-                        WriteToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "gps_indicated_vertical_speed");
-                        WriteToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "gps_indicated_ground_speed_kt");
-                        WriteToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
-                        WriteToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "gps_indicated_altitude_ft");
-                        WriteToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "attitude_indicator_internal_roll_deg");
-                        WriteToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "attitude_indicator_internal_pitch_deg");
-                        WriteToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "altimeter_indicated_altitude_ft");
+                        if (sentVars[0] == 0)
+                        {
+                            WriteToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                            sentVars[0] = 1;
+                        }
+                        if (sentVars[0] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[0] = 2;
+                            HandleMessage(accepted, "indicated_heading_deg");
+                        }
+                        if (sentVars[1] == 0)
+                        {
+                            WriteToServer("get /instrumentation/gps/indicated-vertical-speed\n");
+                            sentVars[1] = 1;
+                        }
+                        if (sentVars[1] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[1] = 2;
+                            HandleMessage(accepted, "gps_indicated_vertical_speed");
+                        }
+                        if (sentVars[2] == 0)
+                        {
+                            WriteToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                            sentVars[2] = 1;
+                        }
+                        if (sentVars[2] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[2] = 2;
+                            HandleMessage(accepted, "gps_indicated_ground_speed_kt");
+                        }
+                        if (sentVars[3] == 0)
+                        {
+                            WriteToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                            sentVars[3] = 1;
+                        }
+                        if (sentVars[3] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[3] = 2;
+                            HandleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
+                        }
+                        if (sentVars[4] == 0)
+                        {
+                            WriteToServer("get /instrumentation/gps/indicated-altitude-ft\n");
+                            sentVars[4] = 1;
+                        }
+                        if (sentVars[4] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[4] = 2;
+                            HandleMessage(accepted, "gps_indicated_altitude_ft");
+                        }
+                        if (sentVars[5] == 0)
+                        {
+                            WriteToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                            sentVars[5] = 1;
+                        }
+                        if (sentVars[5] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[5] = 2;
+                            HandleMessage(accepted, "attitude_indicator_internal_roll_deg");
+                        }
+                        if (sentVars[6] == 0)
+                        {
+                            WriteToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                            sentVars[6] = 1;
+                        }
+                        if (sentVars[6] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[6] = 2;
+                            HandleMessage(accepted, "attitude_indicator_internal_pitch_deg");
+                        }
+                        if (sentVars[7] == 0)
+                        {
+                            WriteToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
+                            sentVars[7] = 1;
+                        }
+                        if(sentVars[7] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[7] = 2;
+                            HandleMessage(accepted, "altimeter_indicated_altitude_ft");
+                        }
+
 
                         //  Get map values
-                        WriteToServer("get /position/longitude-deg\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "longitude");
-                        WriteToServer("get /position/latitude-deg\n");
-                        accepted = ReadFromServer();
-                        HandleMessage(accepted, "latitude");
-
+                        if (sentVars[8] == 0)
+                        {
+                            WriteToServer("get /position/longitude-deg\n");
+                            sentVars[8] = 1;
+                        }
+                        if(sentVars[8] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[8] = 2;
+                            HandleMessage(accepted, "longitude");
+                        }
+                        if(sentVars[9] == 0)
+                        {
+                            WriteToServer("get /position/latitude-deg\n");
+                            sentVars[9] = 1;
+                        }
+                        if (sentVars[9] == 1)
+                        {
+                            accepted = ReadFromServer();
+                            sentVars[9] = 2;
+                            HandleMessage(accepted, "latitude");
+                        }
+                        Array.Clear(sentVars, 0, sentVars.Length);
                         while (this.GetQueueVariables().Count > 0)
                         {
                             message = this.GetQueueVariables().Dequeue();
@@ -210,7 +294,7 @@ namespace FlightSimulatorApp.Model
                             this.Error = "Server is down,\n disconnect please.";
                         }
                         else
-                        {   
+                        {
                             if (this.stream != null)
                             {
                                 this.Error = "Read/Write Err.";
@@ -250,7 +334,7 @@ namespace FlightSimulatorApp.Model
                 {
                     if (property == "indicated_heading_deg")
                     {
-                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3); 
+                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
                     }
                     else if (property == "gps_indicated_vertical_speed")
                     {
