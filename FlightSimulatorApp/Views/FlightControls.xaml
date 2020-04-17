@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <local:Joystick x:Name="MyJoystick" Grid.ColumnSpan="2" Grid.RowSpan="5"
-                        X_Val="{Binding VM_rudder, Mode=OneWayToSource}" Y_Val="{Binding VM_elevator, Mode=OneWayToSource}" RenderTransformOrigin="0.5,0.5" Margin="92,46,68,29.52" >
+                        X_Val="{Binding VM_Rudder, Mode=OneWayToSource}" Y_Val="{Binding VM_Elevator, Mode=OneWayToSource}" RenderTransformOrigin="0.5,0.5" Margin="92,46,68,29.52" >
             <local:Joystick.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -59,6 +59,6 @@
 
         <local:AileronSlider x:Name="MyAileronSlider" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" AileronValue="{Binding VM_aileron, Mode=OneWayToSource}"/>
 
-        <local:ThrottleSlider x:Name="MyThrottleSlider"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" VerticalAlignment="Bottom" ThrottleValue="{Binding VM_throttle, Mode=OneWayToSource}" Margin="0,0,9.8,-7.6" />
+        <local:ThrottleSlider x:Name="MyThrottleSlider"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" VerticalAlignment="Bottom" ThrottleValue="{Binding VM_Throttle, Mode=OneWayToSource}" Margin="0,0,9.8,-7.6" />
     </Grid>
 </UserControl>

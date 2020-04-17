@@ -1,4 +1,5 @@
 ﻿using FlightSimulatorApp.Model.Interface;
+using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Windows;
 
 namespace FlightSimulatorApp.Model
 {
+
     public class MySimulatorModel : ISimulatorModel
     {
         private TcpClient tcpClient;
@@ -34,6 +36,26 @@ namespace FlightSimulatorApp.Model
 
         private string port;
         private string ip;
+
+        private enum Status
+        {
+            NotSent,
+            Sent,
+            SentAndRecieved
+        };
+
+        private class Triplet<T1, T2, T3>
+        {
+            public Triplet(T1 first, T2 second, T3 third)
+            {
+                First = first;
+                Second = second;
+                Third = third;
+            }
+            public T1 First { get; set; }
+            public T2 Second { get; set; }
+            public T3 Third { get; set; }
+        }
 
         public string FlightServerIP
         {
@@ -151,129 +173,55 @@ namespace FlightSimulatorApp.Model
             new Thread(delegate ()
             {
                 // for every get of variable:
-                //0 if we didn't send the message, 1 if we sent the message and didn't get respond, 2 if it worked
-                int[] sentVars = new int[10];
+                //check if we didn't send the message, or if we didn't get respond, or if all worked
+                List<Triplet<string, string, Status>> varsAndStatus = new List<Triplet<string, string, Status>>
+                {
+                    new Triplet<string, string, Status>("indicated_heading_deg",
+                    "get /instrumentation/heading-indicator/indicated-heading-deg\n", Status.NotSent),
+                    new Triplet<string, string, Status>("gps_indicated_vertical_speed",
+                    "get /instrumentation/gps/indicated-vertical-speed\n", Status.NotSent),
+                    new Triplet<string, string, Status>("gps_indicated_ground_speed_kt",
+                    "get /instrumentation/gps/indicated-ground-speed-kt\n", Status.NotSent),
+                    new Triplet<string, string, Status>("airspeed_indicator_indicated_speed_kt",
+                    "get /instrumentation/airspeed-indicator/indicated-speed-kt\n", Status.NotSent),
+                    new Triplet<string, string, Status>("gps_indicated_altitude_ft",
+                    "get /instrumentation/gps/indicated-altitude-ft\n", Status.NotSent),
+                    new Triplet<string, string, Status>("attitude_indicator_internal_roll_deg",
+                    "get /instrumentation/attitude-indicator/internal-roll-deg\n", Status.NotSent),
+                    new Triplet<string, string, Status>("attitude_indicator_internal_pitch_deg",
+                    "get /instrumentation/attitude-indicator/internal-pitch-deg\n", Status.NotSent),
+                    new Triplet<string, string, Status>("altimeter_indicated_altitude_ft",
+                    "get /instrumentation/altimeter/indicated-altitude-ft\n", Status.NotSent),
+                    new Triplet<string, string, Status>("longitude","get /position/longitude-deg\n", Status.NotSent),
+                    new Triplet<string, string, Status>("latitude","get /position/latitude-deg\n", Status.NotSent)
+                };
+
+
+
                 while (!stop)
                 {
                     try
                     {
                         string accepted = "";
-
-                        //  Get dashboard values.
-                        if (sentVars[0] == 0)
+                        foreach (Triplet<string,string,Status> triplet in varsAndStatus)
                         {
-                            WriteToServer("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                            sentVars[0] = 1;
+                            if (triplet.Third == Status.NotSent)
+                            {
+                                WriteToServer(triplet.Second);
+                                triplet.Third = Status.Sent;
+                            }
+                            if (triplet.Third == Status.Sent)
+                            {
+                                accepted = ReadFromServer();
+                                triplet.Third = Status.SentAndRecieved;
+                                HandleMessage(accepted, triplet.First);
+                            }
                         }
-                        if (sentVars[0] == 1)
+                        foreach (Triplet<string, string, Status> triplet in varsAndStatus)
                         {
-                            accepted = ReadFromServer();
-                            sentVars[0] = 2;
-                            HandleMessage(accepted, "indicated_heading_deg");
-                        }
-                        if (sentVars[1] == 0)
-                        {
-                            WriteToServer("get /instrumentation/gps/indicated-vertical-speed\n");
-                            sentVars[1] = 1;
-                        }
-                        if (sentVars[1] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[1] = 2;
-                            HandleMessage(accepted, "gps_indicated_vertical_speed");
-                        }
-                        if (sentVars[2] == 0)
-                        {
-                            WriteToServer("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                            sentVars[2] = 1;
-                        }
-                        if (sentVars[2] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[2] = 2;
-                            HandleMessage(accepted, "gps_indicated_ground_speed_kt");
-                        }
-                        if (sentVars[3] == 0)
-                        {
-                            WriteToServer("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                            sentVars[3] = 1;
-                        }
-                        if (sentVars[3] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[3] = 2;
-                            HandleMessage(accepted, "airspeed_indicator_indicated_speed_kt");
-                        }
-                        if (sentVars[4] == 0)
-                        {
-                            WriteToServer("get /instrumentation/gps/indicated-altitude-ft\n");
-                            sentVars[4] = 1;
-                        }
-                        if (sentVars[4] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[4] = 2;
-                            HandleMessage(accepted, "gps_indicated_altitude_ft");
-                        }
-                        if (sentVars[5] == 0)
-                        {
-                            WriteToServer("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                            sentVars[5] = 1;
-                        }
-                        if (sentVars[5] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[5] = 2;
-                            HandleMessage(accepted, "attitude_indicator_internal_roll_deg");
-                        }
-                        if (sentVars[6] == 0)
-                        {
-                            WriteToServer("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                            sentVars[6] = 1;
-                        }
-                        if (sentVars[6] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[6] = 2;
-                            HandleMessage(accepted, "attitude_indicator_internal_pitch_deg");
-                        }
-                        if (sentVars[7] == 0)
-                        {
-                            WriteToServer("get /instrumentation/altimeter/indicated-altitude-ft\n");
-                            sentVars[7] = 1;
-                        }
-                        if(sentVars[7] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[7] = 2;
-                            HandleMessage(accepted, "altimeter_indicated_altitude_ft");
+                            triplet.Third = Status.NotSent;
                         }
 
-
-                        //  Get map values
-                        if (sentVars[8] == 0)
-                        {
-                            WriteToServer("get /position/longitude-deg\n");
-                            sentVars[8] = 1;
-                        }
-                        if(sentVars[8] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[8] = 2;
-                            HandleMessage(accepted, "longitude");
-                        }
-                        if(sentVars[9] == 0)
-                        {
-                            WriteToServer("get /position/latitude-deg\n");
-                            sentVars[9] = 1;
-                        }
-                        if (sentVars[9] == 1)
-                        {
-                            accepted = ReadFromServer();
-                            sentVars[9] = 2;
-                            HandleMessage(accepted, "latitude");
-                        }
-                        Array.Clear(sentVars, 0, sentVars.Length);
                         while (this.GetQueueVariables().Count > 0)
                         {
                             message = this.GetQueueVariables().Dequeue();

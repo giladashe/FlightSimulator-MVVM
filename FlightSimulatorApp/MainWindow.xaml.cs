@@ -45,6 +45,10 @@ namespace FlightSimulatorApp
 
         private void DisconnectButton_Click(object sender, RoutedEventArgs e)
         {
+            //move sliders to 0
+            MyControls.MyThrottleSlider.MySlider.Value = 0;
+            MyControls.MyAileronSlider.MySlider.Value = 0;
+
             // Disconnects from the server.
             (Application.Current as App).Model.Disconnect();
             disconnectButton.IsEnabled = false;

@@ -15,15 +15,15 @@ namespace FlightSimulatorApp.ViewModel
         {
             set { _simulatorModel.Aileron = value; }
         }
-        public double VM_elevator
+        public double VM_Elevator
         {
             set { _simulatorModel.Elevator = value; }
         }
-        public double VM_rudder
+        public double VM_Rudder
         {
             set { _simulatorModel.Rudder = value; }
         } 
-        public double VM_throttle
+        public double VM_Throttle
         {
             set { _simulatorModel.Throttle = value; }
         }
