@@ -5,7 +5,7 @@ namespace FlightSimulatorApp.Model.Interface
 {
 	public interface ISimulatorModel : INotifyPropertyChanged
 	{
-		void Connect(string ip, int port);
+		void Connect(string Ip, int Port);
 		void Disconnect();
 		void Start();
 
@@ -18,14 +18,14 @@ namespace FlightSimulatorApp.Model.Interface
 
 		// Dashboard.
 
-		double Indicated_heading_deg { set; get; }
-		double Gps_indicated_vertical_speed { set; get; }
-		double Gps_indicated_ground_speed_kt { set; get; }
-		double Airspeed_indicator_indicated_speed_kt  { set; get; }
-		double Gps_indicated_altitude_ft { set; get; }
-		double Attitude_indicator_internal_roll_deg { set; get; }
-		double Attitude_indicator_internal_pitch_deg { set; get; }
-		double Altimeter_indicated_altitude_ft { set; get; }
+		double IndicatedHeadingDeg { set; get; }
+		double GpsIndicatedVerticalSpeed { set; get; }
+		double GpsIndicatedGroundSpeedKt { set; get; }
+		double AirspeedIndicatorIndicatedSpeedKt  { set; get; }
+		double GpsIndicatedAltitudeFt { set; get; }
+		double AttitudeIndicatorInternalRollDeg { set; get; }
+		double AttitudeIndicatorInternalPitchDeg { set; get; }
+		double AltimeterIndicatedAltitudeFt { set; get; }
 
 
 		// Map. 

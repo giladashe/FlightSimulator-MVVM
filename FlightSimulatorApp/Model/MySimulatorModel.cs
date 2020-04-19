@@ -15,27 +15,27 @@ namespace FlightSimulatorApp.Model
 
     public class MySimulatorModel : ISimulatorModel
     {
-        private TcpClient tcpClient;
-        volatile Boolean stop;
-        private readonly Queue<string> updateVariablesQueue = new Queue<string>();
-        private String message;
-        private NetworkStream stream;
+        private TcpClient Client;
+        volatile Boolean Stop;
+        private readonly Queue<string> UpdateVariablesQueue = new Queue<string>();
+        private string Message;
+        private NetworkStream Stream;
 
         // Dashboard.
 
-        private double indicated_heading_deg;
-        private double gps_indicated_vertical_speed;
-        private double gps_indicated_ground_speed_kt;
-        private double airspeed_indicator_indicated_speed_kt;
-        private double gps_indicated_altitude_ft;
-        private double attitude_indicator_internal_roll_deg;
-        private double attitude_indicator_internal_pitch_deg;
-        private double altimeter_indicated_altitude_ft;
+        private double IndicatedHeadingDegF;
+        private double GpsIndicatedVerticalSpeedF;
+        private double GpsIndicatedGroundSpeedKtF;
+        private double AirspeedIndicatorIndicatedSpeedKtF;
+        private double GpsIndicatedAltitudeFtF;
+        private double AttitudeIndicatorInternalRollDegF;
+        private double AttitudeIndicatorInternalPitchDegF;
+        private double AltimeterIndicatedAltitudeFtF;
 
-        private string place;
+        private string PlaceF;
 
-        private string port;
-        private string ip;
+        private string PortF;
+        private string IpF;
 
         private enum Status
         {
@@ -59,17 +59,17 @@ namespace FlightSimulatorApp.Model
 
         public string FlightServerIP
         {
-            get { return ip; }
-            set { ip = value; }
+            get { return IpF; }
+            set { IpF = value; }
         }
 
         public string FlightInfoPort
         {
-            get { return port; }
+            get { return PortF; }
             set
             {
-                port = value;
-                Connect(ip, Convert.ToInt32(port));
+                PortF = value;
+                Connect(IpF, Convert.ToInt32(PortF));
                 Start();
             }
         }
@@ -78,20 +78,20 @@ namespace FlightSimulatorApp.Model
 
         // Map.
 
-        private double longitude;
-        private double latitude;
-        private Point coordinatePoint;
-        private string coordinates;
+        private double LongitudeF;
+        private double LatitudeF;
+        private Point CoordinatePointF;
+        private string CoordinatesF;
 
         //Error string.
-        private string error;
+        private string ErrorF;
 
         public MySimulatorModel()
         {
-            this.tcpClient = null;
-            this.stop = false;
-            this.ip = ConfigurationManager.AppSettings["ip"];
-            this.port = ConfigurationManager.AppSettings["port"];
+            this.Client = null;
+            this.Stop = false;
+            this.IpF = ConfigurationManager.AppSettings["Ip"];
+            this.PortF = ConfigurationManager.AppSettings["Port"];
         }
 
         public void Connect(string ip, int port)
@@ -99,13 +99,13 @@ namespace FlightSimulatorApp.Model
             try
             {
                 this.Error = "";
-                stop = false;
-                this.tcpClient = new TcpClient
+                Stop = false;
+                this.Client = new TcpClient
                 {
                     ReceiveTimeout = 10000
                 };
-                tcpClient.Connect(ip, port);
-                this.stream = this.tcpClient.GetStream();
+                Client.Connect(ip, port);
+                this.Stream = this.Client.GetStream();
             }
             catch
             {
@@ -115,35 +115,35 @@ namespace FlightSimulatorApp.Model
         public void Disconnect()
         {
             this.Error = "";
-            stop = true;
-            if (this.stream != null)
+            Stop = true;
+            if (this.Stream != null)
             {
-                this.stream.Close();
-                this.stream = null;
+                this.Stream.Close();
+                this.Stream = null;
             }
-            if (this.tcpClient != null)
+            if (this.Client != null)
             {
-                this.tcpClient.Dispose();
-                this.tcpClient.Close();
+                this.Client.Dispose();
+                this.Client.Close();
             }
         }
         public void WriteToServer(String message)
         {
-            if (this.stream == null)
+            if (this.Stream == null)
             {
                 this.Error = "First Server!!";
             }
-            if (message != null && this.stream != null)
+            if (message != null && this.Stream != null)
             {
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-                this.stream.Write(data, 0, data.Length);
+                this.Stream.Write(data, 0, data.Length);
             }
         }
 
         public string ReadFromServer()
         {
             bool end = false;
-            if (this.stream == null)
+            if (this.Stream == null)
             {
                 this.Error = "First Server!!";
                 return null;
@@ -152,7 +152,7 @@ namespace FlightSimulatorApp.Model
             StringBuilder response = new StringBuilder();
             while (!end)
             {
-                stream.Read(data, 0, data.Length);
+                Stream.Read(data, 0, data.Length);
                 response.Append(Encoding.ASCII.GetString(data, 0, data.Length));
                 for (int i = 0; i < 1024; i++)
                 {
@@ -173,32 +173,32 @@ namespace FlightSimulatorApp.Model
             new Thread(delegate ()
             {
                 // for every get of variable:
-                //check if we didn't send the message, or if we didn't get respond, or if all worked
+                //check if we didn't send the Message, or if we didn't get respond, or if all worked
                 List<Triplet<string, string, Status>> varsAndStatus = new List<Triplet<string, string, Status>>
                 {
-                    new Triplet<string, string, Status>("indicated_heading_deg",
+                    new Triplet<string, string, Status>("IndicatedHeadingDegF",
                     "get /instrumentation/heading-indicator/indicated-heading-deg\n", Status.NotSent),
-                    new Triplet<string, string, Status>("gps_indicated_vertical_speed",
+                    new Triplet<string, string, Status>("GpsIndicatedVerticalSpeedF",
                     "get /instrumentation/gps/indicated-vertical-speed\n", Status.NotSent),
-                    new Triplet<string, string, Status>("gps_indicated_ground_speed_kt",
+                    new Triplet<string, string, Status>("GpsIndicatedGroundSpeedKtF",
                     "get /instrumentation/gps/indicated-ground-speed-kt\n", Status.NotSent),
-                    new Triplet<string, string, Status>("airspeed_indicator_indicated_speed_kt",
+                    new Triplet<string, string, Status>("AirspeedIndicatorIndicatedSpeedKtF",
                     "get /instrumentation/airspeed-indicator/indicated-speed-kt\n", Status.NotSent),
-                    new Triplet<string, string, Status>("gps_indicated_altitude_ft",
+                    new Triplet<string, string, Status>("GpsIndicatedAltitudeFtF",
                     "get /instrumentation/gps/indicated-altitude-ft\n", Status.NotSent),
-                    new Triplet<string, string, Status>("attitude_indicator_internal_roll_deg",
+                    new Triplet<string, string, Status>("AttitudeIndicatorInternalRollDegF",
                     "get /instrumentation/attitude-indicator/internal-roll-deg\n", Status.NotSent),
-                    new Triplet<string, string, Status>("attitude_indicator_internal_pitch_deg",
+                    new Triplet<string, string, Status>("AttitudeIndicatorInternalPitchDegF",
                     "get /instrumentation/attitude-indicator/internal-pitch-deg\n", Status.NotSent),
-                    new Triplet<string, string, Status>("altimeter_indicated_altitude_ft",
+                    new Triplet<string, string, Status>("AltimeterIndicatedAltitudeFtF",
                     "get /instrumentation/altimeter/indicated-altitude-ft\n", Status.NotSent),
-                    new Triplet<string, string, Status>("longitude","get /position/longitude-deg\n", Status.NotSent),
-                    new Triplet<string, string, Status>("latitude","get /position/latitude-deg\n", Status.NotSent)
+                    new Triplet<string, string, Status>("LongitudeF","get /position/longitude-deg\n", Status.NotSent),
+                    new Triplet<string, string, Status>("LatitudeF","get /position/latitude-deg\n", Status.NotSent)
                 };
 
 
 
-                while (!stop)
+                while (!Stop)
                 {
                     try
                     {
@@ -224,10 +224,10 @@ namespace FlightSimulatorApp.Model
 
                         while (this.GetQueueVariables().Count > 0)
                         {
-                            message = this.GetQueueVariables().Dequeue();
-                            WriteToServer(message);
-                            message = ReadFromServer();
-                            message = "";
+                            Message = this.GetQueueVariables().Dequeue();
+                            WriteToServer(Message);
+                            Message = ReadFromServer();
+                            Message = "";
                         }
                         Thread.Sleep(250);
                     }
@@ -243,14 +243,14 @@ namespace FlightSimulatorApp.Model
                         }
                         else
                         {
-                            if (this.stream != null)
+                            if (this.Stream != null)
                             {
                                 this.Error = "Read/Write Err.";
                             }
                         }
-                        if (this.stream != null)
+                        if (this.Stream != null)
                         {
-                            this.stream.Flush();
+                            this.Stream.Flush();
                         }
                     }
                 }
@@ -269,7 +269,7 @@ namespace FlightSimulatorApp.Model
         {
             if (accepted == null)
             {
-                stop = true;
+                Stop = true;
                 return;
             }
             if (Double.TryParse(accepted, out double acceptedValue))
@@ -280,53 +280,53 @@ namespace FlightSimulatorApp.Model
                 }
                 else
                 {
-                    if (property == "indicated_heading_deg")
+                    if (property == "IndicatedHeadingDegF")
                     {
-                        Indicated_heading_deg = Math.Round(Double.Parse(accepted), 3);
+                        IndicatedHeadingDeg = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "gps_indicated_vertical_speed")
+                    else if (property == "GpsIndicatedVerticalSpeedF")
                     {
-                        Gps_indicated_vertical_speed = Math.Round(Double.Parse(accepted), 3);
+                        GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "gps_indicated_ground_speed_kt")
+                    else if (property == "GpsIndicatedGroundSpeedKtF")
                     {
-                        Gps_indicated_ground_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                        GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "airspeed_indicator_indicated_speed_kt")
+                    else if (property == "AirspeedIndicatorIndicatedSpeedKtF")
                     {
-                        Airspeed_indicator_indicated_speed_kt = Math.Round(Double.Parse(accepted), 3);
+                        AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "gps_indicated_altitude_ft")
+                    else if (property == "GpsIndicatedAltitudeFtF")
                     {
-                        Gps_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                        GpsIndicatedAltitudeFt = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "attitude_indicator_internal_roll_deg")
+                    else if (property == "AttitudeIndicatorInternalRollDegF")
                     {
-                        Attitude_indicator_internal_roll_deg = Math.Round(Double.Parse(accepted), 3);
+                        AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "attitude_indicator_internal_pitch_deg")
+                    else if (property == "AttitudeIndicatorInternalPitchDegF")
                     {
-                        Attitude_indicator_internal_pitch_deg = Math.Round(Double.Parse(accepted), 3);
+                        AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "altimeter_indicated_altitude_ft")
+                    else if (property == "AltimeterIndicatedAltitudeFtF")
                     {
-                        Altimeter_indicated_altitude_ft = Math.Round(Double.Parse(accepted), 3);
+                        AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(accepted), 3);
                     }
-                    else if (property == "longitude")
+                    else if (property == "LongitudeF")
                     {
                         Longitude = Double.Parse(accepted);
                     }
-                    else if (property == "latitude")
+                    else if (property == "LatitudeF")
                     {
                         Latitude = Double.Parse(accepted);
 
-                        Coordinates = Convert.ToString(latitude + "," + longitude);
+                        Coordinates = Convert.ToString(LatitudeF + "," + LongitudeF);
                     }
                 }
             }
-            else if (accepted == "ERR")
+            else if (accepted.StartsWith("ERR"))
             {
-                if (property == "longitude" || property == "latitude")
+                if (property == "LongitudeF" || property == "LatitudeF")
                 {
                     this.Error = "ERR in MAP";
                 }
@@ -337,7 +337,7 @@ namespace FlightSimulatorApp.Model
             }
             else
             {
-                this.Error = " Value that isn't\n a double was sent";
+                this.Error = "Value that isn't\n a double was sent";
             }
         }
 
@@ -347,12 +347,12 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
-                this.error = value;
+                this.ErrorF = value;
                 NotifyPropertyChanged("Error");
             }
             get
             {
-                return this.error;
+                return this.ErrorF;
             }
         }
 
@@ -360,15 +360,15 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
-                if (this.place != value)
+                if (this.PlaceF != value)
                 {
-                    this.place = value;
+                    this.PlaceF = value;
                     NotifyPropertyChanged("Place");
                 }
             }
             get
             {
-                return this.place;
+                return this.PlaceF;
             }
         }
 
@@ -377,19 +377,19 @@ namespace FlightSimulatorApp.Model
         {
             set
             {
-                this.coordinates = value;
+                this.CoordinatesF = value;
                 NotifyPropertyChanged("Coordinates");
             }
             get
             {
-                return this.coordinates;
+                return this.CoordinatesF;
             }
         }
 
 
         public Queue<string> GetQueueVariables()
         {
-            return this.updateVariablesQueue;
+            return this.UpdateVariablesQueue;
         }
 
         public double Rudder
@@ -405,7 +405,7 @@ namespace FlightSimulatorApp.Model
                     value = -1;
                 }
 
-                this.updateVariablesQueue.Enqueue("set /controls/flight/rudder " + value + "\n");
+                this.UpdateVariablesQueue.Enqueue("set /controls/flight/rudder " + value + "\n");
             }
         }
         public double Throttle
@@ -421,7 +421,7 @@ namespace FlightSimulatorApp.Model
                     value = 0;
                 }
 
-                this.updateVariablesQueue.Enqueue("set /controls/engines/current-engine/throttle " + value + "\n");
+                this.UpdateVariablesQueue.Enqueue("set /controls/engines/current-engine/throttle " + value + "\n");
             }
         }
 
@@ -438,7 +438,7 @@ namespace FlightSimulatorApp.Model
                     value = -1;
                 }
 
-                this.updateVariablesQueue.Enqueue("set /controls/flight/elevator " + value + "\n");
+                this.UpdateVariablesQueue.Enqueue("set /controls/flight/elevator " + value + "\n");
             }
         }
         public double Aileron
@@ -454,106 +454,106 @@ namespace FlightSimulatorApp.Model
                     value = -1;
                 }
 
-                this.updateVariablesQueue.Enqueue("set /controls/flight/aileron " + value + "\n");
+                this.UpdateVariablesQueue.Enqueue("set /controls/flight/aileron " + value + "\n");
             }
         }
 
 
-        public double Indicated_heading_deg
+        public double IndicatedHeadingDeg
         {
             set
             {
-                this.indicated_heading_deg = value;
-                NotifyPropertyChanged("Indicated_heading_deg");
+                this.IndicatedHeadingDegF = value;
+                NotifyPropertyChanged("IndicatedHeadingDeg");
             }
             get
             {
-                return this.indicated_heading_deg;
+                return this.IndicatedHeadingDegF;
             }
         }
-        public double Gps_indicated_vertical_speed
+        public double GpsIndicatedVerticalSpeed
         {
             set
             {
-                this.gps_indicated_vertical_speed = value;
-                NotifyPropertyChanged("Gps_indicated_vertical_speed");
+                this.GpsIndicatedVerticalSpeedF = value;
+                NotifyPropertyChanged("GpsIndicatedVerticalSpeed");
             }
             get
             {
-                return this.gps_indicated_vertical_speed;
+                return this.GpsIndicatedVerticalSpeedF;
             }
         }
 
-        public double Gps_indicated_ground_speed_kt
+        public double GpsIndicatedGroundSpeedKt
         {
             set
             {
-                this.gps_indicated_ground_speed_kt = value;
-                NotifyPropertyChanged("Gps_indicated_ground_speed_kt");
+                this.GpsIndicatedGroundSpeedKtF = value;
+                NotifyPropertyChanged("GpsIndicatedGroundSpeedKt");
             }
             get
             {
-                return this.gps_indicated_ground_speed_kt;
+                return this.GpsIndicatedGroundSpeedKtF;
             }
         }
-        public double Airspeed_indicator_indicated_speed_kt
+        public double AirspeedIndicatorIndicatedSpeedKt
         {
             set
             {
-                this.airspeed_indicator_indicated_speed_kt = value;
-                NotifyPropertyChanged("Airspeed_indicator_indicated_speed_kt");
+                this.AirspeedIndicatorIndicatedSpeedKtF = value;
+                NotifyPropertyChanged("AirspeedIndicatorIndicatedSpeedKt");
             }
             get
             {
-                return this.airspeed_indicator_indicated_speed_kt;
+                return this.AirspeedIndicatorIndicatedSpeedKtF;
             }
         }
-        public double Gps_indicated_altitude_ft
+        public double GpsIndicatedAltitudeFt
         {
             set
             {
-                this.gps_indicated_altitude_ft = value;
-                NotifyPropertyChanged("Gps_indicated_altitude_ft");
+                this.GpsIndicatedAltitudeFtF = value;
+                NotifyPropertyChanged("GpsIndicatedAltitudeFt");
             }
             get
             {
-                return this.gps_indicated_altitude_ft;
+                return this.GpsIndicatedAltitudeFtF;
             }
         }
-        public double Attitude_indicator_internal_roll_deg
+        public double AttitudeIndicatorInternalRollDeg
         {
             set
             {
-                this.attitude_indicator_internal_roll_deg = value;
-                NotifyPropertyChanged("Attitude_indicator_internal_roll_deg");
+                this.AttitudeIndicatorInternalRollDegF = value;
+                NotifyPropertyChanged("AttitudeIndicatorInternalRollDeg");
             }
             get
             {
-                return this.attitude_indicator_internal_roll_deg;
+                return this.AttitudeIndicatorInternalRollDegF;
             }
         }
-        public double Attitude_indicator_internal_pitch_deg
+        public double AttitudeIndicatorInternalPitchDeg
         {
             set
             {
-                this.attitude_indicator_internal_pitch_deg = value;
-                NotifyPropertyChanged("Attitude_indicator_internal_pitch_deg");
+                this.AttitudeIndicatorInternalPitchDegF = value;
+                NotifyPropertyChanged("AttitudeIndicatorInternalPitchDeg");
             }
             get
             {
-                return this.attitude_indicator_internal_pitch_deg;
+                return this.AttitudeIndicatorInternalPitchDegF;
             }
         }
-        public double Altimeter_indicated_altitude_ft
+        public double AltimeterIndicatedAltitudeFt
         {
             set
             {
-                this.altimeter_indicated_altitude_ft = value;
-                NotifyPropertyChanged("Altimeter_indicated_altitude_ft");
+                this.AltimeterIndicatedAltitudeFtF = value;
+                NotifyPropertyChanged("AltimeterIndicatedAltitudeFt");
             }
             get
             {
-                return this.altimeter_indicated_altitude_ft;
+                return this.AltimeterIndicatedAltitudeFtF;
             }
         }
         public double Longitude
@@ -568,12 +568,12 @@ namespace FlightSimulatorApp.Model
                 {
                     value += 360;
                 }
-                this.longitude = value;
+                this.LongitudeF = value;
                 NotifyPropertyChanged("Longitude");
             }
             get
             {
-                return this.longitude;
+                return this.LongitudeF;
             }
         }
         public double Latitude
@@ -588,14 +588,14 @@ namespace FlightSimulatorApp.Model
                 {
                     value = 90;
                 }
-                this.latitude = value;
+                this.LatitudeF = value;
                 NotifyPropertyChanged("Latitude");
-                coordinatePoint = new Point(this.Latitude, this.Longitude);
-                DeterminePlace(coordinatePoint);
+                CoordinatePointF = new Point(this.Latitude, this.Longitude);
+                DeterminePlace(CoordinatePointF);
             }
             get
             {
-                return this.latitude;
+                return this.LatitudeF;
             }
         }
 

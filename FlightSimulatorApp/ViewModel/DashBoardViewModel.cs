@@ -6,48 +6,48 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class DashBoardViewModel : INotifyPropertyChanged
 	{
-		private readonly ISimulatorModel _simulatorModel;
+		private readonly ISimulatorModel SimulatorModel;
 
 		public DashBoardViewModel(ISimulatorModel simulatorModel)
 		{
-			this._simulatorModel = simulatorModel;
-			_simulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+			this.SimulatorModel = simulatorModel;
+			SimulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
 			{
-				NotifyPropertyChanged("VM_" + e.PropertyName);
+				NotifyPropertyChanged("VM" + e.PropertyName);
 			};
 		}
 		
-		public double VM_Indicated_heading_deg
+		public double VMIndicatedHeadingDeg
 		{
-			get{ return _simulatorModel.Indicated_heading_deg; }
+			get{ return SimulatorModel.IndicatedHeadingDeg; }
 		}
-		public double VM_Gps_indicated_vertical_speed
+		public double VMGpsIndicatedVerticalSpeed
 		{
-			get { return _simulatorModel.Gps_indicated_vertical_speed; }
+			get { return SimulatorModel.GpsIndicatedVerticalSpeed; }
 		}
-		public double VM_Gps_indicated_ground_speed_kt
+		public double VMGpsIndicatedGroundSpeedKt
 		{
-			get { return _simulatorModel.Gps_indicated_ground_speed_kt; }
+			get { return SimulatorModel.GpsIndicatedGroundSpeedKt; }
 		}
-		public double VM_Airspeed_indicator_indicated_speed_kt
+		public double VMAirspeedIndicatorIndicatedSpeedKt
 		{
-			get { return _simulatorModel.Airspeed_indicator_indicated_speed_kt; }
+			get { return SimulatorModel.AirspeedIndicatorIndicatedSpeedKt; }
 		}
-		public double VM_Gps_indicated_altitude_ft
+		public double VMGpsIndicatedAltitudeFt
 		{
-			get { return _simulatorModel.Gps_indicated_altitude_ft; }
+			get { return SimulatorModel.GpsIndicatedAltitudeFt; }
 		}
-		public double VM_Attitude_indicator_internal_roll_deg
+		public double VMAttitudeIndicatorInternalRollDeg
 		{
-			get { return _simulatorModel.Attitude_indicator_internal_roll_deg; }
+			get { return SimulatorModel.AttitudeIndicatorInternalRollDeg; }
 		}
-		public double VM_Attitude_indicator_internal_pitch_deg
+		public double VMAttitudeIndicatorInternalPitchDeg
 		{
-			get { return _simulatorModel.Attitude_indicator_internal_pitch_deg; }
+			get { return SimulatorModel.AttitudeIndicatorInternalPitchDeg; }
 		}
-		public double VM_Altimeter_indicated_altitude_ft
+		public double VMAltimeterIndicatedAltitudeFt
 		{
-			get { return _simulatorModel.Altimeter_indicated_altitude_ft; }
+			get { return SimulatorModel.AltimeterIndicatedAltitudeFt; }
 		}
 		
 

@@ -1,0 +1,9 @@
+Gilad Asher 205969231
+Israel Shai 316096338
+
+Bonus:
+1) We implemented MVVM like Paul showed in the recitation. The Model and the Views are completely seperated. Each View  has its own VM. 
+    Furthermore, we initialized the objects in the app-startup as was instructed. 
+2) We added the coordinates shown on the map, and also notify the user in which continent the plane is located. 
+
+   

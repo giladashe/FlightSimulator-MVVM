@@ -22,29 +22,5 @@ namespace FlightSimulatorApp.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string FlightServerIP {
-            get {
-                return ((string)(this["FlightServerIP"]));
-            }
-            set {
-                this["FlightServerIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5402")]
-        public int FlightInfoPort {
-            get {
-                return ((int)(this["FlightInfoPort"]));
-            }
-            set {
-                this["FlightInfoPort"] = value;
-            }
-        }
     }
 }

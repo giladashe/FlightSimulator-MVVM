@@ -5,27 +5,27 @@ namespace FlightSimulatorApp.ViewModel
 {
 	public class ControlsViewModel
 	{
-		private readonly ISimulatorModel _simulatorModel;
+		private readonly ISimulatorModel SimulatorModel;
 
 		public ControlsViewModel (ISimulatorModel simulatorModel)
 		{
-			_simulatorModel = simulatorModel;
+			SimulatorModel = simulatorModel;
 		}
-        public double VM_aileron
+        public double VMAileron
         {
-            set { _simulatorModel.Aileron = value; }
+            set { SimulatorModel.Aileron = value; }
         }
-        public double VM_Elevator
+        public double VMElevator
         {
-            set { _simulatorModel.Elevator = value; }
+            set { SimulatorModel.Elevator = value; }
         }
-        public double VM_Rudder
+        public double VMRudder
         {
-            set { _simulatorModel.Rudder = value; }
+            set { SimulatorModel.Rudder = value; }
         } 
-        public double VM_Throttle
+        public double VMThrottle
         {
-            set { _simulatorModel.Throttle = value; }
+            set { SimulatorModel.Throttle = value; }
         }
     }
 }

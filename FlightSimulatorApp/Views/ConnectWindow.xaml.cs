@@ -18,7 +18,7 @@ namespace FlightSimulatorApp.Views
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            // Update IP and port when connect button is clicked.
+            // Update IP and Port when connect button is clicked.
             IpText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             PortText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             this.Close();

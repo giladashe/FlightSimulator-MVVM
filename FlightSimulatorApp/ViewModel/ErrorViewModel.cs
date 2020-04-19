@@ -7,22 +7,22 @@ namespace FlightSimulatorApp.ViewModel
 {
     public class ErrorViewModel : INotifyPropertyChanged
     {
-        private readonly ISimulatorModel _simulatorModel;
+        private readonly ISimulatorModel SimulatorModel;
 
         public ErrorViewModel (ISimulatorModel simulatorModel)
         {
-            this._simulatorModel = simulatorModel;
-            _simulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            this.SimulatorModel = simulatorModel;
+            SimulatorModel.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                NotifyPropertyChanged("VM_" + e.PropertyName);
+                NotifyPropertyChanged("VM" + e.PropertyName);
             };
         }
 
-        public string VM_Error
+        public string VMError
         {
             get
             {
-                return _simulatorModel.Error;
+                return SimulatorModel.Error;
             }
         }
 

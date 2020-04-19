@@ -20,18 +20,18 @@ namespace FlightSimulatorApp
             myDashBoard.DataContext = (Application.Current as App).DashVM;
             MyControls.DataContext = (Application.Current as App).ControlsViewModel;
             MapViewModel mapVm = (Application.Current as App).MapViewModel;
-            myMap.DataContext = mapVm;
+            GameMap.DataContext = mapVm;
             longitudeText.DataContext = mapVm;
             latitudeText.DataContext = mapVm;
             placeText.DataContext = mapVm;
             disconnectButton.IsEnabled = false;
             MyControls.IsEnabled = false;
-            myMap.IsEnabled = false;
+            GameMap.IsEnabled = false;
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open connection window - at first with default IP and port, or if changed the changed values.
+            // Open connection window - at first with default IP and Port, or if changed the changed values.
             ConnectWindow cW = new ConnectWindow()
             {
                 DataContext = (Application.Current as App).ConnectViewModel
@@ -40,7 +40,7 @@ namespace FlightSimulatorApp
             connectButton.IsEnabled = false;
             disconnectButton.IsEnabled = true;
             MyControls.IsEnabled = true;
-            myMap.IsEnabled = true;
+            GameMap.IsEnabled = true;
         }
 
         private void DisconnectButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +54,7 @@ namespace FlightSimulatorApp
             disconnectButton.IsEnabled = false;
             connectButton.IsEnabled = true;
             MyControls.IsEnabled = false;
-            myMap.IsEnabled = false;
+            GameMap.IsEnabled = false;
         }
     }
 }

@@ -6,24 +6,24 @@ namespace FlightSimulatorApp.ViewModel
 {
     public class ConnectWindowViewModel : INotifyPropertyChanged
     {
-        private readonly ISimulatorModel _model;
+        private readonly ISimulatorModel Model;
 
         public ConnectWindowViewModel(ISimulatorModel model)
         {
-            _model = model;
+            Model = model;
         }
 
 
-        public string VM_FlightServerIP
+        public string VMFlightServerIP
         {
-            get { return _model.FlightServerIP; }
-            set { _model.FlightServerIP = value; }
+            get { return Model.FlightServerIP; }
+            set { Model.FlightServerIP = value; }
         }
 
-        public string VM_FlightInfoPort
+        public string VMFlightInfoPort
         {
-            get { return _model.FlightInfoPort; }
-            set { _model.FlightInfoPort = value; }
+            get { return Model.FlightInfoPort; }
+            set { Model.FlightInfoPort = value; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

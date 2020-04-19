@@ -4,11 +4,5 @@
     <Profile Name="(Default)" />
   </Profiles>
 	<Settings>
-		<Setting Name="FlightServerIP" Type="System.String" Scope="User">
-			<Value Profile="(Default)">127.0.0.1</Value>
-		</Setting>
-		<Setting Name="FlightInfoPort" Type="System.Int32" Scope="User">
-			<Value Profile="(Default)">5402</Value>
-		</Setting>
 	</Settings>
 </SettingsFile>
