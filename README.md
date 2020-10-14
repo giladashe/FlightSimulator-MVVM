@@ -89,8 +89,6 @@ public void Start()
                     new Triplet<string, string, Status>("LatitudeF","get /position/latitude-deg\n", Status.NotSent)
                 };
 
-
-
                 while (!Stop)
                 {
                     try
@@ -151,24 +149,23 @@ public void Start()
         }
 ```
 
-## Error handling
-### Server status
-The application displays the different connection states:
 
-If the application is disconnected from a server:
+## Server status
+The application displays the connection buttons:
 
-![Disconnected from server](images/DisconnectedFromServer.JPG)
+![Picture of buttons](images/Connect Button.PNG)
 
-If there is a timeout from the server:
+When user press connect it opens a window for connection details:
 
-![Server timeout](images/serverTimeout.JPG)
-### Validating the data
+![Connection window](images/Connection Window.PNG)
 
-The application validates the incoming data from the server, and shows if any received data from the server is incorrect. The application will not use that data, and will show the last correct information.
+Trying to connect without server displays error on screen:
 
-![Dashboard when data is all valid](images/DashboardWithAlllValid.JPG)
-![Dashboard when some data is not valid](images/DasboardDataError.JPG)
+![No server](images/Connection without server.PNG)
 
-The application also validates the latitude and longtitude infromation that are received from the server, and shows if wrong data was received. Simillarly, it will show the last correct information.
+## Validating the data
 
-![Map when bad latitude received](images/BadLatitude.JPG)
+The application validates the incoming data from the server, and shows if any received data from the server is incorrect.
+For example when the server sends invalid type of data to the dashboard it displays:
+
+![Value not a Double](images/Value not a Double.PNG)
