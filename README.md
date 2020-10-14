@@ -155,7 +155,7 @@ The application displays the connection buttons:
 
 ![Picture of buttons](images/ConnectButton.PNG)
 
-When user press connect it opens a window for connection details:
+When user presses connect it opens a window for connection details:
 
 ![Connection window](images/ConnectionWindow.PNG)
 
