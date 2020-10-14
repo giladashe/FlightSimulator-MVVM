@@ -8,7 +8,7 @@ A flight simulator desktop application that interacts with a dedicated server. W
 
 The user can connect to a server using the connect section, and controls the plane using the joystick. The plane moves on the map according to the data received from the server. The dashboard data is also displayed according to the data received from the server.
 
-![flightSimulator](images/flightSimulator.JPG)
+![flightSimulator](images/flightSimulator.PNG)
 
 ## Program explanation
 ### MVVM software architectural pattern
@@ -153,19 +153,19 @@ public void Start()
 ## Server status
 The application displays the connection buttons:
 
-![Picture of buttons](images/Connect Button.PNG)
+![Picture of buttons](images/ConnectButton.PNG)
 
 When user press connect it opens a window for connection details:
 
-![Connection window](images/Connection Window.PNG)
+![Connection window](images/ConnectionWindow.PNG)
 
 Trying to connect without server displays error on screen:
 
-![No server](images/Connection without server.PNG)
+![No server](images/ConnectionWithoutServer.PNG)
 
 ## Validating the data
 
 The application validates the incoming data from the server, and shows if any received data from the server is incorrect.
 For example when the server sends invalid type of data to the dashboard it displays:
 
-![Value not a Double](images/Value not a Double.PNG)
+![Value not a Double](images/ValueNotADouble.PNG)
